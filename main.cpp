@@ -1,10 +1,12 @@
-#include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
+
+#include <boost/test/minimal.hpp>
 
 #include "stp.hpp"
 
-int main()
+int test_main(int, char *[])
 {
     using namespace stp;
 
@@ -13,53 +15,27 @@ int main()
     std::vector<char> charvec(5, 'a');
     std::vector<bool> boolvec(5, true);
     std::vector<int> numbers({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11});
-    std::vector<std::string> stringvec({"hej", "lang", "langere", "langesteeee"});
+    std::vector<std::string> stringvec({"s1 ", "s2  ", "s3   ", "s4    "});
 
-    std::cout << Query(FromVector(floatvec), Sum()) << std::endl;
-    std::cout << std::endl;
-    std::cout << Query(FromVector(intvec), Sum()) << std::endl;
-    std::cout << std::endl;
-    std::cout << Query(FromVector(charvec), Sum()) << std::endl;
-    std::cout << std::endl;
+    //Simple tovector
+    BOOST_CHECK( Query(FromVector(intvec), ToVector()) == intvec );
+    BOOST_CHECK( Query(FromVector(floatvec), ToVector()) == floatvec );
+    BOOST_CHECK( Query(FromVector(charvec), ToVector()) == charvec );
+    BOOST_CHECK( Query(FromVector(boolvec), ToVector()) == boolvec );
+    BOOST_CHECK( Query(FromVector(numbers), ToVector()) == numbers );
+    BOOST_CHECK( Query(FromVector(stringvec), ToVector()) == stringvec );
 
-    for(char i : Query(FromVector(charvec), ToVector()))
-    {
-        std::cout << i << std::endl;
-    }
-    std::cout << std::endl;
+    //Simple sum
+    BOOST_CHECK( Query(FromVector(floatvec), Sum()) == 25.5 );
+    BOOST_CHECK( Query(FromVector(intvec), Sum()) == 25 );
+    BOOST_CHECK( Query(FromVector(boolvec), Sum()) == 1 );
+    BOOST_CHECK( Query(FromVector(stringvec), Sum()) == "s1 s2  s3   s4    " );
 
-    std::cout << Query(FromVector(boolvec), Sum()) << std::endl;
-    std::cout << std::endl;
-
-    std::cout << Query(FromVector(numbers), Take(5), Sum()) << std::endl;
-    std::cout << std::endl;
-
-    for(int i : Query(FromVector(numbers), Take(5), ToList()))
-    {
-        std::cout << i << std::endl;
-    }
-    std::cout << std::endl;
-
-    for(int i : Query(FromVector(numbers), Take(7), Take(5), Take(6), ToList()))
-    {
-        std::cout << i << std::endl;
-    }
-    std::cout << std::endl;
-
-    std::cout << Query(FromVector(numbers), Where([](int i){return i < 8;}), Sum()) << std::endl;
-    std::cout << std::endl;
-
-    for(int i : Query(FromVector(numbers), Where([](int i){return i < 8;}), ToList()))
-    {
-        std::cout << i << std::endl;
-    }
-    std::cout << std::endl;
-
-    std::cout << Query(FromVector(stringvec), Where([](std::string i) {return i.size() < 10;}), Sum()) << std::endl;
-    std::cout << std::endl;
-
-    std::cout << Query(FromVector(numbers), Take(4), Count()) << std::endl;
-    std::cout << std::endl;
+    //Simple take
+    BOOST_CHECK( Query(FromVector(numbers), Take(5), ToVector()) == std::vector<int>({1, 2, 3, 4, 5}) );
+    BOOST_CHECK( Query(FromVector(numbers), Take(6), ToVector()) == std::vector<int>({1, 2, 3, 4, 5, 6}) );
+    BOOST_CHECK( Query(FromVector(numbers), Take(1000), ToVector()) == numbers );
+    BOOST_CHECK( Query(FromVector(numbers), Take(0), ToVector()) == std::vector<int>({}) );
 
     return 0;
 }

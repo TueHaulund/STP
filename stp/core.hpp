@@ -19,7 +19,6 @@ namespace stp
             partial_query(InputIterator p_begin, InputIterator p_end)
             {
                 std::copy(p_begin, p_end, std::back_inserter(query_data));
-                std::cout << "Constructor" << std::endl;
             }
 
             partial_query(const partial_query<T> &p_other)
@@ -31,7 +30,6 @@ namespace stp
             partial_query(partial_query<T>&& p_other)
             {
                 query_data = std::move(p_other.query_data);
-                std::cout << "Move" << std::endl;
             }
 
             std::vector<T>& data()
