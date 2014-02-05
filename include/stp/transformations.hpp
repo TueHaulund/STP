@@ -13,10 +13,10 @@ namespace stp
         struct sum_type
         {
             template <typename T>
-            T operator()(partial_query<T> p_query)
+            T operator()(PartialTransformation<T> p_pt)
             {
                 T sum = T();
-                std::for_each(p_query.data().begin(), p_query.data().end(), [&](const T &i){sum += i;});
+                std::for_each(p_pt.data().begin(), p_pt.data().end(), [&](const T &i){sum += i;});
                 return sum;
             }
         };
@@ -26,12 +26,12 @@ namespace stp
             take_type(const size_t &p_n) : n(p_n) {}
 
             template <typename T>
-            partial_query<T> operator()(partial_query<T> p_query)
+            PartialTransformation<T> operator()(PartialTransformation<T> p_pt)
             {
-                if(p_query.data().size() >= n)
-                    p_query.data().erase(p_query.data().begin() + n, p_query.data().end());
+                if(p_pt.data().size() >= n)
+                    p_pt.data().erase(p_pt.data().begin() + n, p_pt.data().end());
 
-                return p_query;
+                return p_pt;
             }
 
             size_t n;
@@ -43,14 +43,14 @@ namespace stp
             where_type(const Predicate &p_pred) : pred(p_pred) {}
 
             template <typename T>
-            partial_query<T> operator()(partial_query<T> p_query)
+            PartialTransformation<T> operator()(PartialTransformation<T> p_pt)
             {
                 auto neg_pred = [&](const T &i){return !pred(i);};
-                auto begin = p_query.data().begin();
-                auto end = p_query.data().end();
+                auto begin = p_pt.data().begin();
+                auto end = p_pt.data().end();
 
-                p_query.data().erase(std::remove_if(begin, end, neg_pred), end);
-                return p_query;
+                p_pt.data().erase(std::remove_if(begin, end, neg_pred), end);
+                return p_pt;
             }
 
             Predicate pred;
@@ -59,9 +59,9 @@ namespace stp
         struct count_type
         {
             template <typename T>
-            size_t operator()(partial_query<T> p_query)
+            size_t operator()(PartialTransformation<T> p_pt)
             {
-                return p_query.data().size();
+                return p_pt.data().size();
             }
         };
     }
