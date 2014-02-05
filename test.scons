@@ -7,3 +7,4 @@ env = Environment(CC = 'g++',
                   CPPPATH = ['./include'])
 
 unittest = env.Program(target='unittest', source=['./test/unittest.cpp'])
+Default(unittest)

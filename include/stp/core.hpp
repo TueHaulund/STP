@@ -74,15 +74,15 @@ namespace stp
     };
 
     template<typename T, typename Transformation>
-    typename return_type<T, Transformation>::type Query(partial_query<T> pq, Transformation last_transformation)
+    typename return_type<T, Transformation>::type Transform(partial_query<T> pq, Transformation last_transformation)
     {
         return last_transformation(std::move(pq));
     }
 
     template <typename T, typename Transformation, typename... Transformations>
-    typename return_type<T, Transformation, Transformations...>::type Query(partial_query<T> pq, Transformation first_transformation, Transformations... rest)
+    typename return_type<T, Transformation, Transformations...>::type Transform(partial_query<T> pq, Transformation first_transformation, Transformations... rest)
     {
-        return Query(first_transformation(std::move(pq)), rest...);
+        return Transform(first_transformation(std::move(pq)), rest...);
     }
 }
 
