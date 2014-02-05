@@ -2,11 +2,11 @@
 #include <vector>
 #include <string>
 
-#include "querypp.hpp"
+#include "stp.hpp"
 
 int main()
 {
-    using namespace qpp;
+    using namespace stp;
 
     std::vector<int> intvec(5, 5);
     std::vector<float> floatvec(5, 5.1f);

@@ -1,5 +1,5 @@
-#ifndef QPP_CORE_HPP
-#define QPP_CORE_HPP
+#ifndef STP_CORE_HPP
+#define STP_CORE_HPP
 
 #include <vector>
 #include <list>
@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <type_traits>
 
-namespace qpp
+namespace stp
 {
     template <typename T>
     class partial_query

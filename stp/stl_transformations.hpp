@@ -1,5 +1,5 @@
-#ifndef QPP_STL_TRANSFORMATIONS_HPP
-#define QPP_STL_TRANSFORMATIONS_HPP
+#ifndef STP_STL_TRANSFORMATIONS_HPP
+#define STP_STL_TRANSFORMATIONS_HPP
 
 #include <vector>
 #include <list>
@@ -7,7 +7,7 @@
 
 #include "core.hpp"
 
-namespace qpp
+namespace stp
 {
     struct ToVector
     {

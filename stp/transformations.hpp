@@ -1,12 +1,12 @@
-#ifndef QPP_TRANSFORMATIONS_HPP
-#define QPP_TRANSFORMATIONS_HPP
+#ifndef STP_TRANSFORMATIONS_HPP
+#define STP_TRANSFORMATIONS_HPP
 
 #include <functional>
 #include <algorithm>
 
 #include "core.hpp"
 
-namespace qpp
+namespace stp
 {
     namespace detail
     {
