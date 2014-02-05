@@ -15,6 +15,8 @@ namespace stp
         public:
             typedef T value_type;
 
+            PartialTransformation() {}
+
             template<typename InputIterator>
             PartialTransformation(InputIterator p_begin, InputIterator p_end)
             {

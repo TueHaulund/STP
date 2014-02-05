@@ -25,18 +25,6 @@ namespace stp
             return std::list<T>(p_pt.data().begin(), p_pt.data().end());
         }
     };
-
-    template <typename T>
-    PartialTransformation<T> FromVector(const std::vector<T> &p_vec)
-    {
-        return PartialTransformation<T>(p_vec.begin(), p_vec.end());
-    }
-
-    template <typename T>
-    PartialTransformation<T> FromList(const std::list<T> &p_list)
-    {
-        return PartialTransformation<T>(p_list.begin(), p_list.end());
-    }
 }
 
 #endif
