@@ -26,13 +26,33 @@ int test_main(int, char *[])
     std::shuffle(unordered_ints.begin(), unordered_ints.end(), std::default_random_engine(seed));
 
     //-----BEGIN SEQUENCE SOURCES-----//
-    BOOST_CHECK(Transform(FromArray(arr), ToVector()) == std::vector<int>({1, 2, 3, 4, 5}));
-    BOOST_CHECK(Transform(FromContainer(int_vec), ToVector()) == int_vec);
-    BOOST_CHECK(Transform(FromIterators(int_vec.begin(), int_vec.end()), ToVector()) == int_vec);
-    BOOST_CHECK(Transform(FromRange(1, 5), ToVector()) == std::vector<int>({1, 2, 3, 4, 5}));
-    BOOST_CHECK(Transform(FromRange(1, 5, 2), ToVector()) == std::vector<int>({1, 3, 5}));
-    BOOST_CHECK(Transform(FromRange(5, 1), ToVector()) == std::vector<int>({5, 4, 3, 2, 1}));
-    BOOST_CHECK(Transform(FromRange(5, 1, 2), ToVector()) == std::vector<int>({5, 3, 1}));
+    BOOST_CHECK( Transform(FromArray(arr), ToVector()) == std::vector<int>({1, 2, 3, 4, 5}) );
+    BOOST_CHECK( Transform(FromContainer(int_vec), ToVector()) == int_vec );
+    BOOST_CHECK( Transform(FromIterators(int_vec.begin(), int_vec.end()), ToVector()) == int_vec );
+
+    BOOST_CHECK( Transform(FromRange(1, 5), ToVector()) == std::vector<int>({1, 2, 3, 4}) );
+    BOOST_CHECK( Transform(FromRange(5, 1), ToVector()) == std::vector<int>({5, 4, 3, 2}) );
+    BOOST_CHECK( Transform(FromRange(-1, 1), ToVector()) == std::vector<int>({-1, 0}) );
+    BOOST_CHECK( Transform(FromRange(1, -1), ToVector()) == std::vector<int>({1, 0}) );
+    BOOST_CHECK( Transform(FromRange(1, 1), ToVector()) == std::vector<int>() );
+    BOOST_CHECK( Transform(FromRange(-1, -1), ToVector()) == std::vector<int>() );
+    BOOST_CHECK( Transform(FromRange(0, 0), ToVector()) == std::vector<int>() );
+    BOOST_CHECK( Transform(FromRange(0, 1), ToVector()) == std::vector<int>({0}) );
+    BOOST_CHECK( Transform(FromRange(1, 0), ToVector()) == std::vector<int>({1}) );
+
+    BOOST_CHECK( Transform(FromRange(1, 5, 2), ToVector()) == std::vector<int>({1, 3}) );
+    BOOST_CHECK( Transform(FromRange(5, 1, 2), ToVector()) == std::vector<int>({5, 3}) );
+    BOOST_CHECK( Transform(FromRange(1, 5, 0), ToVector()) == std::vector<int>() );
+    BOOST_CHECK( Transform(FromRange(1, 5, 6), ToVector()) == std::vector<int>() );
+    BOOST_CHECK( Transform(FromRange(1, 10, 3), ToVector()) == std::vector<int>({1, 4, 7}) );
+    BOOST_CHECK( Transform(FromRange(10, 1, 3), ToVector()) == std::vector<int>({10, 7, 4}) );
+
+    BOOST_CHECK( Transform(FromRange(-1, -5, 2), ToVector()) == std::vector<int>({-1, -3}) );
+    BOOST_CHECK( Transform(FromRange(-5, -1, 2), ToVector()) == std::vector<int>({-5, -3}) );
+    BOOST_CHECK( Transform(FromRange(-1, -5, 0), ToVector()) == std::vector<int>() );
+    BOOST_CHECK( Transform(FromRange(-1, -5, 6), ToVector()) == std::vector<int>() );
+    BOOST_CHECK( Transform(FromRange(-1, -10, 3), ToVector()) == std::vector<int>({-1, -4, -7}) );
+    BOOST_CHECK( Transform(FromRange(-10, -1, 3), ToVector()) == std::vector<int>({-10, -7, -4}) );
     //-----END SEQUENCE SOURCES-----//
 
 
@@ -80,6 +100,11 @@ int test_main(int, char *[])
     BOOST_CHECK( Transform(FromContainer(string_vec), Count()) == 4 );
     BOOST_CHECK( Transform(FromContainer(ordered_ints), Count()) == 11 );
     BOOST_CHECK( Transform(FromContainer(unordered_ints), Count()) == 11 );
+
+    /*for(int i : Transform(FromRange(8, 1), ToVector()))
+    {
+        std::cout << i << std::endl;
+    }*/
 
     return 0;
 }

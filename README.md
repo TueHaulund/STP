@@ -1,4 +1,4 @@
-STP
+stplib
 ===
 
 Sequence Transformation Pipeline

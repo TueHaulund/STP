@@ -29,7 +29,6 @@ namespace stp
             return from_iterators<T>(begin, end);
         }
 
-        //TODO: FIX
         PartialTransformation<int> from_range(int p_start, int p_end, unsigned int p_step)
         {
             std::vector<int> range_vec;
@@ -44,14 +43,15 @@ namespace stp
             }
             else if(p_start < p_end)
             {
-                for(int i = p_start; i <= p_end; i += p_step)
+                for(int i = p_start; i < p_end; i += p_step)
                     range_vec.push_back(i);
             }
             else
             {
-                for(int i = p_start; i >= p_end; i -= p_step)
+                for(int i = p_start; i > p_end; i -= p_step)
                     range_vec.push_back(i);
             }
+
             return from_container(range_vec);
         }
     }
