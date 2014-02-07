@@ -39,7 +39,6 @@ namespace stp
             if(p_start == p_end)
             {
                 range_vec.push_back(p_start);
-
             }
             else if(p_start < p_end)
             {
