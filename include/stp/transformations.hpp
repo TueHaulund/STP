@@ -4,19 +4,17 @@
 #include <functional>
 #include <algorithm>
 
-#include "core.hpp"
-
 namespace stp
 {
     namespace detail
     {
         struct sum_type
         {
-            template <typename T>
-            T operator()(PartialTransformation<T> p_pt)
+            template <typename Input>
+            typename Input::value_type operator()(Input input)
             {
-                T sum = T();
-                std::for_each(p_pt.data().begin(), p_pt.data().end(), [&](const T &i){sum += i;});
+                typename Input::value_type sum = typename Input::value_type();
+                std::for_each(input.begin(), input.end(), [&](const typename Input::value_type &i){sum += i;});
                 return sum;
             }
         };
@@ -25,13 +23,13 @@ namespace stp
         {
             take_type(const size_t &p_n) : n(p_n) {}
 
-            template <typename T>
-            PartialTransformation<T> operator()(PartialTransformation<T> p_pt)
+            template <typename Input>
+            Input operator()(Input input)
             {
-                if(p_pt.data().size() >= n)
-                    p_pt.data().erase(p_pt.data().begin() + n, p_pt.data().end());
+                if(input.size() >= n)
+                    input.erase(input.begin() + n, input.end());
 
-                return p_pt;
+                return input;
             }
 
             size_t n;
@@ -42,15 +40,13 @@ namespace stp
         {
             where_type(const Predicate &p_pred) : pred(p_pred) {}
 
-            template <typename T>
-            PartialTransformation<T> operator()(PartialTransformation<T> p_pt)
+            template <typename Input>
+            Input operator()(Input input)
             {
-                auto neg_pred = [&](const T &i){return !pred(i);};
-                auto begin = p_pt.data().begin();
-                auto end = p_pt.data().end();
+                auto neg_pred = [&](const typename Input::value_type &i){return !pred(i);};
 
-                p_pt.data().erase(std::remove_if(begin, end, neg_pred), end);
-                return p_pt;
+                input.erase(std::remove_if(input.begin(), input.end(), neg_pred), input.end());
+                return input;
             }
 
             Predicate pred;
@@ -58,10 +54,10 @@ namespace stp
 
         struct count_type
         {
-            template <typename T>
-            size_t operator()(PartialTransformation<T> p_pt)
+            template <typename Input>
+            size_t operator()(Input input)
             {
-                return p_pt.data().size();
+                return input.size();
             }
         };
     }

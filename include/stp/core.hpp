@@ -9,39 +9,32 @@
 
 namespace stp
 {
-    template <typename T>
-    class PartialTransformation
+    /*template<typename Input, typename FirstTransformation, typename ...RestTransformations>
+    struct Transformation : public Transformation<typename std::result_of<FirstTransformation(Input)>::type, RestTransformations...>
     {
-        public:
-            typedef T value_type;
-
-            PartialTransformation() {}
-
-            template<typename InputIterator>
-            PartialTransformation(InputIterator p_begin, InputIterator p_end)
-            {
-                std::copy(p_begin, p_end, std::back_inserter(transformation_data));
-            }
-
-            PartialTransformation(const PartialTransformation<T> &p_other)
-            {
-                transformation_data = p_other.transformation_data;
-                std::cout << "Copy" << std::endl;
-            }
-
-            PartialTransformation(PartialTransformation<T>&& p_other)
-            {
-                transformation_data = std::move(p_other.transformation_data);
-            }
-
-            std::vector<T>& data()
-            {
-                return transformation_data;
-            }
+        Transformation(Input p_input, FirstTransformation first_transformation, RestTransformations... rest) : base(first_transformation(p_input), rest...)
+        {}
 
         private:
-            std::vector<T> transformation_data;
+            typedef Transformation<typename std::result_of<FirstTransformation(Input)>::type, RestTransformations...> base;
     };
+
+    template<typename Input, typename LastTransformation>
+    struct Transformation<Input, LastTransformation>
+    {
+        Transformation(Input p_input, LastTransformation last_transformation) : m_result(last_transformation(p_input))
+        {}
+
+        typedef typename std::result_of<LastTransformation(Input)>::type transformed_type;
+        transformed_type m_result;
+    };
+
+    template<typename Input, typename FirstTransformation, typename ...RestTransformations>
+    typename Transformation<Input, FirstTransformation, RestTransformations...>::transformed_type Transform(Input input, FirstTransformation first_transformation, RestTransformations... rest)
+    {
+        Transformation<Input, FirstTransformation, RestTransformations...> transformation(input, first_transformation, rest...);
+        return transformation.m_result;
+    }*/
 
     /*template <typename> struct is_container : std::false_type {};
     template <template <typename...> class Container, typename... Ts> struct is_container<Container<Ts...>> : std::true_type {};*/
@@ -59,33 +52,31 @@ namespace stp
     //template <typename> struct is_pq : std::false_type {};
     //template <typename T> struct is_pq<PartialTransformation<T>> : std::true_type {};
 
-    template<typename T, typename Transformation, typename ...Transformations>
-    struct return_type;
-
-    template<typename T, typename Transformation>
-    struct return_type<T, Transformation>
-    {
-        typedef typename std::result_of<Transformation(PartialTransformation<T>)>::type type;
-    };
-
-    template<typename T, typename Transformation, typename ...Transformations>
+    template<typename Input, typename Transformation, typename ...Transformations>
     struct return_type
     {
-        typedef typename std::result_of<Transformation(PartialTransformation<T>)>::type transformed_type;
-        typedef typename return_type<typename transformed_type::value_type, Transformations...>::type type;
+        typedef typename return_type<typename std::result_of<Transformation(Input)>::type, Transformations...>::type type;
     };
 
-    template<typename T, typename Transformation>
-    typename return_type<T, Transformation>::type Transform(PartialTransformation<T> pt, Transformation last_transformation)
+    template<typename Input, typename Transformation>
+    struct return_type<Input, Transformation>
     {
-        return last_transformation(std::move(pt));
+        typedef typename std::result_of<Transformation(Input)>::type type;
+    };
+
+    template<typename Input>
+    Input Transform(Input input)
+    {
+        return input;
     }
 
-    template <typename T, typename Transformation, typename... Transformations>
-    typename return_type<T, Transformation, Transformations...>::type Transform(PartialTransformation<T> pt, Transformation first_transformation, Transformations... rest)
+    template <typename Input, typename Transformation, typename... Transformations>
+    typename return_type<Input, Transformation, Transformations...>::type Transform(Input input, Transformation first_transformation, Transformations... rest)
     {
-        return Transform(first_transformation(std::move(pt)), rest...);
+        return Transform(std::move(first_transformation(std::move(input))), rest...);
     }
+
+    //TODO: ARRAY & ITERATOR OVERLOADS
 }
 
 #endif

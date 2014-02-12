@@ -3,26 +3,29 @@
 
 #include <vector>
 #include <list>
-
-#include "core.hpp"
+#include <algorithm>
 
 namespace stp
 {
     struct ToVector
     {
         template <typename T>
-        std::vector<T> operator()(PartialTransformation<T> p_pt)
+        std::vector<typename T::value_type> operator()(T input)
         {
-            return std::move(p_pt.data());
+            std::vector<typename T::value_type> vec;
+            std::for_each(input.begin(), input.end(), [&](const typename T::value_type &i){vec.push_back(std::move(i));});
+            return vec;
         }
     };
 
     struct ToList
     {
         template <typename T>
-        std::list<T> operator()(PartialTransformation<T> p_pt)
+        std::list<typename T::value_type> operator()(T input)
         {
-            return std::list<T>(p_pt.data().begin(), p_pt.data().end());
+            std::list<typename T::value_type> list;
+            std::for_each(input.begin(), input.end(), [&](const typename T::value_type &i){list.push_back(std::move(i));});
+            return list;
         }
     };
 }
