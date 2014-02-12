@@ -9,22 +9,22 @@ namespace stp
 {
     struct ToVector
     {
-        template <typename T>
-        std::vector<typename T::value_type> operator()(T input)
+        template <typename Input>
+        std::vector<typename Input::value_type> operator()(Input input)
         {
-            std::vector<typename T::value_type> vec;
-            std::for_each(input.begin(), input.end(), [&](const typename T::value_type &i){vec.push_back(std::move(i));});
+            std::vector<typename Input::value_type> vec;
+            std::for_each(input.begin(), input.end(), [&](const typename Input::value_type &i){vec.push_back(std::move(i));});
             return vec;
         }
     };
 
     struct ToList
     {
-        template <typename T>
-        std::list<typename T::value_type> operator()(T input)
+        template <typename Input>
+        std::list<typename Input::value_type> operator()(Input input)
         {
-            std::list<typename T::value_type> list;
-            std::for_each(input.begin(), input.end(), [&](const typename T::value_type &i){list.push_back(std::move(i));});
+            std::list<typename Input::value_type> list;
+            std::for_each(input.begin(), input.end(), [&](const typename Input::value_type &i){list.push_back(std::move(i));});
             return list;
         }
     };

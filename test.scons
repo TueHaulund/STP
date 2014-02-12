@@ -1,7 +1,7 @@
 import os
 
 env = Environment(CC = 'g++',
-                  CCFLAGS = '-Wall -Wextra -pedantic -std=gnu++11',
+                  CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11',
                   ENV = {'PATH' : os.environ['PATH']},
                   TOOLS = ['mingw'] if os.name == 'nt' else ['gnulink','gcc','g++','gas','ar'],
                   CPPPATH = ['./include'])
