@@ -26,33 +26,33 @@ int test_main(int, char *[])
     std::shuffle(unordered_ints.begin(), unordered_ints.end(), std::default_random_engine(seed));
 
     //-----BEGIN SEQUENCE SOURCES-----//
-    //BOOST_CHECK( Transform(FromArray(arr), ToVector()) == std::vector<int>({1, 2, 3, 4, 5}) );
-    BOOST_CHECK( Transform(int_vec, ToVector()) == int_vec );
-    //BOOST_CHECK( Transform(FromIterators(int_vec.begin(), int_vec.end()), ToVector()) == int_vec );
+    BOOST_CHECK( Range(1, 5)   == std::vector<int>({1, 2, 3, 4}) );
+    BOOST_CHECK( Range(5, 1)   == std::vector<int>({5, 4, 3, 2}) );
+    BOOST_CHECK( Range(-1, 1)  == std::vector<int>({-1, 0})      );
+    BOOST_CHECK( Range(1, -1)  == std::vector<int>({1, 0})       );
+    BOOST_CHECK( Range(1, 1)   == std::vector<int>()             );
+    BOOST_CHECK( Range(-1, -1) == std::vector<int>()             );
+    BOOST_CHECK( Range(0, 0)   == std::vector<int>()             );
+    BOOST_CHECK( Range(0, 1)   == std::vector<int>({0})          );
+    BOOST_CHECK( Range(1, 0)   == std::vector<int>({1})          );
 
-    BOOST_CHECK( Transform(Range(1, 5)) == std::vector<int>({1, 2, 3, 4}) );
-    BOOST_CHECK( Transform(Range(5, 1)) == std::vector<int>({5, 4, 3, 2}) );
-    BOOST_CHECK( Transform(Range(-1, 1)) == std::vector<int>({-1, 0}) );
-    BOOST_CHECK( Transform(Range(1, -1)) == std::vector<int>({1, 0}) );
-    BOOST_CHECK( Transform(Range(1, 1)) == std::vector<int>() );
-    BOOST_CHECK( Transform(Range(-1, -1)) == std::vector<int>() );
-    BOOST_CHECK( Transform(Range(0, 0)) == std::vector<int>() );
-    BOOST_CHECK( Transform(Range(0, 1)) == std::vector<int>({0}) );
-    BOOST_CHECK( Transform(Range(1, 0)) == std::vector<int>({1}) );
+    BOOST_CHECK( Range(1, 5, 2)  == std::vector<int>({1, 3})     );
+    BOOST_CHECK( Range(5, 1, 2)  == std::vector<int>({5, 3})     );
+    BOOST_CHECK( Range(1, 5, 0)  == std::vector<int>()           );
+    BOOST_CHECK( Range(1, 5, 6)  == std::vector<int>()           );
+    BOOST_CHECK( Range(1, 10, 3) == std::vector<int>({1, 4, 7})  );
+    BOOST_CHECK( Range(10, 1, 3) == std::vector<int>({10, 7, 4}) );
 
-    BOOST_CHECK( Transform(Range(1, 5, 2)) == std::vector<int>({1, 3}) );
-    BOOST_CHECK( Transform(Range(5, 1, 2)) == std::vector<int>({5, 3}) );
-    BOOST_CHECK( Transform(Range(1, 5, 0)) == std::vector<int>() );
-    BOOST_CHECK( Transform(Range(1, 5, 6)) == std::vector<int>() );
-    BOOST_CHECK( Transform(Range(1, 10, 3)) == std::vector<int>({1, 4, 7}) );
-    BOOST_CHECK( Transform(Range(10, 1, 3)) == std::vector<int>({10, 7, 4}) );
+    BOOST_CHECK( Range(-1, -5, 2)  == std::vector<int>({-1, -3})      );
+    BOOST_CHECK( Range(-5, -1, 2)  == std::vector<int>({-5, -3})      );
+    BOOST_CHECK( Range(-1, -5, 0)  == std::vector<int>()              );
+    BOOST_CHECK( Range(-1, -5, 6)  == std::vector<int>()              );
+    BOOST_CHECK( Range(-1, -10, 3) == std::vector<int>({-1, -4, -7})  );
+    BOOST_CHECK( Range(-10, -1, 3) == std::vector<int>({-10, -7, -4}) );
 
-    BOOST_CHECK( Transform(Range(-1, -5, 2)) == std::vector<int>({-1, -3}) );
-    BOOST_CHECK( Transform(Range(-5, -1, 2)) == std::vector<int>({-5, -3}) );
-    BOOST_CHECK( Transform(Range(-1, -5, 0)) == std::vector<int>() );
-    BOOST_CHECK( Transform(Range(-1, -5, 6)) == std::vector<int>() );
-    BOOST_CHECK( Transform(Range(-1, -10, 3)) == std::vector<int>({-1, -4, -7}) );
-    BOOST_CHECK( Transform(Range(-10, -1, 3)) == std::vector<int>({-10, -7, -4}) );
+    BOOST_CHECK( Repeat(1, 3) == std::vector<int>({1, 1, 1}) );
+    BOOST_CHECK( Repeat(10, 5) == std::vector<int>({10, 10, 10, 10, 10}) );
+    BOOST_CHECK( Repeat(std::string("hej"), 3) == std::vector<std::string>({"hej", "hej", "hej"}) );
     //-----END SEQUENCE SOURCES-----//
 
 
@@ -76,6 +76,8 @@ int test_main(int, char *[])
     //TODO: COMPOSITES
 
     //-----END STL TRANSFORMATIONS-----//
+
+    //TODO: TRIVIAL TRANSFORMATIONS
 
     //Simple sum
     BOOST_CHECK( Transform(float_vec, Sum()) == 25.5 );

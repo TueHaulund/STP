@@ -40,6 +40,12 @@ namespace stp
 
             return range_vec;
         }
+
+        template <typename T>
+        std::vector<T> repeat(const T &value, size_t n)
+        {
+            return std::vector<T>(n, value);
+        }
     }
 
     /*template <typename T, size_t N>
@@ -51,6 +57,12 @@ namespace stp
     std::vector<int> Range(int p_start, int p_end, int p_step = 1)
     {
         return detail::range(p_start, p_end, p_step);
+    }
+
+    template <typename T>
+    std::vector<T> Repeat(const T &value, size_t n)
+    {
+        return detail::repeat(value, n);
     }
 }
 
