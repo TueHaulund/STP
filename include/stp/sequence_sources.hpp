@@ -21,7 +21,7 @@ namespace stp
         {
             std::vector<T> range_vec;
 
-            if(p_step == 0 || (abs(p_end - p_start) < p_step))
+            if(p_step == 0 || (static_cast<T>(abs(p_end - p_start)) < p_step))
                 return range_vec;
 
             if(p_start == p_end)
@@ -30,12 +30,12 @@ namespace stp
             }
             else if(p_start < p_end)
             {
-                for(int i = p_start; i < p_end; i += p_step)
+                for(T i = p_start; i < p_end; i += p_step)
                     range_vec.push_back(i);
             }
             else
             {
-                for(int i = p_start; i > p_end; i -= p_step)
+                for(T i = p_start; i > p_end; i -= p_step)
                     range_vec.push_back(i);
             }
 
@@ -46,7 +46,7 @@ namespace stp
         {
             std::vector<char> range_vec;
 
-            if (p_step == 0 || static_cast<unsigned int>(abs((int)p_end - (int)p_start) < p_step))
+            if (p_step == 0 || (abs((int)p_end - (int)p_start)) < p_step)
                 return range_vec;
 
             if ((int)p_start == (int)p_end)

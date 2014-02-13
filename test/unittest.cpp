@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <limits>
+#include <cmath>
 
 #include <boost/test/included/unit_test.hpp>
 
@@ -25,6 +27,23 @@ struct TestFixture
 
         unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
         std::shuffle(unordered_ints.begin(), unordered_ints.end(), std::default_random_engine(seed));
+    }
+
+    template<typename T>
+    bool Equal(std::vector<T> a, std::vector<T> b)
+    {
+        if (a.size() == b.size())
+        {
+            for (int i = 0; i < a.size(); i++)
+            {
+                if (std::fabs(a[i] - b[i]) > std::numeric_limits<T>::epsilon())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     std::vector<int> int_vec;
@@ -66,14 +85,38 @@ BOOST_AUTO_TEST_CASE(RangeIntTest)
 
 BOOST_AUTO_TEST_CASE(RangeFloatTest)
 {
-    //TODO: MAKE ME
-    BOOST_CHECK( Range(1.0, 5.0) == std::vector<double>({1.0, 2.0, 3.0, 4.0}));
+    BOOST_CHECK( Equal( Range(1.0f, 5.0f)  , std::vector<float>({1.0f, 2.0f, 3.0f, 4.0f})) );
+    BOOST_CHECK( Equal( Range(1.0f, -1.0f) , std::vector<float>({1.0f, 0.0f})) );
+    BOOST_CHECK( Equal( Range(-1.0f, 1.0f) , std::vector<float>({-1.0f, 0.0f})) );
+    BOOST_CHECK( Equal( Range(0.0f, 0.0f)  , std::vector<float>({})) );
+    BOOST_CHECK( Equal( Range(1.0f, 1.0f)  , std::vector<float>({})) );
+    BOOST_CHECK( Equal( Range(-1.0f, -1.0f), std::vector<float>({})) );
+    BOOST_CHECK( Equal( Range(0.0f, 1.0f)  , std::vector<float>({0.0f})) );
+    BOOST_CHECK( Equal( Range(1.0f, 0.0f)  , std::vector<float>({1.0f})) );
+
+    BOOST_CHECK( Equal( Range(0.0f, 10.0f, 3.14f) , std::vector<float>({0.0f, 3.14f, 6.28f, 9.42f})) );
+    BOOST_CHECK( Equal( Range(1.0f, -1.0f, 0.33f) , std::vector<float>({1.0f, 0.67f, 0.34f, 0.01f, -0.32f, -0.65f, -0.98f})) );
+    BOOST_CHECK( Equal( Range(0.0f, 10.0f, 11.65f), std::vector<float>({})) );
+    BOOST_CHECK( Equal( Range(10.0f, 0.0f, 11.65f), std::vector<float>({})) );
+    BOOST_CHECK( Equal( Range(0.0f, 10.0f, 5.65f) , std::vector<float>({0.0f, 5.65f})) );
 }
 
 BOOST_AUTO_TEST_CASE(RangeDoubleTest)
 {
-    //TODO: MAKE ME
-    BOOST_CHECK( Range(1.0f, 5.0f) == std::vector<float>({1.0f, 2.0f, 3.0f, 4.0f}));
+    BOOST_CHECK( Equal( Range(1.0, 5.0)  , std::vector<double>({1.0, 2.0, 3.0, 4.0})) );
+    BOOST_CHECK( Equal( Range(1.0, -1.0) , std::vector<double>({1.0, 0.0})) );
+    BOOST_CHECK( Equal( Range(-1.0, 1.0) , std::vector<double>({-1.0, 0.0})) );
+    BOOST_CHECK( Equal( Range(0.0, 0.0)  , std::vector<double>({})) );
+    BOOST_CHECK( Equal( Range(1.0, 1.0)  , std::vector<double>({})) );
+    BOOST_CHECK( Equal( Range(-1.0, -1.0), std::vector<double>({})) );
+    BOOST_CHECK( Equal( Range(0.0, 1.0)  , std::vector<double>({0.0})) );
+    BOOST_CHECK( Equal( Range(1.0, 0.0)  , std::vector<double>({1.0})) );
+
+    BOOST_CHECK( Equal( Range(0.0, 10.0, 3.14) , std::vector<double>({0.0, 3.14, 6.28, 9.42})) );
+    BOOST_CHECK( Equal( Range(1.0, -1.0, 0.33) , std::vector<double>({1.0, 0.67, 0.34, 0.01, -0.32, -0.65, -0.98})) );
+    BOOST_CHECK( Equal( Range(0.0, 10.0, 11.65), std::vector<double>({})) );
+    BOOST_CHECK( Equal( Range(10.0, 0.0, 11.65), std::vector<double>({})) );
+    BOOST_CHECK( Equal( Range(0.0, 10.0, 5.65) , std::vector<double>({0.0, 5.65})) );
 }
 
 BOOST_AUTO_TEST_CASE(RangeCharTest)
