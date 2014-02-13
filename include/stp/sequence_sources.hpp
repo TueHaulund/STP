@@ -58,9 +58,9 @@ namespace stp
                 for (int i = (int)p_start; i < (int)p_end; i += p_step)
                     range_vec.push_back((char)i);
             }
-            else
+            else if ((int)p_end < (int)p_start)
             {
-               for (int i = (int)p_start; i < (int)p_end; i -= p_step)
+               for (int i = (int)p_start; i > (int)p_end; i -= p_step)
                     range_vec.push_back((char)i); 
             }
 
@@ -82,6 +82,11 @@ namespace stp
 
     template <typename T>
     std::vector<T> Range(const T &p_start, const T &p_end, const T &p_step = 1)
+    {
+        return detail::range(p_start, p_end, p_step);
+    }
+    
+    std::vector<char> Range(const char &p_start, const char &p_end, const int &p_step = 1)
     {
         return detail::range(p_start, p_end, p_step);
     }

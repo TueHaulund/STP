@@ -78,9 +78,22 @@ BOOST_AUTO_TEST_CASE(RangeDoubleTest)
 
 BOOST_AUTO_TEST_CASE(RangeCharTest)
 {
-    //TODO: MAKE ME
-    BOOST_CHECK( Range('a', 'e') == std::vector<char>({'a', 'b', 'c', 'd'}));
-}
+    BOOST_CHECK( Range('a', 'e') == std::vector<char>({'a', 'b', 'c', 'd'}) );
+    BOOST_CHECK( Range('z', 'v') == std::vector<char>({'z', 'y', 'x', 'w'}) );
+    BOOST_CHECK( Range('J', 'N') == std::vector<char>({'J', 'K', 'L', 'M'}) );
+    BOOST_CHECK( Range('V', 'R') == std::vector<char>({'V', 'U', 'T', 'S'}) );
+    BOOST_CHECK( Range('0', '4') == std::vector<char>({'0', '1', '2', '3'}) );
+    BOOST_CHECK( Range('$', ' ') == std::vector<char>({'$', '#', '"', '!'}) );
+    BOOST_CHECK( Range('a', 'a') == std::vector<char>({}) );
+    BOOST_CHECK( Range('a', 'b') == std::vector<char>({'a'}) );
+
+    BOOST_CHECK( Range('1', '5', 2)  == std::vector<char>({'1', '3'}) );
+    BOOST_CHECK( Range('5', '1', 2)  == std::vector<char>({'5', '3'}) );
+    BOOST_CHECK( Range('1', '5', 0)  == std::vector<char>() );
+    BOOST_CHECK( Range('1', '5', 6)  == std::vector<char>() );
+    BOOST_CHECK( Range('A', '[', 25) == std::vector<char>({'A', 'Z'}) );
+    BOOST_CHECK( Range('a', 'B', 32) == std::vector<char>({'a', 'A'}) );
+}   
 
 BOOST_AUTO_TEST_CASE(RepeatTest)
 {
