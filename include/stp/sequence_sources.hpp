@@ -58,7 +58,7 @@ namespace stp
                 for (int i = (int)p_start; i < (int)p_end; i += p_step)
                     range_vec.push_back((char)i);
             }
-            else if ((int)p_end < (int)p_start)
+            else
             {
                for (int i = (int)p_start; i > (int)p_end; i -= p_step)
                     range_vec.push_back((char)i); 

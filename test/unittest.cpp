@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(RangeCharTest)
     BOOST_CHECK( Range('1', '5', 0)  == std::vector<char>() );
     BOOST_CHECK( Range('1', '5', 6)  == std::vector<char>() );
     BOOST_CHECK( Range('A', '[', 25) == std::vector<char>({'A', 'Z'}) );
-    BOOST_CHECK( Range('a', 'B', 32) == std::vector<char>({'a', 'A'}) );
+    BOOST_CHECK( Range('a', '@', 32) == std::vector<char>({'a', 'A'}) );
 }   
 
 BOOST_AUTO_TEST_CASE(RepeatTest)
