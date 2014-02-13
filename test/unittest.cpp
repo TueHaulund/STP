@@ -67,11 +67,19 @@ BOOST_AUTO_TEST_CASE(RangeIntTest)
 BOOST_AUTO_TEST_CASE(RangeFloatTest)
 {
     //TODO: MAKE ME
+    BOOST_CHECK( Range(1.0, 5.0) == std::vector<double>({1.0, 2.0, 3.0, 4.0}));
 }
 
 BOOST_AUTO_TEST_CASE(RangeDoubleTest)
 {
     //TODO: MAKE ME
+    BOOST_CHECK( Range(1.0f, 5.0f) == std::vector<float>({1.0f, 2.0f, 3.0f, 4.0f}));
+}
+
+BOOST_AUTO_TEST_CASE(RangeCharTest)
+{
+    //TODO: MAKE ME
+    BOOST_CHECK( Range('a', 'e') == std::vector<char>({'a', 'b', 'c', 'd'}));
 }
 
 BOOST_AUTO_TEST_CASE(RepeatTest)
