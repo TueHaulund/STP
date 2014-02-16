@@ -17,37 +17,50 @@ namespace stp
             return from_iterators<T>(begin, end);
         }*/
 
-        template <typename T,
-                  typename U,
-                  class = typename std::enable_if<std::is_arithmetic<T>::value>::type,
-                  class = typename std::enable_if<!std::is_same<char, U>::value>::type>
-        std::vector<T> range(const T &p_start, const T &p_end, const U &p_step)
+        template
+        <
+            typename T,
+            typename U,
+            typename = typename std::enable_if<std::is_scalar<T>::value>::type,
+            typename = typename std::enable_if<std::is_scalar<U>::value>::type
+        >
+        std::vector<T> range(const T &start, const T &end, const U &step)
         {
             std::vector<T> range_vec;
 
-            if(p_step == static_cast<T>(0) || (static_cast<T>(abs(p_end - p_start)) < p_step))
-                return range_vec;
+            U u_zero = static_cast<U>(0);
+            T range_diff = static_cast<T>(abs(end - start));
+            T t_step = static_cast<T>(step);
 
-            if(p_start == p_end)
+            if(step == u_zero || range_diff < t_step)
             {
-                range_vec.push_back(p_start);
+                return range_vec;
             }
-            else if(p_start < p_end)
+
+            if(start == end)
             {
-                for(T i = p_start; i < p_end; i += p_step)
+                range_vec.push_back(start);
+            }
+            else if(start < end)
+            {
+                for(T i = start; i < end; i += t_step)
+                {
                     range_vec.push_back(i);
+                }
             }
             else
             {
-                for(T i = p_start; i > p_end; i -= p_step)
+                for(T i = start; i > end; i -= t_step)
+                {
                     range_vec.push_back(i);
+                }
             }
 
             return range_vec;
         }
 
         template <typename T>
-        std::vector<T> repeat(const T &value, size_t n)
+        std::vector<T> repeat(const T &value, const size_t &n)
         {
             return std::vector<T>(n, value);
         }
@@ -61,15 +74,15 @@ namespace stp
 
     template <typename T,
               typename U>
-    std::vector<T> Range(const T &p_start, const T &p_end, const U &p_step)
+    std::vector<T> Range(const T &start, const T &end, const U &step)
     {
-        return detail::range(p_start, p_end, p_step);
+        return detail::range(start, end, step);
     }
 
     template <typename T>
-    std::vector<T> Range(const T &p_start, const T &p_end)
+    std::vector<T> Range(const T &start, const T &end)
     {
-        return detail::range(p_start, p_end, 1);
+        return detail::range(start, end, 1);
     }
 
     template <typename T>
