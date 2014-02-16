@@ -9,48 +9,62 @@
 
 namespace stp
 {
-    /*template<typename Input, typename FirstTransformation, typename ...RestTransformations>
-    struct Transformation : public Transformation<typename std::result_of<FirstTransformation(Input)>::type, RestTransformations...>
+    template <typename FirstFunction, typename ...RestFunctions>
+    class function_pipeline : public function_pipeline<RestFunctions...>
     {
-        Transformation(Input p_input, FirstTransformation first_transformation, RestTransformations... rest) : base(first_transformation(p_input), rest...)
-        {}
+        public:
+            typedef function_pipeline<RestFunctions...> base_type;
+
+            template <typename Input>
+            struct return_type
+            {
+                typedef typename std::add_lvalue_reference<Input>::type ref_type;
+                typedef typename std::result_of<FirstFunction(ref_type)>::type transformed_type;
+                typedef typename base_type::template return_type<transformed_type>::type type;
+            };
+
+            function_pipeline(FirstFunction first, RestFunctions... rest) : base_type(rest...), func(first)
+            {}
+
+            template <typename Input>
+            typename return_type<Input>::type operator()(Input &input)
+            {
+                return base_type::operator()(func(input));
+            }
 
         private:
-            typedef Transformation<typename std::result_of<FirstTransformation(Input)>::type, RestTransformations...> base;
+            FirstFunction func;
     };
 
-    template<typename Input, typename LastTransformation>
-    struct Transformation<Input, LastTransformation>
+    template <typename LastFunction>
+    class function_pipeline<LastFunction>
     {
-        Transformation(Input p_input, LastTransformation last_transformation) : m_result(last_transformation(p_input))
-        {}
+        public:
+            template <typename Input>
+            struct return_type
+            {
+                typedef typename std::add_lvalue_reference<Input>::type ref_type;
+                typedef typename std::result_of<LastFunction(ref_type)>::type type;
+            };
 
-        typedef typename std::result_of<LastTransformation(Input)>::type transformed_type;
-        transformed_type m_result;
+            function_pipeline(LastFunction last) : func(last)
+            {}
+
+            template <typename Input>
+            typename return_type<Input>::type operator()(Input &input)
+            {
+                return func(input);
+            }
+
+        private:
+            LastFunction func;
     };
 
-    template<typename Input, typename FirstTransformation, typename ...RestTransformations>
-    typename Transformation<Input, FirstTransformation, RestTransformations...>::transformed_type Transform(Input input, FirstTransformation first_transformation, RestTransformations... rest)
+    template <typename FirstFunction, typename ...RestFunctions>
+    function_pipeline<FirstFunction, RestFunctions...> make_fp (FirstFunction &&first, RestFunctions&&... rest)
     {
-        Transformation<Input, FirstTransformation, RestTransformations...> transformation(input, first_transformation, rest...);
-        return transformation.m_result;
-    }*/
-
-    /*template <typename> struct is_container : std::false_type {};
-    template <template <typename...> class Container, typename... Ts> struct is_container<Container<Ts...>> : std::true_type {};*/
-
-    /*template <typename T> struct element_type
-    {
-        typedef T type;
-    };
-
-    template <template <typename...> class Container, typename T, typename... Ts> struct element_type<Container<T, Ts...>>
-    {
-        typedef T type;
-    };*/
-
-    //template <typename> struct is_pq : std::false_type {};
-    //template <typename T> struct is_pq<PartialTransformation<T>> : std::true_type {};
+        return function_pipeline<FirstFunction, RestFunctions...>(std::forward<FirstFunction>(first), std::forward<RestFunctions>(rest)...);
+    }
 
     template<typename Input, typename Transformation, typename ...Transformations>
     struct return_type
