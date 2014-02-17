@@ -3,7 +3,7 @@ import os
 env_selection = ARGUMENTS.get('env', 'default')
 
 if env_selection == 'default':
-    env_selection = 'msvc' if os.name == 'nt' else 'gcc'
+    env_selection = 'mingw' if os.name == 'nt' else 'gcc'
 
 if env_selection == 'gcc':
     print 'Environment: GCC'
