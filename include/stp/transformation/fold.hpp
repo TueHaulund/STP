@@ -1,13 +1,10 @@
-#ifndef STP_TRANSFORMATIONS_HPP
-#define STP_TRANSFORMATIONS_HPP
+#ifndef STP_FOLD_HPP
+#define STP_FOLD_HPP
 
 #include <iterator>
-#include <functional>
-#include <algorithm>
 #include <numeric>
 #include <utility>
-
-//TODO: CALL BY REFERENCE
+#include <type_traits>
 
 namespace stp
 {
@@ -114,82 +111,6 @@ namespace stp
 
             BinaryOperation binop_;
         };
-
-        struct sum_type
-        {
-            template
-            <
-                typename Input,
-                typename ValueType = typename Input::value_type,
-                typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
-            >
-            ValueType operator()(Input input) const
-            {
-                return std::accumulate(std::begin(input), std::end(input), ValueType(), std::plus<ValueType>());
-            }
-        };
-
-        struct take_type
-        {
-            take_type(const size_t &n) : n_(n) {}
-
-            template
-            <
-                typename Input,
-                typename InputIterator = typename Input::iterator,
-                typename DiffType = typename std::iterator_traits<InputIterator>::difference_type
-            >
-            Input operator()(Input input) const
-            {
-                auto begin = std::begin(input);
-                auto end = std::end(input);
-
-                DiffType n = static_cast<DiffType>(n_);
-
-                if(std::distance(begin, end) >= n)
-                    input.erase(begin + n, end);
-
-                return input;
-            }
-
-            size_t n_;
-        };
-
-        template <typename Predicate>
-        struct where_type
-        {
-            where_type(const Predicate &pred) : pred_(pred) {}
-
-            template
-            <
-                typename Input,
-                typename ValueType = typename Input::value_type
-            >
-            Input operator()(Input input) const
-            {
-                auto neg_pred = [&](ValueType &i){return !pred_(i);};
-
-                auto begin = std::begin(input);
-                auto end = std::end(input);
-
-                input.erase(std::remove_if(begin, end, neg_pred), end);
-                return input;
-            }
-
-            Predicate pred_;
-        };
-
-        struct count_type
-        {
-            template <typename Input>
-            size_t operator()(Input input) const
-            {
-                auto begin = std::begin(input);
-                auto end = std::end(input);
-
-                return std::distance(begin, end);
-            }
-        };
     }
 
     template
@@ -228,27 +149,6 @@ namespace stp
     detail::foldr_type<BinaryOperation> FoldRight(BinaryOperation &&binop)
     {
         return detail::foldr_type<BinaryOperation>(std::forward<BinaryOperation>(binop));
-    }
-
-    detail::sum_type Sum()
-    {
-        return detail::sum_type();
-    }
-
-    detail::take_type Take(size_t &&n)
-    {
-        return detail::take_type(std::forward<size_t>(n));
-    }
-
-    template <typename Predicate>
-    detail::where_type<Predicate> Where(Predicate &&pred)
-    {
-        return detail::where_type<Predicate>(std::forward<Predicate>(pred));
-    }
-
-    detail::count_type Count()
-    {
-        return detail::count_type();
     }
 }
 
