@@ -31,7 +31,7 @@ namespace stp
                 typename ValueType = typename Input::value_type,
                 typename = typename std::enable_if<std::is_convertible<InitType, ValueType>::value>::type
             >
-            ValueType operator()(Input input)
+            ValueType operator()(Input input) const
             {
                 return std::accumulate(std::begin(input), std::end(input), init_, binop_);
             }
@@ -51,9 +51,65 @@ namespace stp
                 typename ValueType = typename Input::value_type,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(Input input)
+            ValueType operator()(Input input) const
             {
                 return std::accumulate(std::begin(input), std::end(input), ValueType(), binop_);
+            }
+
+            BinaryOperation binop_;
+        };
+
+        template <typename...>
+        struct foldr_type;
+
+        template
+        <
+            typename BinaryOperation,
+            typename InitType
+        >
+        struct foldr_type<BinaryOperation, InitType>
+        {
+            foldr_type(const BinaryOperation &binop, const InitType &init) : binop_(binop), init_(init) {}
+
+            template
+            <
+                typename Input,
+                typename ValueType = typename Input::value_type,
+                typename IterType = typename Input::iterator,
+                typename ReverseIterType = typename std::reverse_iterator<IterType>,
+                typename = typename std::enable_if<std::is_convertible<InitType, ValueType>::value>::type
+            >
+            ValueType operator()(Input input) const
+            {
+                auto rbegin = ReverseIterType(std::begin(input));
+                auto rend = ReverseIterType(std::end(input));
+
+                return std::accumulate(rbegin, rend, init_, binop_);
+            }
+
+            BinaryOperation binop_;
+            InitType init_;
+        };
+
+        template <typename BinaryOperation>
+        struct foldr_type<BinaryOperation>
+        {
+            foldr_type(const BinaryOperation &binop) : binop_(binop) {}
+
+            template
+            <
+                typename Input,
+                typename ValueType = typename Input::value_type,
+                typename IterType = typename Input::iterator,
+                typename ReverseIterType = typename std::reverse_iterator<IterType>,
+                typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
+            >
+            ValueType operator()(Input input) const
+            {
+                auto rbegin = ReverseIterType(std::begin(input));
+                auto rend = ReverseIterType(std::end(input));
+
+                return std::accumulate(rbegin, rend, ValueType(), binop_);
             }
 
             BinaryOperation binop_;
@@ -67,7 +123,7 @@ namespace stp
                 typename ValueType = typename Input::value_type,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(Input input)
+            ValueType operator()(Input input) const
             {
                 return std::accumulate(std::begin(input), std::end(input), ValueType(), std::plus<ValueType>());
             }
@@ -83,7 +139,7 @@ namespace stp
                 typename InputIterator = typename Input::iterator,
                 typename DiffType = typename std::iterator_traits<InputIterator>::difference_type
             >
-            Input operator()(Input input)
+            Input operator()(Input input) const
             {
                 auto begin = std::begin(input);
                 auto end = std::end(input);
@@ -109,7 +165,7 @@ namespace stp
                 typename Input,
                 typename ValueType = typename Input::value_type
             >
-            Input operator()(Input input)
+            Input operator()(Input input) const
             {
                 auto neg_pred = [&](ValueType &i){return !pred_(i);};
 
@@ -126,7 +182,7 @@ namespace stp
         struct count_type
         {
             template <typename Input>
-            size_t operator()(Input input)
+            size_t operator()(Input input) const
             {
                 auto begin = std::begin(input);
                 auto end = std::end(input);
@@ -153,6 +209,25 @@ namespace stp
     detail::foldl_type<BinaryOperation> FoldLeft(BinaryOperation &&binop)
     {
         return detail::foldl_type<BinaryOperation>(std::forward<BinaryOperation>(binop));
+    }
+
+    template
+    <
+        typename BinaryOperation,
+        typename InitType
+    >
+    detail::foldr_type<BinaryOperation, InitType> FoldRight(BinaryOperation &&binop, InitType &&init)
+    {
+        return detail::foldr_type<BinaryOperation, InitType>(std::forward<BinaryOperation>(binop), std::forward<InitType>(init));
+    }
+
+    template
+    <
+        typename BinaryOperation
+    >
+    detail::foldr_type<BinaryOperation> FoldRight(BinaryOperation &&binop)
+    {
+        return detail::foldr_type<BinaryOperation>(std::forward<BinaryOperation>(binop));
     }
 
     detail::sum_type Sum()
