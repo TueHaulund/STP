@@ -22,9 +22,9 @@ elif env_selection == 'mingw':
 elif env_selection == 'msvc':
     print 'Environment: MSVC'
     env = Environment(CC = 'cl',
-                      CCFLAGS = '',
+                      CCFLAGS = '/nologo /EHsc',
                       ENV = {'PATH' : os.environ['PATH']},
-                      TOOLS = ['msvc'],
+                      TOOLS = ['mslink', 'msvc', 'mslib', 'msvs'],
                       CPPPATH = ['./include'])
 else:
     print 'Unknown environment, attempting to build with default configuration'
