@@ -1,0 +1,3 @@
+Import('env')
+unittest = env.Program(target='unittest', source=['./test/unittest.cpp'])
+Default(unittest)
