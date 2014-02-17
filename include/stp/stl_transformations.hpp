@@ -4,6 +4,7 @@
 #include <vector>
 #include <list>
 #include <algorithm>
+#include <iterator>
 
 namespace stp
 {
@@ -13,7 +14,7 @@ namespace stp
         std::vector<typename Input::value_type> operator()(Input input)
         {
             std::vector<typename Input::value_type> vec;
-            std::for_each(input.begin(), input.end(), [&](const typename Input::value_type &i){vec.push_back(std::move(i));});
+            std::for_each(std::begin(input), std::end(input), [&](const typename Input::value_type &i){vec.push_back(std::move(i));});
             return vec;
         }
     };
@@ -24,7 +25,7 @@ namespace stp
         std::list<typename Input::value_type> operator()(Input input)
         {
             std::list<typename Input::value_type> list;
-            std::for_each(input.begin(), input.end(), [&](const typename Input::value_type &i){list.push_back(std::move(i));});
+            std::for_each(std::begin(input), std::end(input), [&](const typename Input::value_type &i){list.push_back(std::move(i));});
             return list;
         }
     };
