@@ -12,6 +12,7 @@ if env_selection == 'gcc':
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['gnulink','gcc','g++','gas','ar'],
                       CPPPATH = ['./include'])
+
 elif env_selection == 'mingw':
     print 'Environment: MinGW'
     env = Environment(CC = 'g++',
@@ -19,6 +20,7 @@ elif env_selection == 'mingw':
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['mingw'],
                       CPPPATH = ['./include'])
+
 elif env_selection == 'msvc':
     print 'Environment: MSVC'
     env = Environment(CC = 'cl',
@@ -26,8 +28,10 @@ elif env_selection == 'msvc':
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['mslink', 'msvc', 'mslib', 'msvs'],
                       CPPPATH = ['./include'])
+
 else:
     print 'Unknown environment, attempting to build with default configuration'
     env = Environment()
 
+env.SConsignFile('./bin/.sconsign.dblite')
 SConscript('unittest.scons', variant_dir = './bin', duplicate = 0, exports = 'env')
