@@ -34,7 +34,7 @@ struct TestFixture
     {
         if (a.size() == b.size())
         {
-            for (int i = 0; i < a.size(); i++)
+            for (size_t i = 0; i < a.size(); i++)
             {
                 if (std::fabs(a[i] - b[i]) > std::numeric_limits<T>::epsilon())
                 {
@@ -211,6 +211,7 @@ BOOST_AUTO_TEST_CASE(DropTest)
 
 BOOST_AUTO_TEST_CASE(WhereTest)
 {
+    BOOST_CHECK( Transform(ordered_ints, Where([](const int &i){return i % 2 == 0;})) == std::vector<int>({2, 4, 6, 8, 10}) );
     //TODO: MAKE ME
 }
 BOOST_AUTO_TEST_SUITE_END() //FilterTests

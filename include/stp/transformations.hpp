@@ -5,6 +5,7 @@
 #include <functional>
 #include <algorithm>
 #include <numeric>
+#include <utility>
 
 //TODO: CALL BY REFERENCE
 
@@ -76,14 +77,21 @@ namespace stp
         {
             take_type(const size_t &n) : n_(n) {}
 
-            template <typename Input>
+            template
+            <
+                typename Input,
+                typename InputIterator = typename Input::iterator,
+                typename DiffType = typename std::iterator_traits<InputIterator>::difference_type
+            >
             Input operator()(Input input)
             {
                 auto begin = std::begin(input);
                 auto end = std::end(input);
 
-                if(std::distance(begin, end) >= n_)
-                    input.erase(begin + n_, end);
+                DiffType n = static_cast<DiffType>(n_);
+
+                if(std::distance(begin, end) >= n)
+                    input.erase(begin + n, end);
 
                 return input;
             }
@@ -103,7 +111,7 @@ namespace stp
             >
             Input operator()(Input input)
             {
-                auto neg_pred = [&](const ValueType &i){return !pred_(i);};
+                auto neg_pred = [&](ValueType &i){return !pred_(i);};
 
                 auto begin = std::begin(input);
                 auto end = std::end(input);
@@ -133,18 +141,18 @@ namespace stp
         typename BinaryOperation,
         typename InitType
     >
-    detail::foldl_type<BinaryOperation, InitType> FoldLeft(const BinaryOperation &binop, const InitType &init)
+    detail::foldl_type<BinaryOperation, InitType> FoldLeft(BinaryOperation &&binop, InitType &&init)
     {
-        return detail::foldl_type<BinaryOperation, InitType>(binop, init);
+        return detail::foldl_type<BinaryOperation, InitType>(std::forward<BinaryOperation>(binop), std::forward<InitType>(init));
     }
 
     template
     <
         typename BinaryOperation
     >
-    detail::foldl_type<BinaryOperation> FoldLeft(const BinaryOperation &binop)
+    detail::foldl_type<BinaryOperation> FoldLeft(BinaryOperation &&binop)
     {
-        return detail::foldl_type<BinaryOperation>(binop);
+        return detail::foldl_type<BinaryOperation>(std::forward<BinaryOperation>(binop));
     }
 
     detail::sum_type Sum()
@@ -152,15 +160,15 @@ namespace stp
         return detail::sum_type();
     }
 
-    detail::take_type Take(const size_t &n)
+    detail::take_type Take(size_t &&n)
     {
-        return detail::take_type(n);
+        return detail::take_type(std::forward<size_t>(n));
     }
 
     template <typename Predicate>
-    detail::where_type<Predicate> Where(const Predicate &pred)
+    detail::where_type<Predicate> Where(Predicate &&pred)
     {
-        return detail::where_type<Predicate>(pred);
+        return detail::where_type<Predicate>(std::forward<Predicate>(pred));
     }
 
     detail::count_type Count()
