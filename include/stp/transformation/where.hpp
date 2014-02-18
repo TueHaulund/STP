@@ -18,7 +18,7 @@ namespace stp
                 typename Input,
                 typename ValueType = typename Input::value_type
             >
-            Input operator()(Input &input) const
+            Input& operator()(Input &input) const
             {
                 auto neg_pred = [&](ValueType &i){return !pred_(i);};
 

@@ -198,8 +198,7 @@ BOOST_AUTO_TEST_SUITE_END() //reduction_tests
 BOOST_FIXTURE_TEST_SUITE(filter_tests, test_fixture)
 BOOST_AUTO_TEST_CASE(take_test)
 {
-    //TODO: Fix sequence ownership and copy/reference behaviour
-    /*auto take_5_stp = make_stp(take(5));
+    auto take_5_stp = make_stp(take(5));
     auto take_6_stp = make_stp(take(6));
     auto take_10_stp = make_stp(take(10));
     auto take_1000_stp = make_stp(take(1000));
@@ -209,7 +208,7 @@ BOOST_AUTO_TEST_CASE(take_test)
     BOOST_CHECK( take_6_stp(ordered_ints)    == std::vector<int>({1, 2, 3, 4, 5, 6}) );
     BOOST_CHECK( take_10_stp(ordered_ints)   == ordered_ints );
     BOOST_CHECK( take_1000_stp(ordered_ints) == ordered_ints );
-    BOOST_CHECK( take_0_stp(ordered_ints)    == std::vector<int>({}) );*/
+    BOOST_CHECK( take_0_stp(ordered_ints)    == std::vector<int>({}) );
 }
 
 BOOST_AUTO_TEST_CASE(drop_test)
@@ -221,6 +220,9 @@ BOOST_AUTO_TEST_CASE(where_test)
 {
     auto where_stp = make_stp(where([](const int &i){return i % 2 == 0;}));
     BOOST_CHECK( where_stp(ordered_ints) == std::vector<int>({2, 4, 6, 8, 10}) );
+
+    auto test = make_stp(where([](const int &i){return i % 2 == 0;}), take(2), sum());
+    std::cout << test(ordered_ints) << std::endl;
     //TODO: MAKE ME
 }
 BOOST_AUTO_TEST_SUITE_END() //filter_tests

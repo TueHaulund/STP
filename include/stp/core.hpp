@@ -33,7 +33,7 @@ namespace stp
                 {}
 
                 template <typename Input>
-                typename return_traits<Input>::type operator()(Input &input)
+                typename return_traits<Input>::type operator()(Input &input) const
                 {
                     return base_type::operator()(func_(input));
                 }
@@ -57,13 +57,34 @@ namespace stp
                 {}
 
                 template <typename Input>
-                typename return_traits<Input>::type operator()(Input &input)
+                typename return_traits<Input>::type operator()(Input &input) const
                 {
                     return func_(input);
                 }
 
             private:
                 LastFunction func_;
+        };
+
+        template
+        <
+            typename FirstFunction,
+            typename ...RestFunctions
+        >
+        class stp_wrapper
+        {
+            public:
+                stp_wrapper(FirstFunction first, RestFunctions... rest) : stp_(first, rest...) {}
+                typedef stp_type<FirstFunction, RestFunctions...> type;
+
+                template <typename Input>
+                typename type::template return_traits<Input>::type operator()(Input input) const
+                {
+                    return stp_(input);
+                }
+
+            private:
+                type stp_;
         };
     }
 
@@ -72,9 +93,9 @@ namespace stp
         typename FirstFunction,
         typename ...RestFunctions
     >
-    detail::stp_type<FirstFunction, RestFunctions...> make_stp (FirstFunction &&first, RestFunctions&&... rest)
+    detail::stp_wrapper<FirstFunction, RestFunctions...> make_stp(FirstFunction &&first, RestFunctions&&... rest)
     {
-        return detail::stp_type<FirstFunction, RestFunctions...>(std::forward<FirstFunction>(first), std::forward<RestFunctions>(rest)...);
+        return detail::stp_wrapper<FirstFunction, RestFunctions...>(std::forward<FirstFunction>(first), std::forward<RestFunctions>(rest)...);
     }
 
     //TODO: ARRAY & ITERATOR WRAPPER FUNCTIONS

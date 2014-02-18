@@ -18,7 +18,7 @@ namespace stp
                 typename InputIterator = typename Input::iterator,
                 typename DiffType = typename std::iterator_traits<InputIterator>::difference_type
             >
-            Input operator()(Input &input) const
+            Input& operator()(Input &input) const
             {
                 auto begin = std::begin(input);
                 auto end = std::end(input);
