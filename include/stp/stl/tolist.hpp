@@ -16,7 +16,7 @@ namespace stp
                 typename Input,
                 typename ValueType = typename Input::value_type
             >
-            std::list<ValueType> operator()(Input input) const
+            std::list<ValueType> operator()(Input &input) const
             {
                 std::list<ValueType> list;
                 std::for_each(std::begin(input), std::end(input), [&](const ValueType &i){list.push_back(std::move(i));});

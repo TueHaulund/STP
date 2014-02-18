@@ -28,7 +28,7 @@ namespace stp
                 typename ValueType = typename Input::value_type,
                 typename = typename std::enable_if<std::is_convertible<InitType, ValueType>::value>::type
             >
-            ValueType operator()(Input input) const
+            ValueType operator()(Input &input) const
             {
                 return std::accumulate(std::begin(input), std::end(input), init_, binop_);
             }
@@ -48,7 +48,7 @@ namespace stp
                 typename ValueType = typename Input::value_type,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(Input input) const
+            ValueType operator()(Input &input) const
             {
                 return std::accumulate(std::begin(input), std::end(input), ValueType(), binop_);
             }
@@ -76,7 +76,7 @@ namespace stp
                 typename ReverseIterType = typename std::reverse_iterator<IterType>,
                 typename = typename std::enable_if<std::is_convertible<InitType, ValueType>::value>::type
             >
-            ValueType operator()(Input input) const
+            ValueType operator()(Input &input) const
             {
                 auto rbegin = ReverseIterType(std::begin(input));
                 auto rend = ReverseIterType(std::end(input));
@@ -101,7 +101,7 @@ namespace stp
                 typename ReverseIterType = typename std::reverse_iterator<IterType>,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(Input input) const
+            ValueType operator()(Input &input) const
             {
                 auto rbegin = ReverseIterType(std::begin(input));
                 auto rend = ReverseIterType(std::end(input));

@@ -78,31 +78,6 @@ namespace stp
     }
 
     //TODO: ARRAY & ITERATOR WRAPPER FUNCTIONS
-
-    //TEMP - REMOVE
-    template<typename Input, typename Transformation, typename ...Transformations>
-    struct return_type
-    {
-        typedef typename return_type<typename std::result_of<Transformation(Input)>::type, Transformations...>::type type;
-    };
-
-    template<typename Input, typename Transformation>
-    struct return_type<Input, Transformation>
-    {
-        typedef typename std::result_of<Transformation(Input)>::type type;
-    };
-
-    template<typename Input>
-    Input Transform(Input input)
-    {
-        return input;
-    }
-
-    template <typename Input, typename Transformation, typename... Transformations>
-    typename return_type<Input, Transformation, Transformations...>::type Transform(Input input, Transformation first_transformation, Transformations... rest)
-    {
-        return Transform(std::move(first_transformation(std::move(input))), rest...);
-    }
 }
 
 #endif

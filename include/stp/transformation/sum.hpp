@@ -18,7 +18,7 @@ namespace stp
                 typename ValueType = typename Input::value_type,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(Input input) const
+            ValueType operator()(Input &input) const
             {
                 return std::accumulate(std::begin(input), std::end(input), ValueType(), std::plus<ValueType>());
             }

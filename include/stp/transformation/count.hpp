@@ -10,7 +10,7 @@ namespace stp
         struct count_type
         {
             template <typename Input>
-            size_t operator()(Input input) const
+            size_t operator()(Input &input) const
             {
                 auto begin = std::begin(input);
                 auto end = std::end(input);
