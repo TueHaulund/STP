@@ -9,7 +9,7 @@ namespace stp
 {
     namespace detail
     {
-        struct tovector_type
+        struct to_vector_type
         {
             template
             <
@@ -25,9 +25,9 @@ namespace stp
         };
     }
 
-    detail::tovector_type ToVector()
+    detail::to_vector_type to_vector()
     {
-        return detail::tovector_type();
+        return detail::to_vector_type();
     }
 }
 

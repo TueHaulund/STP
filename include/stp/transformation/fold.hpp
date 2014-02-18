@@ -118,7 +118,7 @@ namespace stp
         typename BinaryOperation,
         typename InitType
     >
-    detail::foldl_type<BinaryOperation, InitType> FoldLeft(BinaryOperation &&binop, InitType &&init)
+    detail::foldl_type<BinaryOperation, InitType> fold_left(BinaryOperation &&binop, InitType &&init)
     {
         return detail::foldl_type<BinaryOperation, InitType>(std::forward<BinaryOperation>(binop), std::forward<InitType>(init));
     }
@@ -127,7 +127,7 @@ namespace stp
     <
         typename BinaryOperation
     >
-    detail::foldl_type<BinaryOperation> FoldLeft(BinaryOperation &&binop)
+    detail::foldl_type<BinaryOperation> fold_left(BinaryOperation &&binop)
     {
         return detail::foldl_type<BinaryOperation>(std::forward<BinaryOperation>(binop));
     }
@@ -137,7 +137,7 @@ namespace stp
         typename BinaryOperation,
         typename InitType
     >
-    detail::foldr_type<BinaryOperation, InitType> FoldRight(BinaryOperation &&binop, InitType &&init)
+    detail::foldr_type<BinaryOperation, InitType> fold_right(BinaryOperation &&binop, InitType &&init)
     {
         return detail::foldr_type<BinaryOperation, InitType>(std::forward<BinaryOperation>(binop), std::forward<InitType>(init));
     }
@@ -146,7 +146,7 @@ namespace stp
     <
         typename BinaryOperation
     >
-    detail::foldr_type<BinaryOperation> FoldRight(BinaryOperation &&binop)
+    detail::foldr_type<BinaryOperation> fold_right(BinaryOperation &&binop)
     {
         return detail::foldr_type<BinaryOperation>(std::forward<BinaryOperation>(binop));
     }

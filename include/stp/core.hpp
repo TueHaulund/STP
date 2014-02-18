@@ -9,63 +9,77 @@
 
 namespace stp
 {
-    template <typename FirstFunction, typename ...RestFunctions>
-    class function_pipeline : public function_pipeline<RestFunctions...>
+    namespace detail
     {
-        public:
-            typedef function_pipeline<RestFunctions...> base_type;
+        template
+        <
+            typename FirstFunction,
+            typename ...RestFunctions
+        >
+        class stp_type : public stp_type<RestFunctions...>
+        {
+            public:
+                typedef stp_type<RestFunctions...> base_type;
 
-            template <typename Input>
-            struct return_type
-            {
-                typedef typename std::add_lvalue_reference<Input>::type ref_type;
-                typedef typename std::result_of<FirstFunction(ref_type)>::type transformed_type;
-                typedef typename base_type::template return_type<transformed_type>::type type;
-            };
+                template <typename Input>
+                struct return_traits
+                {
+                    typedef typename std::add_lvalue_reference<Input>::type ref_type;
+                    typedef typename std::result_of<FirstFunction(ref_type)>::type transformed_type;
+                    typedef typename base_type::template return_traits<transformed_type>::type type;
+                };
 
-            function_pipeline(FirstFunction first, RestFunctions... rest) : base_type(rest...), func(first)
-            {}
+                stp_type(FirstFunction first, RestFunctions... rest) : base_type(rest...), func_(first)
+                {}
 
-            template <typename Input>
-            typename return_type<Input>::type operator()(Input &input)
-            {
-                return base_type::operator()(func(input));
-            }
+                template <typename Input>
+                typename return_traits<Input>::type operator()(Input &input)
+                {
+                    return base_type::operator()(func_(input));
+                }
 
-        private:
-            FirstFunction func;
-    };
+            private:
+                FirstFunction func_;
+        };
 
-    template <typename LastFunction>
-    class function_pipeline<LastFunction>
-    {
-        public:
-            template <typename Input>
-            struct return_type
-            {
-                typedef typename std::add_lvalue_reference<Input>::type ref_type;
-                typedef typename std::result_of<LastFunction(ref_type)>::type type;
-            };
+        template <typename LastFunction>
+        class stp_type<LastFunction>
+        {
+            public:
+                template <typename Input>
+                struct return_traits
+                {
+                    typedef typename std::add_lvalue_reference<Input>::type ref_type;
+                    typedef typename std::result_of<LastFunction(ref_type)>::type type;
+                };
 
-            function_pipeline(LastFunction last) : func(last)
-            {}
+                stp_type(LastFunction last) : func_(last)
+                {}
 
-            template <typename Input>
-            typename return_type<Input>::type operator()(Input &input)
-            {
-                return func(input);
-            }
+                template <typename Input>
+                typename return_traits<Input>::type operator()(Input &input)
+                {
+                    return func_(input);
+                }
 
-        private:
-            LastFunction func;
-    };
-
-    template <typename FirstFunction, typename ...RestFunctions>
-    function_pipeline<FirstFunction, RestFunctions...> make_fp (FirstFunction &&first, RestFunctions&&... rest)
-    {
-        return function_pipeline<FirstFunction, RestFunctions...>(std::forward<FirstFunction>(first), std::forward<RestFunctions>(rest)...);
+            private:
+                LastFunction func_;
+        };
     }
 
+    template
+    <
+        typename FirstFunction,
+        typename ...RestFunctions
+    >
+    detail::stp_type<FirstFunction, RestFunctions...> make_stp (FirstFunction &&first, RestFunctions&&... rest)
+    {
+        return detail::stp_type<FirstFunction, RestFunctions...>(std::forward<FirstFunction>(first), std::forward<RestFunctions>(rest)...);
+    }
+
+    //TODO: ARRAY & ITERATOR WRAPPER FUNCTIONS
+
+    //TEMP - REMOVE
     template<typename Input, typename Transformation, typename ...Transformations>
     struct return_type
     {
@@ -89,8 +103,6 @@ namespace stp
     {
         return Transform(std::move(first_transformation(std::move(input))), rest...);
     }
-
-    //TODO: ARRAY & ITERATOR OVERLOADS
 }
 
 #endif

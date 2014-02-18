@@ -25,7 +25,7 @@ namespace stp
         };
     }
 
-    detail::sum_type Sum()
+    detail::sum_type sum()
     {
         return detail::sum_type();
     }

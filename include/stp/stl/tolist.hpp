@@ -9,7 +9,7 @@ namespace stp
 {
     namespace detail
     {
-        struct tolist_type
+        struct to_list_type
         {
             template
             <
@@ -25,9 +25,9 @@ namespace stp
         };
     }
 
-    detail::tolist_type ToList()
+    detail::to_list_type to_list()
     {
-        return detail::tolist_type();
+        return detail::to_list_type();
     }
 }
 

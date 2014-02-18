@@ -35,7 +35,7 @@ namespace stp
         };
     }
 
-    detail::take_type Take(size_t &&n)
+    detail::take_type take(size_t &&n)
     {
         return detail::take_type(std::forward<size_t>(n));
     }

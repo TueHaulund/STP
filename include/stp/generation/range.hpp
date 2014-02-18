@@ -15,7 +15,7 @@ namespace stp
             typename = typename std::enable_if<std::is_scalar<T>::value>::type,
             typename = typename std::enable_if<std::is_scalar<U>::value>::type
         >
-        std::vector<T> range(const T &start, const T &end, const U &step)
+        std::vector<T> range_delegate(const T &start, const T &end, const U &step)
         {
             std::vector<T> range_vec;
 
@@ -51,17 +51,20 @@ namespace stp
         }
     }
 
-    template <typename T,
-              typename U>
-    std::vector<T> Range(const T &start, const T &end, const U &step)
+    template
+    <
+        typename T,
+        typename U
+    >
+    std::vector<T> range(const T &start, const T &end, const U &step)
     {
-        return detail::range(start, end, step);
+        return detail::range_delegate<T, U>(start, end, step);
     }
 
     template <typename T>
-    std::vector<T> Range(const T &start, const T &end)
+    std::vector<T> range(const T &start, const T &end)
     {
-        return detail::range(start, end, 1);
+        return detail::range_delegate<T, int>(start, end, 1);
     }
 }
 

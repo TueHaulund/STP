@@ -20,7 +20,7 @@ namespace stp
         };
     }
 
-    detail::count_type Count()
+    detail::count_type count()
     {
         return detail::count_type();
     }

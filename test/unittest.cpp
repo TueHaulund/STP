@@ -58,150 +58,150 @@ struct TestFixture
 BOOST_FIXTURE_TEST_SUITE(SequenceSourceTests, TestFixture)
 BOOST_AUTO_TEST_CASE(RangeIntTest)
 {
-    BOOST_CHECK( Range(1, 5)       == std::vector<int>({1, 2, 3, 4}) );
-    BOOST_CHECK( Range(5, 1)       == std::vector<int>({5, 4, 3, 2}) );
-    BOOST_CHECK( Range(-1, 1)      == std::vector<int>({-1, 0}) );
-    BOOST_CHECK( Range(1, -1)      == std::vector<int>({1, 0}) );
-    BOOST_CHECK( Range(1, 1)       == std::vector<int>() );
-    BOOST_CHECK( Range(-1, -1)     == std::vector<int>() );
-    BOOST_CHECK( Range(0, 0)       == std::vector<int>() );
-    BOOST_CHECK( Range(0, 1)       == std::vector<int>({0}) );
-    BOOST_CHECK( Range(1, 0)       == std::vector<int>({1}) );
+    BOOST_CHECK( range(1, 5)       == std::vector<int>({1, 2, 3, 4}) );
+    BOOST_CHECK( range(5, 1)       == std::vector<int>({5, 4, 3, 2}) );
+    BOOST_CHECK( range(-1, 1)      == std::vector<int>({-1, 0}) );
+    BOOST_CHECK( range(1, -1)      == std::vector<int>({1, 0}) );
+    BOOST_CHECK( range(1, 1)       == std::vector<int>() );
+    BOOST_CHECK( range(-1, -1)     == std::vector<int>() );
+    BOOST_CHECK( range(0, 0)       == std::vector<int>() );
+    BOOST_CHECK( range(0, 1)       == std::vector<int>({0}) );
+    BOOST_CHECK( range(1, 0)       == std::vector<int>({1}) );
 
-    BOOST_CHECK( Range(1, 5, 2)    == std::vector<int>({1, 3}) );
-    BOOST_CHECK( Range(5, 1, 2)    == std::vector<int>({5, 3}) );
-    BOOST_CHECK( Range(1, 5, 0)    == std::vector<int>() );
-    BOOST_CHECK( Range(1, 5, 6)    == std::vector<int>() );
-    BOOST_CHECK( Range(1, 10, 3)   == std::vector<int>({1, 4, 7}) );
-    BOOST_CHECK( Range(10, 1, 3)   == std::vector<int>({10, 7, 4}) );
+    BOOST_CHECK( range(1, 5, 2)    == std::vector<int>({1, 3}) );
+    BOOST_CHECK( range(5, 1, 2)    == std::vector<int>({5, 3}) );
+    BOOST_CHECK( range(1, 5, 0)    == std::vector<int>() );
+    BOOST_CHECK( range(1, 5, 6)    == std::vector<int>() );
+    BOOST_CHECK( range(1, 10, 3)   == std::vector<int>({1, 4, 7}) );
+    BOOST_CHECK( range(10, 1, 3)   == std::vector<int>({10, 7, 4}) );
 
-    BOOST_CHECK( Range(-1, -5, 2)  == std::vector<int>({-1, -3}) );
-    BOOST_CHECK( Range(-5, -1, 2)  == std::vector<int>({-5, -3}) );
-    BOOST_CHECK( Range(-1, -5, 0)  == std::vector<int>() );
-    BOOST_CHECK( Range(-1, -5, 6)  == std::vector<int>() );
-    BOOST_CHECK( Range(-1, -10, 3) == std::vector<int>({-1, -4, -7}) );
-    BOOST_CHECK( Range(-10, -1, 3) == std::vector<int>({-10, -7, -4}) );
+    BOOST_CHECK( range(-1, -5, 2)  == std::vector<int>({-1, -3}) );
+    BOOST_CHECK( range(-5, -1, 2)  == std::vector<int>({-5, -3}) );
+    BOOST_CHECK( range(-1, -5, 0)  == std::vector<int>() );
+    BOOST_CHECK( range(-1, -5, 6)  == std::vector<int>() );
+    BOOST_CHECK( range(-1, -10, 3) == std::vector<int>({-1, -4, -7}) );
+    BOOST_CHECK( range(-10, -1, 3) == std::vector<int>({-10, -7, -4}) );
 }
 
 BOOST_AUTO_TEST_CASE(RangeFloatTest)
 {
-    BOOST_CHECK( Equal( Range(1.0f, 5.0f)  , std::vector<float>({1.0f, 2.0f, 3.0f, 4.0f})) );
-    BOOST_CHECK( Equal( Range(1.0f, -1.0f) , std::vector<float>({1.0f, 0.0f})) );
-    BOOST_CHECK( Equal( Range(-1.0f, 1.0f) , std::vector<float>({-1.0f, 0.0f})) );
-    BOOST_CHECK( Equal( Range(0.0f, 0.0f)  , std::vector<float>({})) );
-    BOOST_CHECK( Equal( Range(1.0f, 1.0f)  , std::vector<float>({})) );
-    BOOST_CHECK( Equal( Range(-1.0f, -1.0f), std::vector<float>({})) );
-    BOOST_CHECK( Equal( Range(0.0f, 1.0f)  , std::vector<float>({0.0f})) );
-    BOOST_CHECK( Equal( Range(1.0f, 0.0f)  , std::vector<float>({1.0f})) );
+    BOOST_CHECK( Equal( range(1.0f, 5.0f)  , std::vector<float>({1.0f, 2.0f, 3.0f, 4.0f})) );
+    BOOST_CHECK( Equal( range(1.0f, -1.0f) , std::vector<float>({1.0f, 0.0f})) );
+    BOOST_CHECK( Equal( range(-1.0f, 1.0f) , std::vector<float>({-1.0f, 0.0f})) );
+    BOOST_CHECK( Equal( range(0.0f, 0.0f)  , std::vector<float>({})) );
+    BOOST_CHECK( Equal( range(1.0f, 1.0f)  , std::vector<float>({})) );
+    BOOST_CHECK( Equal( range(-1.0f, -1.0f), std::vector<float>({})) );
+    BOOST_CHECK( Equal( range(0.0f, 1.0f)  , std::vector<float>({0.0f})) );
+    BOOST_CHECK( Equal( range(1.0f, 0.0f)  , std::vector<float>({1.0f})) );
 
-    BOOST_CHECK( Equal( Range(0.0f, 10.0f, 3.14f) , std::vector<float>({0.0f, 3.14f, 6.28f, 9.42f})) );
-    BOOST_CHECK( Equal( Range(1.0f, -1.0f, 0.33f) , std::vector<float>({1.0f, 0.67f, 0.34f, 0.01f, -0.32f, -0.65f, -0.98f})) );
-    BOOST_CHECK( Equal( Range(0.0f, 10.0f, 11.65f), std::vector<float>({})) );
-    BOOST_CHECK( Equal( Range(10.0f, 0.0f, 11.65f), std::vector<float>({})) );
-    BOOST_CHECK( Equal( Range(0.0f, 10.0f, 5.65f) , std::vector<float>({0.0f, 5.65f})) );
+    BOOST_CHECK( Equal( range(0.0f, 10.0f, 3.14f) , std::vector<float>({0.0f, 3.14f, 6.28f, 9.42f})) );
+    BOOST_CHECK( Equal( range(1.0f, -1.0f, 0.33f) , std::vector<float>({1.0f, 0.67f, 0.34f, 0.01f, -0.32f, -0.65f, -0.98f})) );
+    BOOST_CHECK( Equal( range(0.0f, 10.0f, 11.65f), std::vector<float>({})) );
+    BOOST_CHECK( Equal( range(10.0f, 0.0f, 11.65f), std::vector<float>({})) );
+    BOOST_CHECK( Equal( range(0.0f, 10.0f, 5.65f) , std::vector<float>({0.0f, 5.65f})) );
 }
 
 BOOST_AUTO_TEST_CASE(RangeDoubleTest)
 {
-    BOOST_CHECK( Equal( Range(1.0, 5.0)  , std::vector<double>({1.0, 2.0, 3.0, 4.0})) );
-    BOOST_CHECK( Equal( Range(1.0, -1.0) , std::vector<double>({1.0, 0.0})) );
-    BOOST_CHECK( Equal( Range(-1.0, 1.0) , std::vector<double>({-1.0, 0.0})) );
-    BOOST_CHECK( Equal( Range(0.0, 0.0)  , std::vector<double>({})) );
-    BOOST_CHECK( Equal( Range(1.0, 1.0)  , std::vector<double>({})) );
-    BOOST_CHECK( Equal( Range(-1.0, -1.0), std::vector<double>({})) );
-    BOOST_CHECK( Equal( Range(0.0, 1.0)  , std::vector<double>({0.0})) );
-    BOOST_CHECK( Equal( Range(1.0, 0.0)  , std::vector<double>({1.0})) );
+    BOOST_CHECK( Equal( range(1.0, 5.0)  , std::vector<double>({1.0, 2.0, 3.0, 4.0})) );
+    BOOST_CHECK( Equal( range(1.0, -1.0) , std::vector<double>({1.0, 0.0})) );
+    BOOST_CHECK( Equal( range(-1.0, 1.0) , std::vector<double>({-1.0, 0.0})) );
+    BOOST_CHECK( Equal( range(0.0, 0.0)  , std::vector<double>({})) );
+    BOOST_CHECK( Equal( range(1.0, 1.0)  , std::vector<double>({})) );
+    BOOST_CHECK( Equal( range(-1.0, -1.0), std::vector<double>({})) );
+    BOOST_CHECK( Equal( range(0.0, 1.0)  , std::vector<double>({0.0})) );
+    BOOST_CHECK( Equal( range(1.0, 0.0)  , std::vector<double>({1.0})) );
 
-    BOOST_CHECK( Equal( Range(0.0, 10.0, 3.14) , std::vector<double>({0.0, 3.14, 6.28, 9.42})) );
-    BOOST_CHECK( Equal( Range(1.0, -1.0, 0.33) , std::vector<double>({1.0, 0.67, 0.34, 0.01, -0.32, -0.65, -0.98})) );
-    BOOST_CHECK( Equal( Range(0.0, 10.0, 11.65), std::vector<double>({})) );
-    BOOST_CHECK( Equal( Range(10.0, 0.0, 11.65), std::vector<double>({})) );
-    BOOST_CHECK( Equal( Range(0.0, 10.0, 5.65) , std::vector<double>({0.0, 5.65})) );
+    BOOST_CHECK( Equal( range(0.0, 10.0, 3.14) , std::vector<double>({0.0, 3.14, 6.28, 9.42})) );
+    BOOST_CHECK( Equal( range(1.0, -1.0, 0.33) , std::vector<double>({1.0, 0.67, 0.34, 0.01, -0.32, -0.65, -0.98})) );
+    BOOST_CHECK( Equal( range(0.0, 10.0, 11.65), std::vector<double>({})) );
+    BOOST_CHECK( Equal( range(10.0, 0.0, 11.65), std::vector<double>({})) );
+    BOOST_CHECK( Equal( range(0.0, 10.0, 5.65) , std::vector<double>({0.0, 5.65})) );
 }
 
 BOOST_AUTO_TEST_CASE(RangeCharTest)
 {
-    BOOST_CHECK( Range('a', 'e') == std::vector<char>({'a', 'b', 'c', 'd'}) );
-    BOOST_CHECK( Range('z', 'v') == std::vector<char>({'z', 'y', 'x', 'w'}) );
-    BOOST_CHECK( Range('J', 'N') == std::vector<char>({'J', 'K', 'L', 'M'}) );
-    BOOST_CHECK( Range('V', 'R') == std::vector<char>({'V', 'U', 'T', 'S'}) );
-    BOOST_CHECK( Range('0', '4') == std::vector<char>({'0', '1', '2', '3'}) );
-    BOOST_CHECK( Range('$', ' ') == std::vector<char>({'$', '#', '"', '!'}) );
-    BOOST_CHECK( Range('a', 'a') == std::vector<char>({}) );
-    BOOST_CHECK( Range('a', 'b') == std::vector<char>({'a'}) );
+    BOOST_CHECK( range('a', 'e') == std::vector<char>({'a', 'b', 'c', 'd'}) );
+    BOOST_CHECK( range('z', 'v') == std::vector<char>({'z', 'y', 'x', 'w'}) );
+    BOOST_CHECK( range('J', 'N') == std::vector<char>({'J', 'K', 'L', 'M'}) );
+    BOOST_CHECK( range('V', 'R') == std::vector<char>({'V', 'U', 'T', 'S'}) );
+    BOOST_CHECK( range('0', '4') == std::vector<char>({'0', '1', '2', '3'}) );
+    BOOST_CHECK( range('$', ' ') == std::vector<char>({'$', '#', '"', '!'}) );
+    BOOST_CHECK( range('a', 'a') == std::vector<char>({}) );
+    BOOST_CHECK( range('a', 'b') == std::vector<char>({'a'}) );
 
-    BOOST_CHECK( Range('1', '5', 2)  == std::vector<char>({'1', '3'}) );
-    BOOST_CHECK( Range('5', '1', 2)  == std::vector<char>({'5', '3'}) );
-    BOOST_CHECK( Range('1', '5', 0)  == std::vector<char>() );
-    BOOST_CHECK( Range('1', '5', 6)  == std::vector<char>() );
-    BOOST_CHECK( Range('A', '[', 25) == std::vector<char>({'A', 'Z'}) );
-    BOOST_CHECK( Range('a', '@', 32) == std::vector<char>({'a', 'A'}) );
+    BOOST_CHECK( range('1', '5', 2)  == std::vector<char>({'1', '3'}) );
+    BOOST_CHECK( range('5', '1', 2)  == std::vector<char>({'5', '3'}) );
+    BOOST_CHECK( range('1', '5', 0)  == std::vector<char>() );
+    BOOST_CHECK( range('1', '5', 6)  == std::vector<char>() );
+    BOOST_CHECK( range('A', '[', 25) == std::vector<char>({'A', 'Z'}) );
+    BOOST_CHECK( range('a', '@', 32) == std::vector<char>({'a', 'A'}) );
 }
 
 BOOST_AUTO_TEST_CASE(RepeatTest)
 {
-    BOOST_CHECK( Repeat(1, 3)                  == std::vector<int>(3, 1) );
-    BOOST_CHECK( Repeat(10, 5)                 == std::vector<int>(5, 10) );
-    BOOST_CHECK( Repeat(std::string("hej"), 3) == std::vector<std::string>(3, "hej") );
-    BOOST_CHECK( Repeat(false, 10)             == std::vector<bool>(10, false) );
+    BOOST_CHECK( repeat(1, 3)                  == std::vector<int>(3, 1) );
+    BOOST_CHECK( repeat(10, 5)                 == std::vector<int>(5, 10) );
+    BOOST_CHECK( repeat(std::string("hej"), 3) == std::vector<std::string>(3, "hej") );
+    BOOST_CHECK( repeat(false, 10)             == std::vector<bool>(10, false) );
 }
 BOOST_AUTO_TEST_SUITE_END() //SequenceSourceTests
 
 BOOST_FIXTURE_TEST_SUITE(ConversionTests, TestFixture)
 BOOST_AUTO_TEST_CASE(ToVectorTest)
 {
-    BOOST_CHECK( Transform(int_vec, ToVector())        == int_vec );
-    BOOST_CHECK( Transform(float_vec, ToVector())      == float_vec );
-    BOOST_CHECK( Transform(char_vec, ToVector())       == char_vec );
-    BOOST_CHECK( Transform(bool_vec, ToVector())       == bool_vec );
-    BOOST_CHECK( Transform(string_vec, ToVector())     == string_vec );
-    BOOST_CHECK( Transform(ordered_ints, ToVector())   == ordered_ints );
-    BOOST_CHECK( Transform(unordered_ints, ToVector()) == unordered_ints );
+    BOOST_CHECK( Transform(int_vec, to_vector())        == int_vec );
+    BOOST_CHECK( Transform(float_vec, to_vector())      == float_vec );
+    BOOST_CHECK( Transform(char_vec, to_vector())       == char_vec );
+    BOOST_CHECK( Transform(bool_vec, to_vector())       == bool_vec );
+    BOOST_CHECK( Transform(string_vec, to_vector())     == string_vec );
+    BOOST_CHECK( Transform(ordered_ints, to_vector())   == ordered_ints );
+    BOOST_CHECK( Transform(unordered_ints, to_vector()) == unordered_ints );
 }
 
 BOOST_AUTO_TEST_CASE(ToListTest)
 {
-    BOOST_CHECK( Transform(int_vec, ToList())        == std::list<int>(5, 5) );
-    BOOST_CHECK( Transform(float_vec, ToList())      == std::list<float>(5, 5.1f) );
-    BOOST_CHECK( Transform(char_vec, ToList())       == std::list<char>(5, 'a') );
-    BOOST_CHECK( Transform(bool_vec, ToList())       == std::list<bool>(5, true) );
-    BOOST_CHECK( Transform(string_vec, ToList())     == std::list<std::string>(string_vec.begin(), string_vec.end()) );
-    BOOST_CHECK( Transform(ordered_ints, ToList())   == std::list<int>(ordered_ints.begin(), ordered_ints.end()) );
-    BOOST_CHECK( Transform(unordered_ints, ToList()) == std::list<int>(unordered_ints.begin(), unordered_ints.end()) );
+    BOOST_CHECK( Transform(int_vec, to_list())        == std::list<int>(5, 5) );
+    BOOST_CHECK( Transform(float_vec, to_list())      == std::list<float>(5, 5.1f) );
+    BOOST_CHECK( Transform(char_vec, to_list())       == std::list<char>(5, 'a') );
+    BOOST_CHECK( Transform(bool_vec, to_list())       == std::list<bool>(5, true) );
+    BOOST_CHECK( Transform(string_vec, to_list())     == std::list<std::string>(string_vec.begin(), string_vec.end()) );
+    BOOST_CHECK( Transform(ordered_ints, to_list())   == std::list<int>(ordered_ints.begin(), ordered_ints.end()) );
+    BOOST_CHECK( Transform(unordered_ints, to_list()) == std::list<int>(unordered_ints.begin(), unordered_ints.end()) );
 }
 BOOST_AUTO_TEST_SUITE_END() //ConversionTests
 
 BOOST_FIXTURE_TEST_SUITE(AggregationTests, TestFixture)
 BOOST_AUTO_TEST_CASE(SumTest)
 {
-    BOOST_CHECK( Transform(int_vec, Sum())        == 25 );
-    BOOST_CHECK( Transform(float_vec, Sum())      == 25.5 );
-    BOOST_CHECK( Transform(bool_vec, Sum())       == 1  );
-    BOOST_CHECK( Transform(string_vec, Sum())     == "s1 s2  s3   s4    " );
-    BOOST_CHECK( Transform(ordered_ints, Sum())   == 55 );
-    BOOST_CHECK( Transform(unordered_ints, Sum()) == 55 );
+    BOOST_CHECK( Transform(int_vec, sum())        == 25 );
+    BOOST_CHECK( Transform(float_vec, sum())      == 25.5 );
+    BOOST_CHECK( Transform(bool_vec, sum())       == 1  );
+    BOOST_CHECK( Transform(string_vec, sum())     == "s1 s2  s3   s4    " );
+    BOOST_CHECK( Transform(ordered_ints, sum())   == 55 );
+    BOOST_CHECK( Transform(unordered_ints, sum()) == 55 );
 }
 
 BOOST_AUTO_TEST_CASE(CountTest)
 {
-    BOOST_CHECK( Transform(int_vec, Count())        == 5 );
-    BOOST_CHECK( Transform(float_vec, Count())      == 5 );
-    BOOST_CHECK( Transform(char_vec, Count())       == 5 );
-    BOOST_CHECK( Transform(bool_vec, Count())       == 5 );
-    BOOST_CHECK( Transform(string_vec, Count())     == 4 );
-    BOOST_CHECK( Transform(ordered_ints, Count())   == 10 );
-    BOOST_CHECK( Transform(unordered_ints, Count()) == 10 );
+    BOOST_CHECK( Transform(int_vec, count())        == 5 );
+    BOOST_CHECK( Transform(float_vec, count())      == 5 );
+    BOOST_CHECK( Transform(char_vec, count())       == 5 );
+    BOOST_CHECK( Transform(bool_vec, count())       == 5 );
+    BOOST_CHECK( Transform(string_vec, count())     == 4 );
+    BOOST_CHECK( Transform(ordered_ints, count())   == 10 );
+    BOOST_CHECK( Transform(unordered_ints, count()) == 10 );
 }
 BOOST_AUTO_TEST_SUITE_END() //AggregationTests
 
 BOOST_FIXTURE_TEST_SUITE(FilterTests, TestFixture)
 BOOST_AUTO_TEST_CASE(TakeTest)
 {
-    BOOST_CHECK( Transform(ordered_ints, Take(5))    == std::vector<int>({1, 2, 3, 4, 5}) );
-    BOOST_CHECK( Transform(ordered_ints, Take(6))    == std::vector<int>({1, 2, 3, 4, 5, 6}) );
-    BOOST_CHECK( Transform(ordered_ints, Take(10))   == ordered_ints );
-    BOOST_CHECK( Transform(ordered_ints, Take(1000)) == ordered_ints );
-    BOOST_CHECK( Transform(ordered_ints, Take(0))    == std::vector<int>({}) );
+    BOOST_CHECK( Transform(ordered_ints, take(5))    == std::vector<int>({1, 2, 3, 4, 5}) );
+    BOOST_CHECK( Transform(ordered_ints, take(6))    == std::vector<int>({1, 2, 3, 4, 5, 6}) );
+    BOOST_CHECK( Transform(ordered_ints, take(10))   == ordered_ints );
+    BOOST_CHECK( Transform(ordered_ints, take(1000)) == ordered_ints );
+    BOOST_CHECK( Transform(ordered_ints, take(0))    == std::vector<int>({}) );
 }
 
 BOOST_AUTO_TEST_CASE(DropTest)
@@ -211,7 +211,7 @@ BOOST_AUTO_TEST_CASE(DropTest)
 
 BOOST_AUTO_TEST_CASE(WhereTest)
 {
-    BOOST_CHECK( Transform(ordered_ints, Where([](const int &i){return i % 2 == 0;})) == std::vector<int>({2, 4, 6, 8, 10}) );
+    BOOST_CHECK( Transform(ordered_ints, where([](const int &i){return i % 2 == 0;})) == std::vector<int>({2, 4, 6, 8, 10}) );
     //TODO: MAKE ME
 }
 BOOST_AUTO_TEST_SUITE_END() //FilterTests
