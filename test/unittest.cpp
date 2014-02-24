@@ -216,13 +216,24 @@ BOOST_AUTO_TEST_CASE(drop_test)
     //TODO: MAKE ME
 }
 
+template <typename T>
+    struct tell;
+
 BOOST_AUTO_TEST_CASE(where_test)
 {
     auto where_stp = make_stp(where([](const int &i){return i % 2 == 0;}));
     BOOST_CHECK( where_stp(ordered_ints) == std::vector<int>({2, 4, 6, 8, 10}) );
 
-    auto test = make_stp(where([](const int &i){return i % 2 == 0;}), take(2), sum());
-    std::cout << test(ordered_ints) << std::endl;
+    auto test = make_stp(where([](const int &i){return i % 2 == 0;}), take(2));
+    test(ordered_ints);
+
+    auto test2 = make_stp(take(8), take(2), take(1), sum());
+    test2(ordered_ints);
+
+    //tell<decltype(&detail::take_type::template operator()<std::vector<int>>)> derp;
+    //std::cout << detail::functor_traits<decltype(&detail::take_type::template operator()<std::vector<int>>)>::pass_by_reference << std::endl;
+    //std::cout << detail::functor_traits<decltype(&detail::take_type::template operator()<std::vector<int>>)>::return_by_reference << std::endl;
+
     //TODO: MAKE ME
 }
 BOOST_AUTO_TEST_SUITE_END() //filter_tests
