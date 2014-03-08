@@ -11,6 +11,7 @@
 #include "stp/generators/repeat.hpp"
 
 #include "stp/reductions/count.hpp"
+#include "stp/reductions/equal.hpp"
 #include "stp/reductions/fold.hpp"
 #include "stp/reductions/size.hpp"
 #include "stp/reductions/sum.hpp"

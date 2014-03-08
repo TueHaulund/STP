@@ -252,6 +252,24 @@ BOOST_FIXTURE_TEST_SUITE(reduction_tests, test_fixture)
         BOOST_CHECK( count_str(string_vec) == 1 );
     }
 
+    BOOST_AUTO_TEST_CASE(equal_test)
+    {
+        auto equal_oi = equal(ordered_ints);
+        auto equal_uoi = equal(unordered_ints);
+        auto equal_empty = equal(std::vector<int>());
+        auto equal_cv = equal(char_vec);
+
+        BOOST_CHECK( equal_oi(ordered_ints)                       == true );
+        BOOST_CHECK( equal_uoi(unordered_ints)                    == true );
+        BOOST_CHECK( equal_oi(std::vector<int>({1, 2, 3}))        == false );
+        BOOST_CHECK( equal_uoi(std::vector<int>({1, 2, 3}))       == false );
+        BOOST_CHECK( equal_empty(std::vector<int>())              == true );
+        BOOST_CHECK( equal_empty(std::vector<int>({1, 2, 3}))     == false );
+        BOOST_CHECK( equal_cv(char_vec)                           == true );
+        BOOST_CHECK( equal_cv(std::vector<char>({'a', 'b', 'c'})) == false );
+        BOOST_CHECK( equal_cv(ordered_ints)                       == false );
+    }
+
     BOOST_AUTO_TEST_CASE(foldl_test)
     {
         //TODO: MAKE ME
