@@ -3,17 +3,18 @@
 
 #include "stp/core.hpp"
 
-#include "stp/transformation/count.hpp"
-#include "stp/transformation/drop.hpp"
-#include "stp/transformation/fold.hpp"
-#include "stp/transformation/sum.hpp"
-#include "stp/transformation/take.hpp"
-#include "stp/transformation/where.hpp"
+#include "stp/filters/drop.hpp"
+#include "stp/filters/take.hpp"
+#include "stp/filters/where.hpp"
 
-#include "stp/generation/range.hpp"
-#include "stp/generation/repeat.hpp"
+#include "stp/generators/range.hpp"
+#include "stp/generators/repeat.hpp"
 
-#include "stp/stl/tovector.hpp"
-#include "stp/stl/tolist.hpp"
+#include "stp/reductions/count.hpp"
+#include "stp/reductions/fold.hpp"
+#include "stp/reductions/sum.hpp"
+
+#include "stp/stl_converters/tovector.hpp"
+#include "stp/stl_converters/tolist.hpp"
 
 #endif
