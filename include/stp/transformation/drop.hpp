@@ -1,5 +1,5 @@
-#ifndef STP_TAKE_HPP
-#define STP_TAKE_HPP
+#ifndef STP_DROP_HPP
+#define STP_DROP_HPP
 
 #include <utility>
 #include <iterator>
@@ -8,9 +8,9 @@ namespace stp
 {
     namespace detail
     {
-        struct take_type
+        struct drop_type
         {
-            take_type(const size_t &n) : n_(n) {}
+            drop_type(const size_t &n) : n_(n) {}
 
             template
             <
@@ -26,7 +26,13 @@ namespace stp
                 DiffType n = static_cast<DiffType>(n_);
 
                 if(std::distance(begin, end) >= n)
-                    input.erase(begin + n, end);
+                {
+                    input.erase(begin, begin + n);
+                }
+                else
+                {
+                    input.erase(begin, end);
+                }
 
                 return input;
             }
@@ -35,9 +41,9 @@ namespace stp
         };
 
         template <typename Predicate>
-        struct take_while_type
+        struct drop_while_type
         {
-            take_while_type(const Predicate &pred) : pred_(pred) {}
+            drop_while_type(const Predicate &pred) : pred_(pred) {}
 
             template
             <
@@ -59,23 +65,23 @@ namespace stp
                     }
                 }
 
-                take_type take_n(n);
-                return take_n(input);
+                drop_type drop_n(n);
+                return drop_n(input);
             }
 
             Predicate pred_;
         };
     }
 
-    detail::take_type take(const size_t &n)
+    detail::drop_type drop(const size_t &n)
     {
-        return detail::take_type(n);
+        return detail::drop_type(n);
     }
 
     template <typename Predicate>
-    detail::take_while_type<Predicate> take_while(const Predicate &pred)
+    detail::drop_while_type<Predicate> drop_while(const Predicate &pred)
     {
-        return detail::take_while_type<Predicate>(pred);
+        return detail::drop_while_type<Predicate>(pred);
     }
 }
 

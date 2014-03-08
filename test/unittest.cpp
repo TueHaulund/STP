@@ -198,22 +198,74 @@ BOOST_AUTO_TEST_SUITE_END() //reduction_tests
 BOOST_FIXTURE_TEST_SUITE(filter_tests, test_fixture)
 BOOST_AUTO_TEST_CASE(take_test)
 {
-    auto take_5_stp = make_stp(take(5));
-    auto take_6_stp = make_stp(take(6));
-    auto take_10_stp = make_stp(take(10));
-    auto take_1000_stp = make_stp(take(1000));
-    auto take_0_stp = make_stp(take(0));
+    auto take_5 = take(5);
+    auto take_6 = take(6);
+    auto take_10 = take(10);
+    auto take_1000 = take(1000);
+    auto take_0 = take(0);
 
-    BOOST_CHECK( take_5_stp(ordered_ints)    == std::vector<int>({1, 2, 3, 4, 5}) );
-    BOOST_CHECK( take_6_stp(ordered_ints)    == std::vector<int>({1, 2, 3, 4, 5, 6}) );
-    BOOST_CHECK( take_10_stp(ordered_ints)   == ordered_ints );
-    BOOST_CHECK( take_1000_stp(ordered_ints) == ordered_ints );
-    BOOST_CHECK( take_0_stp(ordered_ints)    == std::vector<int>({}) );
+    std::vector<std::vector<int>> input(5, ordered_ints);
+
+    BOOST_CHECK( take_5(input[0])    == std::vector<int>({1, 2, 3, 4, 5}) );
+    BOOST_CHECK( take_6(input[1])    == std::vector<int>({1, 2, 3, 4, 5, 6}) );
+    BOOST_CHECK( take_10(input[2])   == ordered_ints );
+    BOOST_CHECK( take_1000(input[3]) == ordered_ints );
+    BOOST_CHECK( take_0(input[4])    == std::vector<int>({}) );
+}
+
+BOOST_AUTO_TEST_CASE(take_while_test)
+{
+    auto take_lt5 = take_while([](const int &i){return i < 5;});
+    auto take_lte5 = take_while([](const int &i){return i <= 5;});
+    auto take_e0 = take_while([](const int &i){return i == 0;});
+    auto take_e1000 = take_while([](const int &i){return i == 1000;});
+    auto take_lt1000 = take_while([](const int &i){return i < 1000;});
+    auto take_e1 = take_while([](const int &i){return i == 1;});
+
+    std::vector<std::vector<int>> input(6, ordered_ints);
+
+    BOOST_CHECK( take_lt5(input[0])    == std::vector<int>({1, 2, 3, 4}) );
+    BOOST_CHECK( take_lte5(input[1])   == std::vector<int>({1, 2, 3, 4, 5}) );
+    BOOST_CHECK( take_e0(input[2])     == std::vector<int>({}) );
+    BOOST_CHECK( take_e1000(input[3])  == std::vector<int>({}) );
+    BOOST_CHECK( take_lt1000(input[4]) == ordered_ints );
+    BOOST_CHECK( take_e1(input[5])     == std::vector<int>({1}) );
 }
 
 BOOST_AUTO_TEST_CASE(drop_test)
 {
-    //TODO: MAKE ME
+    auto drop_5 = drop(5);
+    auto drop_6 = drop(6);
+    auto drop_10 = drop(10);
+    auto drop_1000 = drop(1000);
+    auto drop_0 = drop(0);
+
+    std::vector<std::vector<int>> input(5, ordered_ints);
+
+    BOOST_CHECK( drop_5(input[0])    == std::vector<int>({6, 7, 8, 9, 10}) );
+    BOOST_CHECK( drop_6(input[1])    == std::vector<int>({7, 8, 9, 10}) );
+    BOOST_CHECK( drop_10(input[2])   == std::vector<int>({}) );
+    BOOST_CHECK( drop_1000(input[3]) == std::vector<int>({}) );
+    BOOST_CHECK( drop_0(input[4])    == ordered_ints );
+}
+
+BOOST_AUTO_TEST_CASE(drop_while_test)
+{
+    auto drop_lt5 = drop_while([](const int &i){return i < 5;});
+    auto drop_lte5 = drop_while([](const int &i){return i <= 5;});
+    auto drop_e0 = drop_while([](const int &i){return i == 0;});
+    auto drop_e1000 = drop_while([](const int &i){return i == 1000;});
+    auto drop_lt1000 = drop_while([](const int &i){return i < 1000;});
+    auto drop_e1 = drop_while([](const int &i){return i == 1;});
+
+    std::vector<std::vector<int>> input(6, ordered_ints);
+
+    BOOST_CHECK( drop_lt5(input[0])    == std::vector<int>({5, 6, 7, 8, 9, 10}) );
+    BOOST_CHECK( drop_lte5(input[1])   == std::vector<int>({6, 7, 8, 9, 10}) );
+    BOOST_CHECK( drop_e0(input[2])     == ordered_ints );
+    BOOST_CHECK( drop_e1000(input[3])  == ordered_ints );
+    BOOST_CHECK( drop_lt1000(input[4]) == std::vector<int>({}) );
+    BOOST_CHECK( drop_e1(input[5])     == std::vector<int>({2, 3, 4, 5, 6, 7, 8, 9, 10}) );
 }
 
 template <typename T>

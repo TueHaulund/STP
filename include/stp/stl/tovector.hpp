@@ -16,10 +16,10 @@ namespace stp
                 typename Input,
                 typename ValueType = typename Input::value_type
             >
-            std::vector<ValueType> operator()(Input &input) const
+            std::vector<ValueType> operator()(const Input &input) const
             {
                 std::vector<ValueType> vec;
-                std::for_each(std::begin(input), std::end(input), [&](const ValueType &i){vec.push_back(std::move(i));});
+                std::for_each(std::begin(input), std::end(input), [&](const ValueType &i){vec.push_back(i);});
                 return vec;
             }
         };

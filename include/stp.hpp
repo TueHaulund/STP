@@ -4,6 +4,7 @@
 #include "stp/core.hpp"
 
 #include "stp/transformation/count.hpp"
+#include "stp/transformation/drop.hpp"
 #include "stp/transformation/fold.hpp"
 #include "stp/transformation/sum.hpp"
 #include "stp/transformation/take.hpp"

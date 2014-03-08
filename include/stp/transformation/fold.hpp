@@ -76,7 +76,7 @@ namespace stp
                 typename ReverseIterType = typename std::reverse_iterator<IterType>,
                 typename = typename std::enable_if<std::is_convertible<InitType, ValueType>::value>::type
             >
-            ValueType operator()(Input &input) const
+            ValueType operator()(const Input &input) const
             {
                 auto rbegin = ReverseIterType(std::begin(input));
                 auto rend = ReverseIterType(std::end(input));
@@ -101,7 +101,7 @@ namespace stp
                 typename ReverseIterType = typename std::reverse_iterator<IterType>,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(Input &input) const
+            ValueType operator()(const Input &input) const
             {
                 auto rbegin = ReverseIterType(std::begin(input));
                 auto rend = ReverseIterType(std::end(input));
@@ -118,18 +118,18 @@ namespace stp
         typename BinaryOperation,
         typename InitType
     >
-    detail::foldl_type<BinaryOperation, InitType> fold_left(BinaryOperation &&binop, InitType &&init)
+    detail::foldl_type<BinaryOperation, InitType> fold_left(const BinaryOperation &binop, const InitType &init)
     {
-        return detail::foldl_type<BinaryOperation, InitType>(std::forward<BinaryOperation>(binop), std::forward<InitType>(init));
+        return detail::foldl_type<BinaryOperation, InitType>(binop, init);
     }
 
     template
     <
         typename BinaryOperation
     >
-    detail::foldl_type<BinaryOperation> fold_left(BinaryOperation &&binop)
+    detail::foldl_type<BinaryOperation> fold_left(const BinaryOperation &binop)
     {
-        return detail::foldl_type<BinaryOperation>(std::forward<BinaryOperation>(binop));
+        return detail::foldl_type<BinaryOperation>(binop);
     }
 
     template
@@ -137,18 +137,18 @@ namespace stp
         typename BinaryOperation,
         typename InitType
     >
-    detail::foldr_type<BinaryOperation, InitType> fold_right(BinaryOperation &&binop, InitType &&init)
+    detail::foldr_type<BinaryOperation, InitType> fold_right(const BinaryOperation &binop, const InitType &init)
     {
-        return detail::foldr_type<BinaryOperation, InitType>(std::forward<BinaryOperation>(binop), std::forward<InitType>(init));
+        return detail::foldr_type<BinaryOperation, InitType>(binop, init);
     }
 
     template
     <
         typename BinaryOperation
     >
-    detail::foldr_type<BinaryOperation> fold_right(BinaryOperation &&binop)
+    detail::foldr_type<BinaryOperation> fold_right(const BinaryOperation &binop)
     {
-        return detail::foldr_type<BinaryOperation>(std::forward<BinaryOperation>(binop));
+        return detail::foldr_type<BinaryOperation>(binop);
     }
 }
 

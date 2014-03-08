@@ -34,9 +34,9 @@ namespace stp
     }
 
     template <typename Predicate>
-    detail::where_type<Predicate> where(Predicate &&pred)
+    detail::where_type<Predicate> where(const Predicate &pred)
     {
-        return detail::where_type<Predicate>(std::forward<Predicate>(pred));
+        return detail::where_type<Predicate>(pred);
     }
 }
 
