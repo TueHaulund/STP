@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <iterator>
+#include <algorithm>
 
 namespace stp
 {
@@ -25,14 +26,7 @@ namespace stp
 
                 DiffType n = static_cast<DiffType>(n_);
 
-                if(std::distance(begin, end) >= n)
-                {
-                    input.erase(begin, begin + n);
-                }
-                else
-                {
-                    input.erase(begin, end);
-                }
+                input.erase(begin, begin + std::min(n, std::distance(begin, end)));
 
                 return input;
             }

@@ -182,16 +182,16 @@ BOOST_AUTO_TEST_CASE(sum_test)
     BOOST_CHECK( sum_obj(unordered_ints) == 55 );
 }
 
-BOOST_AUTO_TEST_CASE(count_test)
+BOOST_AUTO_TEST_CASE(size_test)
 {
-    auto count_obj = count();
-    BOOST_CHECK( count_obj(int_vec)        == 5 );
-    BOOST_CHECK( count_obj(float_vec)      == 5 );
-    BOOST_CHECK( count_obj(char_vec)       == 5 );
-    BOOST_CHECK( count_obj(bool_vec)       == 5 );
-    BOOST_CHECK( count_obj(string_vec)     == 4 );
-    BOOST_CHECK( count_obj(ordered_ints)   == 10 );
-    BOOST_CHECK( count_obj(unordered_ints) == 10 );
+    auto size_obj = size();
+    BOOST_CHECK( size_obj(int_vec)        == 5 );
+    BOOST_CHECK( size_obj(float_vec)      == 5 );
+    BOOST_CHECK( size_obj(char_vec)       == 5 );
+    BOOST_CHECK( size_obj(bool_vec)       == 5 );
+    BOOST_CHECK( size_obj(string_vec)     == 4 );
+    BOOST_CHECK( size_obj(ordered_ints)   == 10 );
+    BOOST_CHECK( size_obj(unordered_ints) == 10 );
 }
 BOOST_AUTO_TEST_SUITE_END() //reduction_tests
 
