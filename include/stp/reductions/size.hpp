@@ -2,6 +2,7 @@
 #define STP_SIZE_HPP
 
 #include <utility>
+#include <iterator>
 
 namespace stp
 {

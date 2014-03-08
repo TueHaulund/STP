@@ -182,6 +182,21 @@ BOOST_AUTO_TEST_CASE(sum_test)
     BOOST_CHECK( sum_obj(unordered_ints) == 55 );
 }
 
+BOOST_AUTO_TEST_CASE(count_test)
+{
+    auto count_5 = count(5);
+    auto count_0 = count(0);
+    auto count_1000 = count(1000);
+    auto count_a = count('a');
+    auto count_str = count(std::string("s1 "));
+
+    BOOST_CHECK( count_5(int_vec)      == 5 );
+    BOOST_CHECK( count_0(int_vec)      == 0 );
+    BOOST_CHECK( count_1000(int_vec)   == 0 );
+    BOOST_CHECK( count_a(char_vec)     == 5 );
+    BOOST_CHECK( count_str(string_vec) == 1 );
+}
+
 BOOST_AUTO_TEST_CASE(size_test)
 {
     auto size_obj = size();

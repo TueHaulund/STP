@@ -12,6 +12,7 @@
 
 #include "stp/reductions/count.hpp"
 #include "stp/reductions/fold.hpp"
+#include "stp/reductions/size.hpp"
 #include "stp/reductions/sum.hpp"
 
 #include "stp/stl_converters/tovector.hpp"
