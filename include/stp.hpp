@@ -15,6 +15,8 @@
 #include "stp/reductions/fold.hpp"
 #include "stp/reductions/size.hpp"
 #include "stp/reductions/sum.hpp"
+#include "stp/reductions/any.hpp"
+#include "stp/reductions/all.hpp"
 
 #include "stp/stl_converters/tovector.hpp"
 #include "stp/stl_converters/tolist.hpp"
