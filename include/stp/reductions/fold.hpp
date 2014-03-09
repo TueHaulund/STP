@@ -24,11 +24,11 @@ namespace stp
 
             template
             <
-                typename Input,
-                typename ValueType = typename Input::value_type,
+                typename SequenceType,
+                typename ValueType = typename SequenceType::value_type,
                 typename = typename std::enable_if<std::is_convertible<InitType, ValueType>::value>::type
             >
-            ValueType operator()(Input &input) const
+            ValueType operator()(SequenceType &input) const
             {
                 return std::accumulate(std::begin(input), std::end(input), init_, binop_);
             }
@@ -44,11 +44,11 @@ namespace stp
 
             template
             <
-                typename Input,
-                typename ValueType = typename Input::value_type,
+                typename SequenceType,
+                typename ValueType = typename SequenceType::value_type,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(Input &input) const
+            ValueType operator()(SequenceType &input) const
             {
                 return std::accumulate(std::begin(input), std::end(input), ValueType(), binop_);
             }
@@ -70,13 +70,13 @@ namespace stp
 
             template
             <
-                typename Input,
-                typename ValueType = typename Input::value_type,
-                typename IterType = typename Input::iterator,
+                typename SequenceType,
+                typename ValueType = typename SequenceType::value_type,
+                typename IterType = typename SequenceType::iterator,
                 typename ReverseIterType = typename std::reverse_iterator<IterType>,
                 typename = typename std::enable_if<std::is_convertible<InitType, ValueType>::value>::type
             >
-            ValueType operator()(const Input &input) const
+            ValueType operator()(const SequenceType &input) const
             {
                 auto rbegin = ReverseIterType(std::begin(input));
                 auto rend = ReverseIterType(std::end(input));
@@ -95,13 +95,13 @@ namespace stp
 
             template
             <
-                typename Input,
-                typename ValueType = typename Input::value_type,
-                typename IterType = typename Input::iterator,
+                typename SequenceType,
+                typename ValueType = typename SequenceType::value_type,
+                typename IterType = typename SequenceType::iterator,
                 typename ReverseIterType = typename std::reverse_iterator<IterType>,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(const Input &input) const
+            ValueType operator()(const SequenceType &input) const
             {
                 auto rbegin = ReverseIterType(std::begin(input));
                 auto rend = ReverseIterType(std::end(input));

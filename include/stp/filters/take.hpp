@@ -15,11 +15,11 @@ namespace stp
 
             template
             <
-                typename Input,
-                typename IterType = typename Input::iterator,
+                typename SequenceType,
+                typename IterType = typename SequenceType::iterator,
                 typename DiffType = typename std::iterator_traits<IterType>::difference_type
             >
-            Input& operator()(Input &input) const
+            SequenceType& operator()(SequenceType &input) const
             {
                 auto begin = std::begin(input);
                 auto end = std::end(input);
@@ -41,10 +41,10 @@ namespace stp
 
             template
             <
-                typename Input,
-                typename ValueType = typename Input::value_type
+                typename SequenceType,
+                typename ValueType = typename SequenceType::value_type
             >
-            Input& operator()(Input &input) const
+            SequenceType& operator()(SequenceType &input) const
             {
                 size_t n = 0;
                 for(const ValueType &i : input)

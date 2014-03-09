@@ -10,13 +10,13 @@ namespace stp
 {
     namespace detail
     {
-        template <typename Input1>
+        template <typename SequenceType1>
         struct equal_type
         {
-            equal_type(const Input1 &sequence) : sequence_(sequence) {}
+            equal_type(const SequenceType1 &sequence) : sequence_(sequence) {}
 
-            template <typename Input2>
-            bool operator()(const Input2 &input) const
+            template <typename SequenceType2>
+            bool operator()(const SequenceType2 &input) const
             {
                 auto begin1 = std::begin(sequence_);
                 auto end1 = std::end(sequence_);
@@ -24,17 +24,15 @@ namespace stp
                 auto begin2 = std::begin(input);
                 auto end2 = std::end(input);
 
-                if(std::distance(begin1, end1) != std::distance(begin2, end2))
-                {
-                    return false;
-                }
-                else
+                if(std::distance(begin1, end1) == std::distance(begin2, end2))
                 {
                     return std::equal(begin1, end1, begin2);
                 }
+
+                return false;
             }
 
-            Input1 sequence_;
+            SequenceType1 sequence_;
         };
     }
 

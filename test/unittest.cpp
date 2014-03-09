@@ -238,6 +238,32 @@ BOOST_FIXTURE_TEST_SUITE(generator_tests, test_fixture)
 BOOST_AUTO_TEST_SUITE_END() //generator_tests
 
 BOOST_FIXTURE_TEST_SUITE(reduction_tests, test_fixture)
+    BOOST_AUTO_TEST_CASE(all_test)
+    {
+        auto all_5 = all([](const int &i){return i == 5;});
+        auto all_false = all([](const bool &i){return i == false;});
+        auto all_true = all([](const bool &i){return i == true;});
+        auto all_alpha = all([](const char &i){return isalpha(i);});
+
+        BOOST_CHECK( all_5(ordered_ints) == false );
+        BOOST_CHECK( all_5(int_vec)      == true  );
+        BOOST_CHECK( all_false(bool_vec) == false );
+        BOOST_CHECK( all_true(bool_vec)  == true  );
+        BOOST_CHECK( all_alpha(char_vec) == true );
+    }
+
+    BOOST_AUTO_TEST_CASE(any_test)
+    {
+        auto any_6 = any([](const int &i){return i == 6;});
+        auto any_false = any([](const bool &i){return i == false;});
+        auto any_digit = any([](const char &i){return isdigit(i);});
+
+        BOOST_CHECK( any_6(ordered_ints) == true  );
+        BOOST_CHECK( any_6(int_vec)      == false );
+        BOOST_CHECK( any_false(bool_vec) == false );
+        BOOST_CHECK( any_digit(char_vec) == false );
+    }
+
     BOOST_AUTO_TEST_CASE(count_test)
     {
         auto count_5 = count(5);
@@ -302,31 +328,6 @@ BOOST_FIXTURE_TEST_SUITE(reduction_tests, test_fixture)
         BOOST_CHECK( sum_obj(string_vec)     == "s1 s2  s3   s4    " );
         BOOST_CHECK( sum_obj(ordered_ints)   == 55 );
         BOOST_CHECK( sum_obj(unordered_ints) == 55 );
-    }
-
-    BOOST_AUTO_TEST_CASE(any_test)
-    {
-        auto any_6 = any([](const int &i){return i == 6;});
-        auto any_false = any([](const bool &i){return i == false;});
-        auto any_digit = any([](const char &i){return isdigit(i);});
-
-        BOOST_CHECK( any_6(ordered_ints) == true  );
-        BOOST_CHECK( any_6(int_vec)      == false );
-        BOOST_CHECK( any_false(bool_vec) == false );
-        BOOST_CHECK( any_digit(char_vec) == false );
-    }
-    BOOST_AUTO_TEST_CASE(all_test)
-    {
-        auto all_5 = all([](const int &i){return i == 5;});
-        auto all_false = all([](const bool &i){return i == false;});
-        auto all_true = all([](const bool &i){return i == true;});
-        auto all_alpha = all([](const char &i){return isalpha(i);});
-
-        BOOST_CHECK( all_5(ordered_ints) == false );
-        BOOST_CHECK( all_5(int_vec)      == true  );
-        BOOST_CHECK( all_false(bool_vec) == false );
-        BOOST_CHECK( all_true(bool_vec)  == true  );
-        BOOST_CHECK( all_alpha(char_vec) == true );
     }
 BOOST_AUTO_TEST_SUITE_END() //reduction_tests
 

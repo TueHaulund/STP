@@ -14,11 +14,11 @@ namespace stp
         {
             template
             <
-                typename Input,
-                typename ValueType = typename Input::value_type,
+                typename SequenceType,
+                typename ValueType = typename SequenceType::value_type,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(const Input &input) const
+            ValueType operator()(const SequenceType &input) const
             {
                 return std::accumulate(std::begin(input), std::end(input), ValueType(), std::plus<ValueType>());
             }

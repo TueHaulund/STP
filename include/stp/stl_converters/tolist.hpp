@@ -12,10 +12,10 @@ namespace stp
         {
             template
             <
-                typename Input,
-                typename ValueType = typename Input::value_type
+                typename SequenceType,
+                typename ValueType = typename SequenceType::value_type
             >
-            std::list<ValueType> operator()(const Input &input) const
+            std::list<ValueType> operator()(const SequenceType &input) const
             {
                 std::list<ValueType> list;
                 std::for_each(std::begin(input), std::end(input), [&](const ValueType &i){list.push_back(i);});

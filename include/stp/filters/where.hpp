@@ -15,10 +15,10 @@ namespace stp
 
             template
             <
-                typename Input,
-                typename ValueType = typename Input::value_type
+                typename SequenceType,
+                typename ValueType = typename SequenceType::value_type
             >
-            Input& operator()(Input &input) const
+            SequenceType& operator()(SequenceType &input) const
             {
                 auto neg_pred = [&](ValueType &i){return !pred_(i);};
 

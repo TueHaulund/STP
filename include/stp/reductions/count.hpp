@@ -17,13 +17,13 @@ namespace stp
 
             template
             <
-                typename Input,
-                typename IterType = typename Input::iterator,
+                typename SequenceType,
+                typename IterType = typename SequenceType::iterator,
                 typename DiffType = typename std::iterator_traits<IterType>::difference_type,
-                typename ValueType = typename Input::value_type,
+                typename ValueType = typename SequenceType::value_type,
                 typename = typename std::enable_if<std::is_convertible<ElementType, ValueType>::value>::type
             >
-            DiffType operator()(const Input &input) const
+            DiffType operator()(const SequenceType &input) const
             {
                 auto begin = std::begin(input);
                 auto end = std::end(input);

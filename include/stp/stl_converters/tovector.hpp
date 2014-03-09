@@ -13,10 +13,10 @@ namespace stp
         {
             template
             <
-                typename Input,
-                typename ValueType = typename Input::value_type
+                typename SequenceType,
+                typename ValueType = typename SequenceType::value_type
             >
-            std::vector<ValueType> operator()(const Input &input) const
+            std::vector<ValueType> operator()(const SequenceType &input) const
             {
                 std::vector<ValueType> vec;
                 std::for_each(std::begin(input), std::end(input), [&](const ValueType &i){vec.push_back(i);});

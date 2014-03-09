@@ -13,8 +13,8 @@ namespace stp
         {
             any_type(const Predicate &pred) : pred_(pred) {}
 
-            template <typename Input>
-            bool operator()(Input &input) const
+            template <typename SequenceType>
+            bool operator()(const SequenceType &input) const
             {
                 return std::any_of(std::begin(input), std::end(input), pred_);
             }
