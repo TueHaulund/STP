@@ -13,11 +13,7 @@ namespace stp
         {
             any_type(const Predicate &pred) : pred_(pred) {}
 
-            template
-            <
-                typename Input,
-                typename ValueType = typename Input::value_type
-            >
+            template <typename Input>
             bool operator()(Input &input) const
             {
                 return std::any_of(std::begin(input), std::end(input), pred_);
