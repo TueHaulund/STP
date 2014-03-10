@@ -7,7 +7,7 @@ if env_selection == 'default':
 
 if env_selection == 'gcc':
     print 'Environment: GCC'
-    env = Environment(CC = 'g++',
+    env = Environment(CXX = 'g++',
                       CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11',
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['gnulink','gcc','g++','gas','ar'],
@@ -15,7 +15,7 @@ if env_selection == 'gcc':
 
 elif env_selection == 'mingw':
     print 'Environment: MinGW'
-    env = Environment(CC = 'g++',
+    env = Environment(CXX = 'g++',
                       CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11',
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['mingw'],
@@ -23,10 +23,17 @@ elif env_selection == 'mingw':
 
 elif env_selection == 'msvc':
     print 'Environment: MSVC'
-    env = Environment(CC = 'cl',
+    env = Environment(CXX = 'cl',
                       CCFLAGS = '/nologo /EHsc',
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['mslink', 'msvc', 'mslib', 'msvs'],
+                      CPPPATH = ['./include'])
+
+elif env_selection == 'clang':
+    print 'Environment: clang'
+    env = Environment(CXX = 'clang++',
+                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=c++11',
+                      ENV = {'PATH' : os.environ['PATH']},
                       CPPPATH = ['./include'])
 
 else:
