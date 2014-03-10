@@ -299,12 +299,28 @@ BOOST_FIXTURE_TEST_SUITE(reduction_tests, test_fixture)
 
     BOOST_AUTO_TEST_CASE(foldl_test)
     {
-        //TODO: MAKE ME
+        auto foldl_plus_5 = fold_left(std::plus<int>(), 5);
+        auto foldl_plus_0 = fold_left(std::plus<int>(), 0);
+        auto foldl_minus_5 = fold_left(std::minus<int>(), 5);
+        auto foldl_minus_0 = fold_left(std::minus<int>(), 0);
+
+        BOOST_CHECK( foldl_plus_5(ordered_ints) == 60 );
+        BOOST_CHECK( foldl_plus_0(ordered_ints) == 55 );
+        BOOST_CHECK( foldl_minus_5(ordered_ints) == -50 );
+        BOOST_CHECK( foldl_minus_0(ordered_ints) == -55 );
     }
 
     BOOST_AUTO_TEST_CASE(foldr_test)
     {
-        //TODO: MAKE ME
+        auto foldr_plus_5 = fold_right(std::plus<int>(), 5);
+        auto foldr_plus_0 = fold_right(std::plus<int>(), 0);
+        auto foldr_minus_5 = fold_right(std::minus<int>(), 5);
+        auto foldr_minus_0 = fold_right(std::minus<int>(), 0);
+
+        BOOST_CHECK( foldr_plus_5(ordered_ints) == 60 );
+        BOOST_CHECK( foldr_plus_0(ordered_ints) == 55 );
+        BOOST_CHECK( foldr_minus_5(ordered_ints) == 0 );
+        BOOST_CHECK( foldr_minus_0(ordered_ints) == -5 );
     }
 
     BOOST_AUTO_TEST_CASE(size_test)
