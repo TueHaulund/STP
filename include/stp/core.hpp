@@ -108,8 +108,6 @@ namespace stp
     {
         return detail::stp_wrapper<TransformationType, Rest...>(std::forward<TransformationType>(transform), std::forward<Rest>(rest)...);
     }
-
-    //TODO: ARRAY & ITERATOR WRAPPER FUNCTIONS
 }
 
 #endif

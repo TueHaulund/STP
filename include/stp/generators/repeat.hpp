@@ -7,17 +7,25 @@ namespace stp
 {
     namespace detail
     {
-        template <typename T>
-        std::vector<T> repeat_delegate(const T &value, const size_t &n)
+        template
+        <
+            typename ValueType,
+            typename RepeatType = typename std::vector<ValueType>
+        >
+        RepeatType repeat_delegate(const ValueType &val, const size_t &n)
         {
-            return std::vector<T>(n, value);
+            return RepeatType(n, val);
         }
     }
 
-    template <typename T>
-    std::vector<T> repeat(const T &value, size_t n)
+    template
+    <
+        typename ValueType,
+        typename RepeatType = typename std::vector<ValueType>
+    >
+    RepeatType repeat(const ValueType &val, size_t n)
     {
-        return detail::repeat_delegate<T>(value, n);
+        return detail::repeat_delegate<ValueType>(val, n);
     }
 }
 

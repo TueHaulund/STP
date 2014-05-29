@@ -1,5 +1,5 @@
-#ifndef STP_WHERE_HPP
-#define STP_WHERE_HPP
+#ifndef STP_ANY_HPP
+#define STP_ANY_HPP
 
 #include <algorithm>
 #include <iterator>
@@ -10,9 +10,9 @@ namespace stp
     namespace detail
     {
         template <typename Predicate>
-        struct where_type
+        struct any_type
         {
-            where_type(const Predicate &pred) : pred_(pred) {}
+            any_type(const Predicate &pred) : pred_(pred) {}
 
             template
             <
@@ -21,15 +21,9 @@ namespace stp
                 typename PredType = typename std::result_of<Predicate(ValueType)>::type,
                 typename = typename std::enable_if<std::is_convertible<PredType, bool>::value>::type
             >
-            SequenceType& operator()(SequenceType &sequence) const
+            bool operator()(const SequenceType &sequence) const
             {
-                auto neg_pred = [&](ValueType &i){return !pred_(i);};
-
-                auto begin = std::begin(sequence);
-                auto end = std::end(sequence);
-
-                sequence.erase(std::remove_if(begin, end, neg_pred), end);
-                return sequence;
+                return std::any_of(std::begin(sequence), std::end(sequence), pred_);
             }
 
             Predicate pred_;
@@ -37,9 +31,9 @@ namespace stp
     }
 
     template <typename Predicate>
-    detail::where_type<Predicate> where(const Predicate &pred)
+    detail::any_type<Predicate> any(const Predicate &pred)
     {
-        return detail::where_type<Predicate>(pred);
+        return detail::any_type<Predicate>(pred);
     }
 }
 

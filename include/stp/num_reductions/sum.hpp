@@ -3,7 +3,6 @@
 
 #include <functional>
 #include <numeric>
-#include <utility>
 #include <type_traits>
 
 namespace stp
@@ -18,9 +17,9 @@ namespace stp
                 typename ValueType = typename SequenceType::value_type,
                 typename = typename std::enable_if<std::is_default_constructible<ValueType>::value>::type
             >
-            ValueType operator()(const SequenceType &input) const
+            ValueType operator()(const SequenceType &sequence) const
             {
-                return std::accumulate(std::begin(input), std::end(input), ValueType(), std::plus<ValueType>());
+                return std::accumulate(std::begin(sequence), std::end(sequence), ValueType(), std::plus<ValueType>());
             }
         };
     }

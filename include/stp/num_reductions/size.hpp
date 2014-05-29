@@ -1,8 +1,8 @@
 #ifndef STP_SIZE_HPP
 #define STP_SIZE_HPP
 
-#include <utility>
 #include <iterator>
+#include <type_traits>
 
 namespace stp
 {
@@ -16,10 +16,10 @@ namespace stp
                 typename IterType = typename SequenceType::iterator,
                 typename DiffType = typename std::iterator_traits<IterType>::difference_type
             >
-            DiffType operator()(const SequenceType &input) const
+            DiffType operator()(const SequenceType &sequence) const
             {
-                auto begin = std::begin(input);
-                auto end = std::end(input);
+                auto begin = std::begin(sequence);
+                auto end = std::end(sequence);
 
                 return std::distance(begin, end);
             }

@@ -1,9 +1,9 @@
 #ifndef STP_DROP_HPP
 #define STP_DROP_HPP
 
-#include <utility>
-#include <iterator>
 #include <algorithm>
+#include <iterator>
+#include <type_traits>
 
 namespace stp
 {
@@ -19,16 +19,16 @@ namespace stp
                 typename IterType = typename SequenceType::iterator,
                 typename DiffType = typename std::iterator_traits<IterType>::difference_type
             >
-            SequenceType& operator()(SequenceType &input) const
+            SequenceType& operator()(SequenceType &sequence) const
             {
-                auto begin = std::begin(input);
-                auto end = std::end(input);
+                auto begin = std::begin(sequence);
+                auto end = std::end(sequence);
 
                 DiffType n = static_cast<DiffType>(n_);
 
-                input.erase(begin, begin + std::min(n, std::distance(begin, end)));
+                sequence.erase(begin, begin + std::min(n, std::distance(begin, end)));
 
-                return input;
+                return sequence;
             }
 
             size_t n_;
@@ -42,12 +42,14 @@ namespace stp
             template
             <
                 typename SequenceType,
-                typename ValueType = typename SequenceType::value_type
+                typename ValueType = typename SequenceType::value_type,
+                typename PredType = typename std::result_of<Predicate(ValueType)>::type,
+                typename = typename std::enable_if<std::is_convertible<PredType, bool>::value>::type
             >
-            SequenceType& operator()(SequenceType &input) const
+            SequenceType& operator()(SequenceType &sequence) const
             {
                 size_t n = 0;
-                for(const ValueType &i : input)
+                for(const ValueType &i : sequence)
                 {
                     if(pred_(i))
                     {
@@ -60,7 +62,7 @@ namespace stp
                 }
 
                 drop_type drop_n(n);
-                return drop_n(input);
+                return drop_n(sequence);
             }
 
             Predicate pred_;

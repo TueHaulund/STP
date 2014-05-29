@@ -3,7 +3,6 @@
 
 #include <iterator>
 #include <numeric>
-#include <utility>
 #include <type_traits>
 
 namespace stp
@@ -23,11 +22,12 @@ namespace stp
             <
                 typename SequenceType,
                 typename ValueType = typename SequenceType::value_type,
-                typename = typename std::enable_if<std::is_convertible<InitType, ValueType>::value>::type
+                typename OpType = typename std::result_of<BinaryOperation(InitType, ValueType)>::type,
+                typename = typename std::enable_if<std::is_convertible<InitType, OpType>::value>::type
             >
-            ValueType operator()(SequenceType &input) const
+            OpType operator()(const SequenceType &sequence) const
             {
-                return std::accumulate(std::begin(input), std::end(input), init_, binop_);
+                return std::accumulate(std::begin(sequence), std::end(sequence), init_, binop_);
             }
 
             BinaryOperation binop_;

@@ -1,8 +1,11 @@
 #ifndef STP_RANGE_HPP
 #define STP_RANGE_HPP
 
-#include <vector>
+//abs overloads for int, long and long long
+#include <cmath>
+#include <cstdlib>
 #include <type_traits>
+#include <vector>
 
 namespace stp
 {
@@ -10,61 +13,67 @@ namespace stp
     {
         template
         <
-            typename T,
-            typename U,
-            typename = typename std::enable_if<std::is_scalar<T>::value>::type,
-            typename = typename std::enable_if<std::is_scalar<U>::value>::type
+            typename IntervalType,
+            typename StepType,
+            typename = typename std::enable_if<std::is_scalar<IntervalType>::value>::type,
+            typename = typename std::enable_if<std::is_scalar<StepType>::value>::type,
+            typename RangeType = std::vector<IntervalType>
         >
-        std::vector<T> range_delegate(const T &start, const T &end, const U &step)
+        RangeType range_delegate(const IntervalType &start, const IntervalType &end, const StepType &step)
         {
-            std::vector<T> range_vec;
+            RangeType result;
 
-            U u_zero = static_cast<U>(0);
-            T range_diff = static_cast<T>(abs(end - start));
-            T t_step = static_cast<T>(step);
+            StepType u_zero = static_cast<StepType>(0);
+            IntervalType range_diff = static_cast<IntervalType>(abs(end - start));
+            IntervalType t_step = static_cast<IntervalType>(step);
 
             if(step == u_zero || range_diff < t_step)
             {
-                return range_vec;
+                return result;
             }
 
             if(start == end)
             {
-                range_vec.push_back(start);
+                result.push_back(start);
             }
             else if(start < end)
             {
-                for(T i = start; i < end; i += t_step)
+                for(IntervalType i = start; i < end; i += t_step)
                 {
-                    range_vec.push_back(i);
+                    result.push_back(i);
                 }
             }
             else
             {
-                for(T i = start; i > end; i -= t_step)
+                for(IntervalType i = start; i > end; i -= t_step)
                 {
-                    range_vec.push_back(i);
+                    result.push_back(i);
                 }
             }
 
-            return range_vec;
+            return result;
         }
     }
 
     template
     <
-        typename T,
-        typename U
+        typename IntervalType,
+        typename StepType,
+        typename RangeType = std::vector<IntervalType>
     >
-    std::vector<T> range(const T &start, const T &end, const U &step)
+    RangeType range(const IntervalType &start, const IntervalType &end, const StepType &step)
     {
-        return detail::range_delegate<T, U>(start, end, step);
+        return detail::range_delegate<IntervalType, StepType>(start, end, step);
     }
 
-    template <typename T>
-    std::vector<T> range(const T &start, const T &end)
+    template
+    <
+        typename IntervalType,
+        typename RangeType = std::vector<IntervalType>
+    >
+    RangeType range(const IntervalType &start, const IntervalType &end)
     {
-        return detail::range_delegate<T, int>(start, end, 1);
+        return detail::range_delegate<IntervalType, int>(start, end, 1);
     }
 }
 

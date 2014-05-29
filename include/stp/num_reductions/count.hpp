@@ -1,9 +1,8 @@
 #ifndef STP_COUNT_HPP
 #define STP_COUNT_HPP
 
-#include <utility>
-#include <iterator>
 #include <algorithm>
+#include <iterator>
 #include <type_traits>
 
 namespace stp
@@ -23,10 +22,10 @@ namespace stp
                 typename ValueType = typename SequenceType::value_type,
                 typename = typename std::enable_if<std::is_convertible<ElementType, ValueType>::value>::type
             >
-            DiffType operator()(const SequenceType &input) const
+            DiffType operator()(const SequenceType &sequence) const
             {
-                auto begin = std::begin(input);
-                auto end = std::end(input);
+                auto begin = std::begin(sequence);
+                auto end = std::end(sequence);
 
                 return std::count(begin, end, val_);
             }
