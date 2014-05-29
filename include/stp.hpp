@@ -18,7 +18,7 @@
 #include "stp/reductions/any.hpp"
 #include "stp/reductions/all.hpp"
 
-#include "stp/stl_converters/tovector.hpp"
-#include "stp/stl_converters/tolist.hpp"
+#include "stp/misc/tovector.hpp"
+#include "stp/misc/tolist.hpp"
 
 #endif
