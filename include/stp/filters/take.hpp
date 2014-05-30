@@ -19,7 +19,7 @@ namespace stp
                 typename IterType = typename SequenceType::iterator,
                 typename DiffType = typename std::iterator_traits<IterType>::difference_type
             >
-            SequenceType& operator()(SequenceType &sequence) const
+            SequenceType operator()(SequenceType sequence) const
             {
                 auto begin = std::begin(sequence);
                 auto end = std::end(sequence);
@@ -46,7 +46,7 @@ namespace stp
                 typename PredType = typename std::result_of<Predicate(ValueType)>::type,
                 typename = typename std::enable_if<std::is_convertible<PredType, bool>::value>::type
             >
-            SequenceType& operator()(SequenceType &sequence) const
+            SequenceType operator()(SequenceType sequence) const
             {
                 size_t n = 0;
                 for(const ValueType &i : sequence)

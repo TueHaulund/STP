@@ -143,15 +143,13 @@ BOOST_FIXTURE_TEST_SUITE(filter_tests, test_fixture)
         auto drop_1000 = drop(1000);
         auto drop_0 = drop(0);
 
-        std::vector<std::vector<int>> ordered_int_copies(5, ordered_ints);
-
-        BOOST_CHECK( drop_5(ordered_int_copies[0])    == std::vector<int>({6, 7, 8, 9, 10}) );
-        BOOST_CHECK( drop_6(ordered_int_copies[1])    == std::vector<int>({7, 8, 9, 10}) );
-        BOOST_CHECK( drop_10(ordered_int_copies[2])   == std::vector<int>({}) );
-        BOOST_CHECK( drop_1000(ordered_int_copies[3]) == std::vector<int>({}) );
-        BOOST_CHECK( drop_0(ordered_int_copies[4])    == ordered_ints );
-        BOOST_CHECK( drop_0(empty_int_vec)            == empty_int_vec );
-        BOOST_CHECK( drop_10(empty_int_vec)           == empty_int_vec );
+        BOOST_CHECK( drop_5(ordered_ints)    == std::vector<int>({6, 7, 8, 9, 10}) );
+        BOOST_CHECK( drop_6(ordered_ints)    == std::vector<int>({7, 8, 9, 10}) );
+        BOOST_CHECK( drop_10(ordered_ints)   == std::vector<int>({}) );
+        BOOST_CHECK( drop_1000(ordered_ints) == std::vector<int>({}) );
+        BOOST_CHECK( drop_0(ordered_ints)    == ordered_ints );
+        BOOST_CHECK( drop_0(empty_int_vec)   == empty_int_vec );
+        BOOST_CHECK( drop_10(empty_int_vec)  == empty_int_vec );
     }
 
     BOOST_AUTO_TEST_CASE(drop_while_test)
@@ -163,16 +161,14 @@ BOOST_FIXTURE_TEST_SUITE(filter_tests, test_fixture)
         auto drop_lt1000 = drop_while([](const int &i){return i < 1000;});
         auto drop_e1 = drop_while([](const int &i){return i == 1;});
 
-        std::vector<std::vector<int>> ordered_int_copies(6, ordered_ints);
-
-        BOOST_CHECK( drop_lt5(ordered_int_copies[0])    == std::vector<int>({5, 6, 7, 8, 9, 10}) );
-        BOOST_CHECK( drop_lte5(ordered_int_copies[1])   == std::vector<int>({6, 7, 8, 9, 10}) );
-        BOOST_CHECK( drop_e0(ordered_int_copies[2])     == ordered_ints );
-        BOOST_CHECK( drop_e1000(ordered_int_copies[3])  == ordered_ints );
-        BOOST_CHECK( drop_lt1000(ordered_int_copies[4]) == std::vector<int>({}) );
-        BOOST_CHECK( drop_e1(ordered_int_copies[5])     == std::vector<int>({2, 3, 4, 5, 6, 7, 8, 9, 10}) );
-        BOOST_CHECK( drop_e0(empty_int_vec)             == empty_int_vec );
-        BOOST_CHECK( drop_lt5(empty_int_vec)            == empty_int_vec );
+        BOOST_CHECK( drop_lt5(ordered_ints)    == std::vector<int>({5, 6, 7, 8, 9, 10}) );
+        BOOST_CHECK( drop_lte5(ordered_ints)   == std::vector<int>({6, 7, 8, 9, 10}) );
+        BOOST_CHECK( drop_e0(ordered_ints)     == ordered_ints );
+        BOOST_CHECK( drop_e1000(ordered_ints)  == ordered_ints );
+        BOOST_CHECK( drop_lt1000(ordered_ints) == std::vector<int>({}) );
+        BOOST_CHECK( drop_e1(ordered_ints)     == std::vector<int>({2, 3, 4, 5, 6, 7, 8, 9, 10}) );
+        BOOST_CHECK( drop_e0(empty_int_vec)    == empty_int_vec );
+        BOOST_CHECK( drop_lt5(empty_int_vec)   == empty_int_vec );
     }
 
     BOOST_AUTO_TEST_CASE(take_test)
@@ -183,15 +179,13 @@ BOOST_FIXTURE_TEST_SUITE(filter_tests, test_fixture)
         auto take_1000 = take(1000);
         auto take_0 = take(0);
 
-        std::vector<std::vector<int>> ordered_int_copies(5, ordered_ints);
-
-        BOOST_CHECK( take_5(ordered_int_copies[0])    == std::vector<int>({1, 2, 3, 4, 5}) );
-        BOOST_CHECK( take_6(ordered_int_copies[1])    == std::vector<int>({1, 2, 3, 4, 5, 6}) );
-        BOOST_CHECK( take_10(ordered_int_copies[2])   == ordered_ints );
-        BOOST_CHECK( take_1000(ordered_int_copies[3]) == ordered_ints );
-        BOOST_CHECK( take_0(ordered_int_copies[4])    == std::vector<int>({}) );
-        BOOST_CHECK( take_0(empty_int_vec)            == empty_int_vec );
-        BOOST_CHECK( take_10(empty_int_vec)           == empty_int_vec );
+        BOOST_CHECK( take_5(ordered_ints)    == std::vector<int>({1, 2, 3, 4, 5}) );
+        BOOST_CHECK( take_6(ordered_ints)    == std::vector<int>({1, 2, 3, 4, 5, 6}) );
+        BOOST_CHECK( take_10(ordered_ints)   == ordered_ints );
+        BOOST_CHECK( take_1000(ordered_ints) == ordered_ints );
+        BOOST_CHECK( take_0(ordered_ints)    == std::vector<int>({}) );
+        BOOST_CHECK( take_0(empty_int_vec)   == empty_int_vec );
+        BOOST_CHECK( take_10(empty_int_vec)  == empty_int_vec );
     }
 
     BOOST_AUTO_TEST_CASE(take_while_test)
@@ -203,16 +197,14 @@ BOOST_FIXTURE_TEST_SUITE(filter_tests, test_fixture)
         auto take_lt1000 = take_while([](const int &i){return i < 1000;});
         auto take_e1 = take_while([](const int &i){return i == 1;});
 
-        std::vector<std::vector<int>> ordered_int_copies(6, ordered_ints);
-
-        BOOST_CHECK( take_lt5(ordered_int_copies[0])    == std::vector<int>({1, 2, 3, 4}) );
-        BOOST_CHECK( take_lte5(ordered_int_copies[1])   == std::vector<int>({1, 2, 3, 4, 5}) );
-        BOOST_CHECK( take_e0(ordered_int_copies[2])     == std::vector<int>({}) );
-        BOOST_CHECK( take_e1000(ordered_int_copies[3])  == std::vector<int>({}) );
-        BOOST_CHECK( take_lt1000(ordered_int_copies[4]) == ordered_ints );
-        BOOST_CHECK( take_e1(ordered_int_copies[5])     == std::vector<int>({1}) );
-        BOOST_CHECK( take_e0(empty_int_vec)             == empty_int_vec );
-        BOOST_CHECK( take_lt5(empty_int_vec)            == empty_int_vec );
+        BOOST_CHECK( take_lt5(ordered_ints)    == std::vector<int>({1, 2, 3, 4}) );
+        BOOST_CHECK( take_lte5(ordered_ints)   == std::vector<int>({1, 2, 3, 4, 5}) );
+        BOOST_CHECK( take_e0(ordered_ints)     == std::vector<int>({}) );
+        BOOST_CHECK( take_e1000(ordered_ints)  == std::vector<int>({}) );
+        BOOST_CHECK( take_lt1000(ordered_ints) == ordered_ints );
+        BOOST_CHECK( take_e1(ordered_ints)     == std::vector<int>({1}) );
+        BOOST_CHECK( take_e0(empty_int_vec)    == empty_int_vec );
+        BOOST_CHECK( take_lt5(empty_int_vec)   == empty_int_vec );
     }
 
     BOOST_AUTO_TEST_CASE(where_test)
@@ -224,21 +216,18 @@ BOOST_FIXTURE_TEST_SUITE(filter_tests, test_fixture)
         auto where_lt5 = where([](int i){return i < 5;});
         auto where_len_lt4 = where([](std::string i){return i.size() < 4;});
 
-        std::vector<std::vector<int>> int_vec_copies(5, int_vec);
-        std::vector<std::vector<int>> ordered_int_copies(5, ordered_ints);
-
-        BOOST_CHECK( where_not5(int_vec_copies[0])     == std::vector<int>() );
-        BOOST_CHECK( where_not5(ordered_int_copies[0]) == std::vector<int>({1, 2, 3, 4, 6, 7, 8, 9, 10}) );
-        BOOST_CHECK( where_5(int_vec_copies[1])        == int_vec );
-        BOOST_CHECK( where_5(ordered_int_copies[1])    == std::vector<int>({5}) );
-        BOOST_CHECK( where_odd(int_vec_copies[2])      == int_vec );
-        BOOST_CHECK( where_odd(ordered_int_copies[2])  == std::vector<int>({1, 3, 5, 7, 9}) );
-        BOOST_CHECK( where_even(int_vec_copies[3])     == std::vector<int>() );
-        BOOST_CHECK( where_even(ordered_int_copies[3]) == std::vector<int>({2, 4, 6, 8, 10}) );
-        BOOST_CHECK( where_lt5(int_vec_copies[4])      == std::vector<int>() );
-        BOOST_CHECK( where_lt5(ordered_int_copies[4])  == std::vector<int>({1, 2, 3, 4}) );
-        BOOST_CHECK( where_len_lt4(string_vec)         == std::vector<std::string>({"s1 "}) );
-        BOOST_CHECK( where_lt5(empty_int_vec)          == empty_int_vec );
+        BOOST_CHECK( where_not5(int_vec)       == std::vector<int>() );
+        BOOST_CHECK( where_not5(ordered_ints)  == std::vector<int>({1, 2, 3, 4, 6, 7, 8, 9, 10}) );
+        BOOST_CHECK( where_5(int_vec)          == int_vec );
+        BOOST_CHECK( where_5(ordered_ints)     == std::vector<int>({5}) );
+        BOOST_CHECK( where_odd(int_vec)        == int_vec );
+        BOOST_CHECK( where_odd(ordered_ints)   == std::vector<int>({1, 3, 5, 7, 9}) );
+        BOOST_CHECK( where_even(int_vec)       == std::vector<int>() );
+        BOOST_CHECK( where_even(ordered_ints)  == std::vector<int>({2, 4, 6, 8, 10}) );
+        BOOST_CHECK( where_lt5(int_vec)        == std::vector<int>() );
+        BOOST_CHECK( where_lt5(ordered_ints)   == std::vector<int>({1, 2, 3, 4}) );
+        BOOST_CHECK( where_len_lt4(string_vec) == std::vector<std::string>({"s1 "}) );
+        BOOST_CHECK( where_lt5(empty_int_vec)  == empty_int_vec );
 
     }
 BOOST_AUTO_TEST_SUITE_END() //filter_tests
@@ -523,7 +512,7 @@ BOOST_FIXTURE_TEST_SUITE(order_tests, test_fixture)
         BOOST_CHECK( reverse_obj(int_vec)       == int_vec );
         BOOST_CHECK( reverse_obj(float_vec)     == float_vec );
         BOOST_CHECK( reverse_obj(bool_vec)      == bool_vec );
-        BOOST_CHECK( reverse_obj(string_vec)    == string_vec );
+        BOOST_CHECK( reverse_obj(string_vec)    == std::vector<std::string>({"s5     ", "s4    ", "s3   ", "s2  ", "s1 "}) );
         BOOST_CHECK( reverse_obj(ordered_ints)  == std::vector<int>({10, 9, 8, 7, 6, 5, 4, 3, 2, 1}) );
         BOOST_CHECK( reverse_obj(empty_int_vec) == empty_int_vec );
     }
@@ -584,14 +573,185 @@ BOOST_FIXTURE_TEST_SUITE(set_tests, test_fixture)
 BOOST_AUTO_TEST_SUITE_END() //set tests
 
 BOOST_FIXTURE_TEST_SUITE(stp_tests, test_fixture)
-/*
-        auto where_stp = make_stp(where([](const int &i){return i % 2 == 0;}));
-        BOOST_CHECK( where_stp(ordered_ints) == std::vector<int>({2, 4, 6, 8, 10}) );
+    BOOST_AUTO_TEST_CASE(stp_level1_test)
+    {
+        auto all_5 = make_stp(all([](const int &i){return i == 5;}));
+        auto any_6 = make_stp(any([](const int &i){return i == 6;}));
+        auto contains_5 = make_stp(contains(5));
+        auto equal_oi = make_stp(equal(ordered_ints));
 
-        auto test = make_stp(where([](const int &i){return i % 2 == 0;}), take(2));
-        test(ordered_ints);
+        BOOST_CHECK( all_5(ordered_ints)                   == false );
+        BOOST_CHECK( all_5(int_vec)                        == true );
+        BOOST_CHECK( all_5(empty_int_vec)                  == true );
+        BOOST_CHECK( any_6(ordered_ints)                   == true );
+        BOOST_CHECK( any_6(int_vec)                        == false );
+        BOOST_CHECK( any_6(empty_int_vec)                  == false );
+        BOOST_CHECK( contains_5(int_vec)                   == true );
+        BOOST_CHECK( contains_5(empty_int_vec)             == false );
+        BOOST_CHECK( equal_oi(ordered_ints)                == true );
+        BOOST_CHECK( equal_oi(std::vector<int>({1, 2, 3})) == false );
 
-        auto test2 = make_stp(take(8), take(2), take(1), sum());
-        test2(ordered_ints);
-*/
+        auto drop_5 = make_stp(drop(5));
+        auto drop_lt5 = make_stp(drop_while([](const int &i){return i < 5;}));
+        auto take_5 = make_stp(take(5));
+        auto take_lt5 = make_stp(take_while([](const int &i){return i < 5;}));
+        auto where_lt5 = make_stp(where([](int i){return i < 5;}));
+        auto where_not5 = make_stp(where([](int i){return i != 5;}));
+
+        BOOST_CHECK( drop_5(ordered_ints)     == std::vector<int>({6, 7, 8, 9, 10}) );
+        BOOST_CHECK( drop_5(int_vec)          == empty_int_vec );
+        BOOST_CHECK( drop_5(empty_int_vec)    == empty_int_vec );
+        BOOST_CHECK( drop_lt5(ordered_ints)   == std::vector<int>({5, 6, 7, 8, 9, 10}) );
+        BOOST_CHECK( drop_lt5(empty_int_vec)  == empty_int_vec );
+        BOOST_CHECK( drop_lt5(int_vec)        == int_vec );
+        BOOST_CHECK( take_5(ordered_ints)     == std::vector<int>({1, 2, 3, 4, 5}) );
+        BOOST_CHECK( take_5(int_vec)          == int_vec );
+        BOOST_CHECK( take_5(empty_int_vec)    == empty_int_vec );
+        BOOST_CHECK( take_lt5(ordered_ints)   == std::vector<int>({1, 2, 3, 4}) );
+        BOOST_CHECK( take_lt5(empty_int_vec)  == empty_int_vec );
+        BOOST_CHECK( where_lt5(int_vec)       == empty_int_vec );
+        BOOST_CHECK( where_lt5(ordered_ints)  == std::vector<int>({1, 2, 3, 4}) );
+        BOOST_CHECK( where_lt5(empty_int_vec) == empty_int_vec );
+        BOOST_CHECK( where_not5(int_vec)      == empty_int_vec );
+        BOOST_CHECK( where_not5(ordered_ints) == std::vector<int>({1, 2, 3, 4, 6, 7, 8, 9, 10}) );
+
+        auto map_square = make_stp(map([](int i){return i * i;}));
+        auto tl_obj = make_stp(to_list());
+        auto tv_obj = make_stp(to_vector());
+        auto unique_obj = make_stp(unique());
+        auto zip_obj = make_stp(zip(char_vec));
+
+        std::vector<std::pair<int, char>> int_char_zip;
+        std::vector<std::pair<float, char>> float_char_zip;
+        std::vector<std::pair<std::string, char>> str_char_zip;
+        std::vector<std::pair<int, char>> empty_char_zip;
+        for(unsigned int i = 0; i < 5; ++i)
+        {
+            int_char_zip.push_back(std::make_pair(5, 'a'));
+            float_char_zip.push_back(std::make_pair(5.1f, 'a'));
+            str_char_zip.push_back(std::make_pair(string_vec[i], 'a'));
+        }
+
+        BOOST_CHECK( map_square(int_vec)        == std::vector<int>(5, 25) );
+        BOOST_CHECK( map_square(empty_int_vec)  == empty_int_vec );
+        BOOST_CHECK( tl_obj(unordered_ints)     == std::list<int>(unordered_ints.begin(), unordered_ints.end()) );
+        BOOST_CHECK( tl_obj(empty_int_vec)      == std::list<int>() );
+        BOOST_CHECK( tv_obj(unordered_ints)     == unordered_ints );
+        BOOST_CHECK( tv_obj(empty_int_vec)      == std::vector<int>() );
+        BOOST_CHECK( unique_obj(unordered_ints) == unordered_ints );
+        BOOST_CHECK( unique_obj(empty_int_vec)  == empty_int_vec );
+        BOOST_CHECK( zip_obj(int_vec)           == int_char_zip );
+        BOOST_CHECK( zip_obj(float_vec)         == float_char_zip );
+        BOOST_CHECK( zip_obj(string_vec)        == str_char_zip );
+        BOOST_CHECK( zip_obj(empty_int_vec)     == empty_char_zip ) ;
+
+        auto avg_obj = make_stp(avg());
+        auto count_5 = make_stp(count(5));
+        auto count_0 = make_stp(count(0));
+        auto fold_plus_5 = make_stp(fold(std::plus<int>(), 5));
+        auto fold_plus_0 = make_stp(fold(std::plus<int>(), 0));
+        auto max_obj = make_stp(max());
+        auto min_obj = make_stp(min());
+        auto size_obj = make_stp(size());
+        auto sum_obj = make_stp(sum());
+
+        BOOST_CHECK( comp_real(avg_obj(unordered_ints), 5.5, std::numeric_limits<double>::epsilon()) );
+        BOOST_CHECK( comp_real(avg_obj(int_vec),        5.0, std::numeric_limits<double>::epsilon()) );
+        BOOST_CHECK( count_5(int_vec)           == 5 );
+        BOOST_CHECK( count_5(empty_int_vec)     == 0 );
+        BOOST_CHECK( count_0(int_vec)           == 0 );
+        BOOST_CHECK( count_0(empty_int_vec)     == 0 );
+        BOOST_CHECK( fold_plus_5(ordered_ints)  == 60 );
+        BOOST_CHECK( fold_plus_5(empty_int_vec) == 5 );
+        BOOST_CHECK( fold_plus_0(ordered_ints)  == 55 );
+        BOOST_CHECK( max_obj(string_vec)        == std::string("s5     ") );
+        BOOST_CHECK( max_obj(ordered_ints)      == 10 );
+        BOOST_CHECK( max_obj(unordered_ints)    == 10 );
+        BOOST_CHECK( min_obj(string_vec)        == std::string("s1 ") );
+        BOOST_CHECK( min_obj(ordered_ints)      == 1 );
+        BOOST_CHECK( min_obj(unordered_ints)    == 1 );
+        BOOST_CHECK( size_obj(string_vec)       == 5 );
+        BOOST_CHECK( size_obj(ordered_ints)     == 10 );
+        BOOST_CHECK( size_obj(unordered_ints)   == 10 );
+        BOOST_CHECK( sum_obj(int_vec)           == 25 );
+        BOOST_CHECK( sum_obj(bool_vec)          == 1  );
+        BOOST_CHECK( sum_obj(string_vec)        == "s1 s2  s3   s4    s5     " );
+
+        auto reverse_obj = make_stp(reverse());
+        auto sort_obj = make_stp(sort());
+        auto sort_with_int_comp = make_stp(sort_with([](int i, int j){return i < j;}));
+
+        BOOST_CHECK( reverse_obj(bool_vec)                         == bool_vec );
+        BOOST_CHECK( reverse_obj(string_vec)                       == std::vector<std::string>({"s5     ", "s4    ", "s3   ", "s2  ", "s1 "}) );
+        BOOST_CHECK( reverse_obj(ordered_ints)                     == std::vector<int>({10, 9, 8, 7, 6, 5, 4, 3, 2, 1}) );
+        BOOST_CHECK( sort_obj(unordered_ints)                      == ordered_ints );
+        BOOST_CHECK( sort_obj(empty_int_vec)                       == empty_int_vec );
+        BOOST_CHECK( sort_obj(reverse_obj(ordered_ints))           == ordered_ints );
+        BOOST_CHECK( sort_with_int_comp(ordered_ints)              == ordered_ints );
+        BOOST_CHECK( sort_with_int_comp(unordered_ints)            == ordered_ints );
+        BOOST_CHECK( sort_with_int_comp(empty_int_vec)             == empty_int_vec );
+        BOOST_CHECK( sort_with_int_comp(reverse_obj(ordered_ints)) == ordered_ints );
+
+        auto difference_obj = make_stp(difference(int_vec));
+        auto intersect_obj = make_stp(intersect(int_vec));
+        auto join_obj = make_stp(join(std::vector<int>({4, 4})));
+
+        BOOST_CHECK( difference_obj(int_vec)       == empty_int_vec );
+        BOOST_CHECK( difference_obj(empty_int_vec) == empty_int_vec );
+        BOOST_CHECK( difference_obj(ordered_ints)  == std::vector<int>({1, 2, 3, 4, 6, 7, 8, 9, 10}) );
+        BOOST_CHECK( intersect_obj(int_vec)        == int_vec );
+        BOOST_CHECK( intersect_obj(ordered_ints)   == std::vector<int>(1, 5) );
+        BOOST_CHECK( intersect_obj(empty_int_vec)  == empty_int_vec );
+        BOOST_CHECK( join_obj(int_vec)             == std::vector<int>({5, 5, 5, 5, 5, 4, 4}) );
+        BOOST_CHECK( join_obj(ordered_ints)        == std::vector<int>({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 4, 4}) );
+        BOOST_CHECK( join_obj(empty_int_vec)       == std::vector<int>({4, 4}) );
+    }
+
+    BOOST_AUTO_TEST_CASE(stp_level2_test)
+    {
+        auto even_sum = make_stp(where([](const int &i){return i % 2 == 0;}), sum());
+        auto odd_avg = make_stp(where([](const int &i){return i % 2 != 0;}), avg());
+        auto drop_count = make_stp(drop(5), count(3));
+        auto take_size = make_stp(take(4), size());
+        auto map_min = make_stp(map([](const int &i){return i*i;}), min());
+        auto unique_max = make_stp(unique(), max());
+        auto reverse_fold = make_stp(reverse(), fold(std::plus<int>(), 5));
+        auto sort_equal = make_stp(sort(), equal(ordered_ints));
+        auto difference_contains = make_stp(difference(int_vec), contains(5));
+        auto intersect_all = make_stp(intersect(int_vec), all([](const int &i){return i == 5;}));
+        auto join_any = make_stp(join(std::vector<int>({11, 11})), any([](const int &i){return i == 11;}));
+        auto join_tolist = make_stp(join(std::vector<int>({4, 4})), to_list());
+        auto join_tovector = make_stp(join(std::vector<int>({4, 4})), to_vector());
+        auto zip_map = make_stp(zip(range(10, 0)), map([](const std::pair<int, int> &i){return i.first + i.second;}));
+
+        BOOST_CHECK( even_sum(ordered_ints)                     == 30 );
+        BOOST_CHECK( drop_count(ordered_ints)                   == 0 );
+        BOOST_CHECK( take_size(ordered_ints)                    == 4 );
+        BOOST_CHECK( map_min(int_vec)                           == 25 );
+        BOOST_CHECK( unique_max(std::vector<int>({3, 4, 5, 5})) == 5 );
+        BOOST_CHECK( reverse_fold(ordered_ints)                 == 60 );
+        BOOST_CHECK( join_tolist(empty_int_vec)                 == std::list<int>({4, 4}) );
+        BOOST_CHECK( join_tovector(empty_int_vec)               == std::vector<int>({4, 4}) );
+        BOOST_CHECK( zip_map(ordered_ints)                      == std::vector<int>({11, 11, 11, 11, 11, 11, 11, 11, 11, 11}) );
+
+        BOOST_CHECK( sort_equal(unordered_ints) );
+        BOOST_CHECK( intersect_all(ordered_ints) );
+        BOOST_CHECK( !difference_contains(ordered_ints) );
+        BOOST_CHECK( join_any(ordered_ints) );
+        BOOST_CHECK( comp_real(odd_avg(ordered_ints), 5.0, std::numeric_limits<double>::epsilon()) );
+    }
+
+    BOOST_AUTO_TEST_CASE(stp_level3_test)
+    {
+        auto take_take = make_stp(take(8), take(2), take(1), sum());
+        BOOST_CHECK( take_take(ordered_ints) == 1 );
+
+        auto zip_fib = make_stp(where([](const int &i){return i % 2 == 0;}), map([](const int &i){return i * i;}), zip(range(1, 7)));
+        std::vector<int> fib_vec({0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89});
+        std::vector<std::pair<int, int>> zip_fib_result({std::make_pair(0,1), std::make_pair(4,2), std::make_pair(64,3), std::make_pair(1156,4)});
+        BOOST_CHECK( zip_fib(fib_vec) == zip_fib_result );
+
+        auto zip_map_sum = make_stp(zip(range(10, 0)), map([](const std::pair<int, int> &i){return i.first + i.second;}), sum());
+        BOOST_CHECK( zip_map_sum(ordered_ints) == 110 );
+    }
 BOOST_AUTO_TEST_SUITE_END() //stp tests

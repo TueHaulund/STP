@@ -12,7 +12,7 @@ namespace stp
         struct sort_type
         {
             template <typename SequenceType>
-            SequenceType& operator()(SequenceType &sequence) const
+            SequenceType operator()(SequenceType sequence) const
             {
                 std::sort(std::begin(sequence), std::end(sequence));
                 return sequence;
@@ -31,7 +31,7 @@ namespace stp
                 typename PredType = typename std::result_of<Predicate(ValueType, ValueType)>::type,
                 typename = typename std::enable_if<std::is_convertible<PredType, bool>::value>::type
             >
-            SequenceType& operator()(SequenceType &sequence) const
+            SequenceType operator()(SequenceType sequence) const
             {
                 std::sort(std::begin(sequence), std::end(sequence), pred_);
                 return sequence;

@@ -11,7 +11,7 @@ namespace stp
         struct reverse_type
         {
             template <typename SequenceType>
-            SequenceType& operator()(SequenceType &sequence) const
+            SequenceType operator()(SequenceType sequence) const
             {
                 std::reverse(std::begin(sequence), std::end(sequence));
                 return sequence;

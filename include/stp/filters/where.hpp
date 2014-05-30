@@ -21,7 +21,7 @@ namespace stp
                 typename PredType = typename std::result_of<Predicate(ValueType)>::type,
                 typename = typename std::enable_if<std::is_convertible<PredType, bool>::value>::type
             >
-            SequenceType& operator()(SequenceType &sequence) const
+            SequenceType operator()(SequenceType sequence) const
             {
                 auto neg_pred = [&](ValueType &i){return !pred_(i);};
 

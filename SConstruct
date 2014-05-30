@@ -8,7 +8,8 @@ if env_selection == 'default':
 if env_selection == 'gcc':
     print 'Environment: GCC'
     env = Environment(CXX = 'g++',
-                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11 -O3',
+                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11 -O3 --coverage',
+                      LINKFLAGS = '--coverage',
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['gnulink','gcc','g++','gas','ar'],
                       CPPPATH = ['./include'])
@@ -16,7 +17,8 @@ if env_selection == 'gcc':
 elif env_selection == 'mingw':
     print 'Environment: MinGW'
     env = Environment(CXX = 'g++',
-                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11 -O3',
+                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11 -O3 --coverage',
+                      LINKFLAGS = '--coverage',
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['mingw'],
                       CPPPATH = ['./include'])
@@ -32,7 +34,8 @@ elif env_selection == 'msvc':
 elif env_selection == 'clang':
     print 'Environment: clang'
     env = Environment(CXX = 'clang++',
-                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=c++11 -O3',
+                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=c++11 -O3 --coverage',
+                      LINKFLAGS = '--coverage',
                       ENV = {'PATH' : os.environ['PATH']},
                       CPPPATH = ['./include'])
 
