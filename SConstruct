@@ -43,10 +43,10 @@ else:
 test = SConscript('test/test.scons', variant_dir = 'test/bin', exports = 'env', duplicate = 0)
 example = SConscript('example/example.scons', variant_dir = 'example/bin', exports = 'env', duplicate = 0)
 
+test_alias = env.Alias('test', [test], test[0].path + ' --build_info=yes')
+AlwaysBuild(test_alias)
+
+env.Clean(test, '.sconsign.dblite')
 env.Default(test)
 env.Default(example)
-
-env.AddPostAction(test, test[0].path + ' --build_info=yes')
-env.AlwaysBuild(test)
-
-
+env.Default(test_alias)

@@ -1,6 +1,5 @@
 #define BOOST_TEST_MODULE STP_UT
 
-
 #include <algorithm>
 #include <cctype>
 #include <chrono>
