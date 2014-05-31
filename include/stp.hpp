@@ -2,7 +2,7 @@
 #define STP_HPP
 
 //Transformations
-#include "stp/core.hpp"
+#include "stp/pipeline.hpp"
 
 //Boolean reductions
 #include "stp/bool_reductions/all.hpp"

@@ -1,6 +1,0 @@
-Import('env')
-unittest = env.Program(target='unittest', source=['./test/unittest.cpp'])
-env.Default(unittest)
-
-env.AddPostAction(unittest, unittest[0].path + ' --build_info=yes')
-env.AlwaysBuild(unittest)

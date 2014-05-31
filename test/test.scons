@@ -1,0 +1,3 @@
+Import('env')
+test = env.Program(target='test', source=['./test.cpp'])
+Return('test')

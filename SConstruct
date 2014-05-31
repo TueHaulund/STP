@@ -8,20 +8,18 @@ if env_selection == 'default':
 if env_selection == 'gcc':
     print 'Environment: GCC'
     env = Environment(CXX = 'g++',
-                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11 -O3 --coverage',
-                      LINKFLAGS = '--coverage',
+                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11 -O3',
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['gnulink','gcc','g++','gas','ar'],
-                      CPPPATH = ['./include'])
+                      CPPPATH = ['#/include'])
 
 elif env_selection == 'mingw':
     print 'Environment: MinGW'
     env = Environment(CXX = 'g++',
-                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11 -O3 --coverage',
-                      LINKFLAGS = '--coverage',
+                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=gnu++11 -O3',
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['mingw'],
-                      CPPPATH = ['./include'])
+                      CPPPATH = ['#/include'])
 
 elif env_selection == 'msvc':
     print 'Environment: MSVC'
@@ -29,19 +27,26 @@ elif env_selection == 'msvc':
                       CCFLAGS = '/nologo /EHsc /Ox',
                       ENV = {'PATH' : os.environ['PATH']},
                       TOOLS = ['mslink', 'msvc', 'mslib', 'msvs'],
-                      CPPPATH = ['./include'])
+                      CPPPATH = ['#/include'])
 
 elif env_selection == 'clang':
     print 'Environment: clang'
     env = Environment(CXX = 'clang++',
-                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=c++11 -O3 --coverage',
-                      LINKFLAGS = '--coverage',
+                      CCFLAGS = '-Wall -Wextra -ansi -pedantic -std=c++11 -O3',
                       ENV = {'PATH' : os.environ['PATH']},
-                      CPPPATH = ['./include'])
+                      CPPPATH = ['#/include'])
 
 else:
     print 'Unknown environment, attempting to build with default configuration'
     env = Environment()
 
-env.SConsignFile('./bin/.sconsign.dblite')
-SConscript('unittest.scons', variant_dir = './bin', duplicate = 0, exports = 'env')
+test = SConscript('test/test.scons', variant_dir = 'test/bin', exports = 'env', duplicate = 0)
+example = SConscript('example/example.scons', variant_dir = 'example/bin', exports = 'env', duplicate = 0)
+
+env.Default(test)
+env.Default(example)
+
+env.AddPostAction(test, test[0].path + ' --build_info=yes')
+env.AlwaysBuild(test)
+
+
