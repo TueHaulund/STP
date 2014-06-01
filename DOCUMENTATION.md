@@ -116,11 +116,99 @@ detail::zip_type<SequenceType> zip(const SequenceType &sequence)
 Numerical Reductions
 ---
 
+**avg**
+```c++
+detail::avg_type avg()
+```
+*avg* returns the average of the elements of the sequence as a double. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must be default-constructible and must define operator+. If the sequence is empty, *avg* will throw *std::range_error*.
+
+**count**
+```c++
+template <typename ElementType>
+detail::count_type<ElementType> count(const ElementType &val)
+```
+*count* returns the number of occurences of an element identical to *val* in the sequence. The sequence must define *value_type*, *begin()*, *end()* and *iterator*. *ElementType* must be implicitly convertible to *value_type*.
+
+**fold**
+```c++
+template
+<
+    typename BinaryOperation,
+    typename InitType
+>
+detail::fold_type<BinaryOperation, InitType> fold(const BinaryOperation &binop, const InitType &init)
+```
+*fold* performs an accumulation of the elements of the sequence, using *binop* starting with *init* and the first element of the list. The sequence must define *value_type*, *begin()* and *end()*. The result of *binop(InitType, value_type)* must be implicitly convertible to *InitType*.
+
+**max**
+```c++
+detail::max_type max()
+```
+*max* returns the maximum element of the sequence, as defined by operator<. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator<. If the sequence is empty, *max* will throw *std::range_error*.
+
+**min**
+```c++
+detail::min_type min()
+```
+*min* returns the minimum element of the sequence, as defined by operator<. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator<. If the sequence is empty, *min* will throw *std::range_error*.
+
+**size**
+```c++
+detail::size_type size()
+```
+*size* returns the amount of elements in the sequence. The sequence must define *iterator*, *begin()* and *end()*.
+
+**sum**
+```c++
+detail::sum_type sum()
+```
+*sum* returns the sum of the elements in the sequence as defined by operator+. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must be default-constructible.
+
 Order Operations
 ---
 
+**reverse**
+```c++
+detail::reverse_type reverse()
+```
+*reverse* reverses the order of elements in the sequence. The sequence must define *begin()* and *end()*.
+
+**sort**
+```c++
+detail::sort_type sort()
+```
+*sort* sorts the sequence according to operator<. The sequence must define *begin()* and *end()*.
+
+**sort_with**
+```c++
+template <typename Predicate>
+detail::sort_with_type<Predicate> sort_with(const Predicate &pred)
+```
+*sort_with* sorts the sequence according to *pred*. The sequence must define *value_type*, *begin()* and *end()*. The result of *pred(value_type, value_type)* must be implicitly convertible to bool.
+
 Set Operations
 ---
+
+**difference**
+```c++
+template <typename SequenceType>
+detail::difference_type<SequenceType> difference(const SequenceType &sequence)
+```
+*difference* returns a sequence consisting of all elements that are present in the first sequence while not being present at the same position of the second sequence. Both sequences must define *value_type*, *push_back()*, *begin()* and *end()*. *value_type* must be the same for both sequences.
+
+**intersect**
+```c++
+template <typename SequenceType>
+detail::intersect_type<SequenceType> intersect(const SequenceType &sequence)
+```
+*intersect* returns a sequence consisting of all elements that are present in the first sequence and also present in the second sequence in the same position. Both sequences must define *value_type*, *push_back()*, *begin()* and *end()*. *value_type* must be the same for both sequences.
+
+**join**
+```c++
+template <typename SequenceType>
+detail::intersect_type<SequenceType> intersect(const SequenceType &sequence)
+```
+*join* returns the concatenation of the two sequences. Both sequences must define *value_type*, *reserve()*, *insert()*, *begin()* and *end()*. *value_type* must be the same for both sequences.
 
 Transformations
 ---
