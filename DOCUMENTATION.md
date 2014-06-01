@@ -80,25 +80,25 @@ Miscellaneous
 template <typename UnaryOperation>
 detail::map_type<UnaryOperation> map(const UnaryOperation &unop)
 ```
-*map* calls *unop* on each element of the sequence, and returns a new sequence composed of the resulting values. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector<OpType>* where optype is the type returned by calling *unop* with *value_type* as parameter.
+*map* calls *unop* on each element of the sequence, and returns a new sequence composed of the resulting values. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector&lt;OpType&gt;* where optype is the type returned by calling *unop* with *value_type* as parameter.
 
 **to_list**
 ```c++
 detail::to_list_type to_list()
 ```
-*to_list* returns a std::list containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::list<value_type>*.
+*to_list* returns a std::list containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::list&lt;value_type&gt;*.
 
 **to_map**
 ```c++
 detail::to_map_type to_map()
 ```
-*to_map* returns a std::map containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define *first_type* and *second_type* (such as std::pair does), and the resulting sequence will be of type *std::map<first_type, second_type>*.
+*to_map* returns a std::map containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define *first_type* and *second_type* (such as std::pair does), and the resulting sequence will be of type *std::map&lt;first_type, second_type&gt;*.
 
 **to_vector**
 ```c++
 detail::to_vector_type to_vector()
 ```
-*to_vector* returns a std::vector containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector<value_type>*.
+*to_vector* returns a std::vector containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector&lt;value_type&gt;*.
 
 **unique**
 ```c++
@@ -111,7 +111,7 @@ detail::unique_type unique()
 template <typename SequenceType>
 detail::zip_type<SequenceType> zip(const SequenceType &sequence)
 ```
-*zip* combines the two sequences into a single sequence of std::pair. Both sequences must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector<std::pair<value_type1, value_type2>>*. As *zip* uses std::pair, it is compatible with *to_map*.
+*zip* combines the two sequences into a single sequence of std::pair. Both sequences must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector&lt;std::pair&lt;value_type1, value_type2&gt;&gt;*. As *zip* uses std::pair, it is compatible with *to_map*.
 
 Numerical Reductions
 ---
@@ -144,13 +144,13 @@ detail::fold_type<BinaryOperation, InitType> fold(const BinaryOperation &binop, 
 ```c++
 detail::max_type max()
 ```
-*max* returns the maximum element of the sequence, as defined by operator<. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator<. If the sequence is empty, *max* will throw *std::range_error*.
+*max* returns the maximum element of the sequence, as defined by operator&lt;. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator&lt;. If the sequence is empty, *max* will throw *std::range_error*.
 
 **min**
 ```c++
 detail::min_type min()
 ```
-*min* returns the minimum element of the sequence, as defined by operator<. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator<. If the sequence is empty, *min* will throw *std::range_error*.
+*min* returns the minimum element of the sequence, as defined by operator&lt;. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator&lt;. If the sequence is empty, *min* will throw *std::range_error*.
 
 **size**
 ```c++
@@ -177,7 +177,7 @@ detail::reverse_type reverse()
 ```c++
 detail::sort_type sort()
 ```
-*sort* sorts the sequence according to operator<. The sequence must define *begin()* and *end()*.
+*sort* sorts the sequence according to operator&lt;. The sequence must define *begin()* and *end()*.
 
 **sort_with**
 ```c++
@@ -225,7 +225,7 @@ template
 >
 RangeType range(const IntervalType &start, const IntervalType &end, const StepType &step)
 ```
-*range* will generate a sequence of elements, ranging from *start* to *end*, with each element being *step* larger than the previous element. *step* can be omitted in which case it will be fixed to 1. Both *IntervalType* and *StepType* must be scalar types. The resulting sequence will be of type *std::vector<IntervalType>*.
+*range* will generate a sequence of elements, ranging from *start* to *end*, with each element being *step* larger than the previous element. *step* can be omitted in which case it will be fixed to 1. Both *IntervalType* and *StepType* must be scalar types. The resulting sequence will be of type *std::vector&lt;IntervalType&gt;*.
 
 **repeat**
 ```c++
@@ -236,5 +236,5 @@ template
 >
 RepeatType repeat(const ValueType &val, size_t n)
 ```
-*repeat* will generate a sequence of *n* elements identical to *val*. The resulting sequence will be of type *std::vector<ValueType>*.
+*repeat* will generate a sequence of *n* elements identical to *val*. The resulting sequence will be of type *std::vector&lt;ValueType&gt;*.
 
