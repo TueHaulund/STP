@@ -3,6 +3,8 @@ stplib
 
 Each operation in stplib is defined as a function object and a function template that constructs and returns the object. This allows the compiler to infer the types of the constructor arguments, rather than having them stated explicitly.
 
+In the following sections, the function template signatures that construct each operation is listed. The 'sequence' refers to the input given to the transformation, which is passed to each operation. Any predicates can be either function objects or lambdas. To pass a regular function as an argument to an operation, use std::function from the &lt;functional&gt; header.
+
 Boolean Reductions
 ---
 
@@ -37,11 +39,79 @@ detail::equal_type<SequenceType> equal(const SequenceType &sequence)
 Filters
 ---
 
-Generators
----
+**drop**
+```c++
+detail::drop_type drop(const size_t &n)
+```
+*drop* removes the first *n* elements from the sequence. The sequence must define *iterator*, *begin()*, *end()* and *erase()*.
+
+**drop_while**
+```c++
+template <typename Predicate>
+detail::drop_while_type<Predicate> drop_while(const Predicate &pred)
+```
+*drop_while* removes elements from the sequence until *pred* returns true for an element. The sequence must define *iterator*, *value_type*, *begin()*, *end()* and *erase()*. The result of calling *pred* on an element of *value_type* must be implicitly convertible to bool.
+
+**take**
+```c++
+detail::take_type take(const size_t &n)
+```
+*take* keeps the first *n* elements from the sequence, and removes the remaining elements. The sequence must define *iterator*, *begin()*, *end()* and *erase()*.
+
+**take_while**
+```c++
+template <typename Predicate>
+detail::take_while_type<Predicate> take_while(const Predicate &pred)
+```
+*take_while* keeps elements from the sequence until *pred* returns true for an element, it then removes the remaining elements. The sequence must define *iterator*, *value_type*, *begin()*, *end()* and *erase()*. The result of calling *pred* on an element of *value_type* must be implicitly convertible to bool.
+
+**where**
+```c++
+template <typename Predicate>
+detail::where_type<Predicate> where(const Predicate &pred)
+```
+*where* removes all elements from the sequence for which *pred* does not return true. The sequence must define *value_type*, *begin()* and *end()*. The result of calling *pred* on an element of *value_type* must be implicitly convertible to bool.
 
 Miscellaneous
 ---
+
+**map**
+```c++
+template <typename UnaryOperation>
+detail::map_type<UnaryOperation> map(const UnaryOperation &unop)
+```
+*map* calls *unop* on each element of the sequence, and returns a new sequence composed of the resulting values. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector<OpType>* where optype is the type returned by calling *unop* with *value_type* as parameter.
+
+**to_list**
+```c++
+detail::to_list_type to_list()
+```
+*to_list* returns a std::list containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::list<value_type>*.
+
+**to_map**
+```c++
+detail::to_map_type to_map()
+```
+*to_map* returns a std::map containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define *first_type* and *second_type* (such as std::pair does), and the resulting sequence will be of type *std::map<first_type, second_type>*.
+
+**to_vector**
+```c++
+detail::to_vector_type to_vector()
+```
+*to_vector* returns a std::vector containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector<value_type>*.
+
+**unique**
+```c++
+detail::unique_type unique()
+```
+*unique* removes all duplicate elements from the sequence. The sequence must define *value_type*, *begin()*, *end()* and *push_back()*. *value_type* must define operator==.
+
+**zip**
+```c++
+template <typename SequenceType>
+detail::zip_type<SequenceType> zip(const SequenceType &sequence)
+```
+*zip* combines the two sequences into a single sequence of std::pair. Both sequences must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector<std::pair<value_type1, value_type2>>*. As *zip* uses std::pair, it is compatible with *to_map*.
 
 Numerical Reductions
 ---
@@ -54,3 +124,7 @@ Set Operations
 
 Transformations
 ---
+
+Generators
+---
+
