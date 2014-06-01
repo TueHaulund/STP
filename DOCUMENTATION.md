@@ -210,9 +210,31 @@ detail::intersect_type<SequenceType> intersect(const SequenceType &sequence)
 ```
 *join* returns the concatenation of the two sequences. Both sequences must define *value_type*, *reserve()*, *insert()*, *begin()* and *end()*. *value_type* must be the same for both sequences.
 
-Transformations
----
-
 Generators
 ---
+
+Generators should not be part of a transformation pipeline, but can be used to generate sequences as input for any of the operations.
+
+**range**
+```c++
+template
+<
+    typename IntervalType,
+    typename StepType,
+    typename RangeType = std::vector<IntervalType>
+>
+RangeType range(const IntervalType &start, const IntervalType &end, const StepType &step)
+```
+*range* will generate a sequence of elements, ranging from *start* to *end*, with each element being *step* larger than the previous element. *step* can be omitted in which case it will be fixed to 1. Both *IntervalType* and *StepType* must be scalar types. The resulting sequence will be of type *std::vector<IntervalType>*.
+
+**repeat**
+```c++
+template
+<
+    typename ValueType,
+    typename RepeatType = typename std::vector<ValueType>
+>
+RepeatType repeat(const ValueType &val, size_t n)
+```
+*repeat* will generate a sequence of *n* elements identical to *val*. The resulting sequence will be of type *std::vector<ValueType>*.
 
