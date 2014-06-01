@@ -69,7 +69,7 @@ Using stplib
 
 To create a new transformation, use *make_stp*. It accepts any number of function objects, called operations, and returns a composite function object which will call each operation in order when given an input sequence. For the transformation to be well-defined, each operation must return a type which can be used as a parameter for the next operation in the transformation. Any mismatches between return and parameter types in a transformation will be caught at compile-time, rather than at run-time.
 
-Note that the type of a transformation objects is rather long-winded and involved, so the use of *auto* is encouraged to ease readability and usability.
+Note that the type of a transformation object is rather long-winded and involved, so the use of *auto* is encouraged to ease readability and usability.
 
 stplib includes a range of predefined operations, see [the documentation](DOCUMENTATION.md) for a detailed list.
 

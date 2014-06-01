@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+
 #include "stp.hpp"
 
 using namespace stp;
@@ -36,6 +38,7 @@ int main()
     auto eve_above_avg = make_stp( where(is_above_avg), any(is_eve) );
 
     std::cout << "Is there an account holder named 'Eve' with above average account balance: "
+              << std::boolalpha
               << eve_above_avg(accts)
               << std::endl;
 
