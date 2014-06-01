@@ -3,7 +3,7 @@ stplib
 
 Each operation in stplib is defined as a function object and a function template that constructs and returns the object. This allows the compiler to infer the types of the constructor arguments, rather than having them stated explicitly.
 
-In the following sections, the function template signatures that construct each operation is listed. The 'sequence' refers to the input given to the transformation, which is passed to each operation. Any predicates can be either function objects or lambdas. To pass a regular function as an argument to an operation, use std::function from the &lt;functional&gt; header.
+In the following sections, the function template signatures that construct each operation is listed. The 'sequence' refers to the input given to the transformation, which is passed to each operation. Any predicate can be either function objects or lambdas. To pass a regular function as an argument to an operation, use std::function from the &lt;functional&gt; header.
 
 Boolean Reductions
 ---
@@ -27,14 +27,14 @@ detail::any_type<Predicate> any(const Predicate &pred)
 template <typename ElementType>
 detail::contains_type<ElementType> contains(const ElementType &val)
 ```
-*contains* returns true if any element in the sequence is identical to *val*. The sequence must define *value_type*, *begin()* and *end()*. *ElementType* must be implicitly convertible to *value_type*. *value_type* must define operator==.
+*contains* returns true if any element in the sequence is identical to *val*. The sequence must define *value_type*, *begin()* and *end()*. *ElementType* must be implicitly convertible to *value_type*. *value_type* must define operator ==.
 
 **equal**
 ```c++
 template <typename SequenceType>
 detail::equal_type<SequenceType> equal(const SequenceType &sequence)
 ```
-*equal* returns true if both sequences are identical. Both sequences must define *value_type*, *begin()* and *end()*. The *value_type* of both sequences must be identical. *value_type* must define operator==.
+*equal* returns true if both sequences are identical. Both sequences must define *value_type*, *begin()* and *end()*. The *value_type* of both sequences must be identical. *value_type* must define operator ==.
 
 Filters
 ---
@@ -104,7 +104,7 @@ detail::to_vector_type to_vector()
 ```c++
 detail::unique_type unique()
 ```
-*unique* removes all duplicate elements from the sequence. The sequence must define *value_type*, *begin()*, *end()* and *push_back()*. *value_type* must define operator==.
+*unique* removes all duplicate elements from the sequence. The sequence must define *value_type*, *begin()*, *end()* and *push_back()*. *value_type* must define operator ==.
 
 **zip**
 ```c++
@@ -120,7 +120,7 @@ Numerical Reductions
 ```c++
 detail::avg_type avg()
 ```
-*avg* returns the average of the elements of the sequence as a double. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must be default-constructible and must define operator+. If the sequence is empty, *avg* will throw *std::range_error*.
+*avg* returns the average of the elements of the sequence as a double. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must be default-constructible and must define operator +. If the sequence is empty, *avg* will throw *std::range_error*.
 
 **count**
 ```c++
@@ -144,13 +144,13 @@ detail::fold_type<BinaryOperation, InitType> fold(const BinaryOperation &binop, 
 ```c++
 detail::max_type max()
 ```
-*max* returns the maximum element of the sequence, as defined by operator&lt;. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator&lt;. If the sequence is empty, *max* will throw *std::range_error*.
+*max* returns the maximum element of the sequence, as defined by operator &lt;. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator &lt;. If the sequence is empty, *max* will throw *std::range_error*.
 
 **min**
 ```c++
 detail::min_type min()
 ```
-*min* returns the minimum element of the sequence, as defined by operator&lt;. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator&lt;. If the sequence is empty, *min* will throw *std::range_error*.
+*min* returns the minimum element of the sequence, as defined by operator &lt;. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define operator &lt;. If the sequence is empty, *min* will throw *std::range_error*.
 
 **size**
 ```c++
@@ -162,7 +162,7 @@ detail::size_type size()
 ```c++
 detail::sum_type sum()
 ```
-*sum* returns the sum of the elements in the sequence as defined by operator+. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must be default-constructible.
+*sum* returns the sum of the elements in the sequence as defined by operator +. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must be default-constructible.
 
 Order Operations
 ---
@@ -177,7 +177,7 @@ detail::reverse_type reverse()
 ```c++
 detail::sort_type sort()
 ```
-*sort* sorts the sequence according to operator&lt;. The sequence must define *begin()* and *end()*.
+*sort* sorts the sequence according to operator &lt;. The sequence must define *begin()* and *end()*.
 
 **sort_with**
 ```c++
