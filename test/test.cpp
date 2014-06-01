@@ -5,6 +5,7 @@
 #include <chrono>
 #include <cmath>
 #include <limits>
+#include <map>
 #include <random>
 #include <stdexcept>
 #include <string>
@@ -362,6 +363,32 @@ BOOST_FIXTURE_TEST_SUITE(misc_tests, test_fixture)
         BOOST_CHECK( tl_obj(empty_int_vec)  == std::list<int>() );
     }
 
+    BOOST_AUTO_TEST_CASE(to_map_test)
+    {
+        auto tm_obj = to_map();
+        std::vector<std::pair<std::string, int>> pair_vec = {std::pair<std::string, int>("one", 1), std::pair<std::string, int>("two", 2), std::pair<std::string, int>("three", 3)};
+        std::map<std::string, int> num_map;
+        num_map["one"] = 1;
+        num_map["two"] = 2;
+        num_map["three"] = 3;
+
+        BOOST_CHECK( tm_obj(pair_vec) == num_map );
+
+        num_map["four"] = 4;
+
+        BOOST_CHECK( tm_obj(pair_vec) != num_map );
+
+        pair_vec.push_back(std::pair<std::string, int>("four", 4));
+        pair_vec.push_back(std::pair<std::string, int>("two", 2));
+
+        BOOST_CHECK( tm_obj(pair_vec) == num_map );
+
+        std::vector<std::pair<std::string, int>> empty_pair_vec;
+        std::map<std::string, int> empty_num_map;
+
+        BOOST_CHECK( tm_obj(empty_pair_vec) == empty_num_map );
+    }
+
     BOOST_AUTO_TEST_CASE(to_vector_test)
     {
         auto tv_obj = to_vector();
@@ -616,6 +643,7 @@ BOOST_FIXTURE_TEST_SUITE(stp_tests, test_fixture)
 
         auto map_square = make_stp(map([](int i){return i * i;}));
         auto tl_obj = make_stp(to_list());
+        auto tm_obj = make_stp(to_map());
         auto tv_obj = make_stp(to_vector());
         auto unique_obj = make_stp(unique());
         auto zip_obj = make_stp(zip(char_vec));
@@ -630,11 +658,20 @@ BOOST_FIXTURE_TEST_SUITE(stp_tests, test_fixture)
             float_char_zip.push_back(std::make_pair(5.1f, 'a'));
             str_char_zip.push_back(std::make_pair(string_vec[i], 'a'));
         }
+        std::vector<std::pair<std::string, int>> pair_vec = {std::pair<std::string, int>("one", 1), std::pair<std::string, int>("two", 2), std::pair<std::string, int>("three", 3)};
+        std::map<std::string, int> num_map;
+        num_map["one"] = 1;
+        num_map["two"] = 2;
+        num_map["three"] = 3;
+        std::vector<std::pair<std::string, int>> empty_pair_vec;
+        std::map<std::string, int> empty_num_map;
 
         BOOST_CHECK( map_square(int_vec)        == std::vector<int>(5, 25) );
         BOOST_CHECK( map_square(empty_int_vec)  == empty_int_vec );
         BOOST_CHECK( tl_obj(unordered_ints)     == std::list<int>(unordered_ints.begin(), unordered_ints.end()) );
         BOOST_CHECK( tl_obj(empty_int_vec)      == std::list<int>() );
+        BOOST_CHECK( tm_obj(pair_vec)           == num_map );
+        BOOST_CHECK( tm_obj(empty_pair_vec)     == empty_num_map );
         BOOST_CHECK( tv_obj(unordered_ints)     == unordered_ints );
         BOOST_CHECK( tv_obj(empty_int_vec)      == std::vector<int>() );
         BOOST_CHECK( unique_obj(unordered_ints) == unordered_ints );
@@ -722,6 +759,19 @@ BOOST_FIXTURE_TEST_SUITE(stp_tests, test_fixture)
         auto join_tolist = make_stp(join(std::vector<int>({4, 4})), to_list());
         auto join_tovector = make_stp(join(std::vector<int>({4, 4})), to_vector());
         auto zip_map = make_stp(zip(range(10, 0)), map([](const std::pair<int, int> &i){return i.first + i.second;}));
+        auto zip_to_map = make_stp(zip(range(10, 0)), to_map());
+
+        std::map<int, int> int_map;
+        int_map[0] = 10;
+        int_map[1] = 9;
+        int_map[2] = 8;
+        int_map[3] = 7;
+        int_map[4] = 6;
+        int_map[5] = 5;
+        int_map[6] = 4;
+        int_map[7] = 3;
+        int_map[8] = 2;
+        int_map[9] = 1;
 
         BOOST_CHECK( even_sum(ordered_ints)                     == 30 );
         BOOST_CHECK( drop_count(ordered_ints)                   == 0 );
@@ -732,6 +782,7 @@ BOOST_FIXTURE_TEST_SUITE(stp_tests, test_fixture)
         BOOST_CHECK( join_tolist(empty_int_vec)                 == std::list<int>({4, 4}) );
         BOOST_CHECK( join_tovector(empty_int_vec)               == std::vector<int>({4, 4}) );
         BOOST_CHECK( zip_map(ordered_ints)                      == std::vector<int>({11, 11, 11, 11, 11, 11, 11, 11, 11, 11}) );
+        BOOST_CHECK( zip_to_map(range(0, 10))                   == int_map );
 
         BOOST_CHECK( sort_equal(unordered_ints) );
         BOOST_CHECK( intersect_all(ordered_ints) );
