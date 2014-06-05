@@ -14,7 +14,7 @@ template <typename Predicate>
 detail::all_type<Predicate> all(const Predicate &pred)
 ```
 *all* returns true if *pred* holds for all elements in the sequence. The parameters must satisfy the following requirements:
-* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*. 
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
 * The result of calling *pred* on an element of type *SequenceType::value_type* must be implicitly convertible to bool.
 
 ```c++
@@ -29,7 +29,7 @@ template <typename Predicate>
 detail::any_type<Predicate> any(const Predicate &pred)
 ```
 *any* returns true if *pred* holds for any element in the sequence. The parameters must satisfy the following requirements:
-* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*. 
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
 * The result of calling *pred* on an element of type *SequenceType::value_type* must be implicitly convertible to bool.
 
 ```c++
@@ -44,7 +44,7 @@ template <typename ElementType>
 detail::contains_type<ElementType> contains(const ElementType &val)
 ```
 *contains* returns true if any element in the sequence is identical to *val*. The parameters must satisfy the following requirements:
-* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*. 
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
 * *ElementType* must be implicitly convertible to *SequenceType::value_type*.
 * *SequenceType::value_type* must define operator ==.
 
@@ -60,7 +60,7 @@ template <typename SequenceType>
 detail::equal_type<SequenceType> equal(const SequenceType &sequence)
 ```
 *equal* returns true if both sequences are identical. The parameters must satisfy the following requirements:
-* Both sequences must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*. 
+* Both sequences must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
 * The *SequenceType::value_type* of both sequences must be identical.
 * *SequenceType::value_type* must define operator ==.
 
@@ -92,7 +92,7 @@ template <typename Predicate>
 detail::drop_while_type<Predicate> drop_while(const Predicate &pred)
 ```
 *drop_while* removes elements from the sequence until *pred* returns true for an element. The parameters must satisfy the following requirements:
-* The sequence must define *SequenceType::iterator*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.erase()*.
+* The sequence must define *SequenceType::value_typ*, *SequenceType::iterator*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.erase()*.
 * The result of calling *pred* on an element of type *SequenceType::value_type* must be implicitly convertible to bool.
 
 ```c++
@@ -120,7 +120,7 @@ template <typename Predicate>
 detail::take_while_type<Predicate> take_while(const Predicate &pred)
 ```
 *take_while* keeps elements from the sequence until *pred* returns true for an element, it then removes the remaining elements. The parameters must satisfy the following requirements:
-* The sequence must define *SequenceType::iterator*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.erase()*.
+* The sequence must define *SequenceType::value_type*, *SequenceType::iterator*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.erase()*.
 * The result of calling *pred* on an element of type *SequenceType::value_type* must be implicitly convertible to bool.
 
 ```c++
@@ -155,12 +155,12 @@ detail::map_type<UnaryOperation> map(const UnaryOperation &unop)
 *map* calls *unop* on each element of the sequence, and returns a new sequence composed of the resulting values. The parameters must satisfy the following requirements:
 * The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
 
-The resulting sequence will be of type *std::vector&lt;OpType&gt;* where *OpType* is the type returned by calling *unop* with type *SequenceType::value_type* as parameter.
+The resulting sequence will be of type *std::vector&lt;OpType&gt;* where *OpType* is the type returned by calling *unop* with type *SequenceType::value_type* as the parameter.
 
 ```c++
-std::vector<int> int_vec({1, 2, 3, 4});
+std::vector<int> int_vec({1, 2, 3});
 auto map_obj = map([](const int &i){return std::string(" ", i);});
-std::vector<std::string> result = map_obj(int_vec); //result = {" ", "  ", "   ", "    "}
+std::vector<std::string> result = map_obj(int_vec); //result = {" ", "  ", "   "}
 ```
 
 **to_list**
@@ -250,7 +250,8 @@ detail::avg_type avg()
 ```
 *avg* returns the average of the elements of the sequence as a double. The parameters must satisfy the following requirements:
 * The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
-* *SequenceType::value_type* must be default-constructible and must define operator +.
+* *SequenceType::value_type* must be default-constructible.
+* *SequenceType::value_type* must define operator +.
 
 If the sequence is empty, *avg* will throw *std::range_error*.
 

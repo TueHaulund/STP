@@ -25,8 +25,7 @@ namespace stp
                 template <typename SequenceType>
                 using return_type = typename base_type::template return_type<op_return_type<SequenceType>>;
 
-                stp_type(OpType operation, Rest... rest) : base_type(rest...), operation_(operation)
-                {}
+                stp_type(OpType operation, Rest... rest) : base_type(rest...), operation_(operation) {}
 
                 template <typename SequenceType>
                 return_type<SequenceType> operator()(SequenceType sequence) const
@@ -49,8 +48,7 @@ namespace stp
                 template <typename SequenceType>
                 using return_type = typename std::result_of<OpType(SequenceType)>::type;
 
-                stp_type(OpType operation) : operation_(operation)
-                {}
+                stp_type(OpType operation) : operation_(operation) {}
 
                 template <typename SequenceType>
                 return_type<SequenceType> operator()(SequenceType sequence) const
