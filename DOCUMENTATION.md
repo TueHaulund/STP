@@ -74,78 +74,172 @@ Filters
 ---
 
 **drop**
-```
+```c++
 detail::drop_type drop(const size_t &n)
 ```
-*drop* removes the first *n* elements from the sequence. The sequence must define *iterator*, *begin()*, *end()* and *erase()*.
+*drop* removes the first *n* elements from the sequence. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::iterator*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.erase()*.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto drop_obj = drop(2);
+bool result = (drop_obj(int_vec) == std::vector<int>({3, 4})); //result = true
+```
 
 **drop_while**
-```
+```c++
 template <typename Predicate>
 detail::drop_while_type<Predicate> drop_while(const Predicate &pred)
 ```
-*drop_while* removes elements from the sequence until *pred* returns true for an element. The sequence must define *iterator*, *value_type*, *begin()*, *end()* and *erase()*. The result of calling *pred* on an element of *value_type* must be implicitly convertible to bool.
+*drop_while* removes elements from the sequence until *pred* returns true for an element. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::iterator*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.erase()*.
+* The result of calling *pred* on an element of *SequenceType::value_type* must be implicitly convertible to bool.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto drop_while_obj = drop([](const int &i){return i < 3;});
+bool result = (drop_while_obj(int_vec) == std::vector<int>({3, 4})); //result = true
+```
 
 **take**
-```
+```c++
 detail::take_type take(const size_t &n)
 ```
-*take* keeps the first *n* elements from the sequence, and removes the remaining elements. The sequence must define *iterator*, *begin()*, *end()* and *erase()*.
+*take* keeps the first *n* elements from the sequence, and removes the remaining elements. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::iterator*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.erase()*.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto take_obj = take(2);
+bool result = (take_obj(int_vec) == std::vector<int>({1, 2})); //result = true
+```
 
 **take_while**
-```
+```c++
 template <typename Predicate>
 detail::take_while_type<Predicate> take_while(const Predicate &pred)
 ```
-*take_while* keeps elements from the sequence until *pred* returns true for an element, it then removes the remaining elements. The sequence must define *iterator*, *value_type*, *begin()*, *end()* and *erase()*. The result of calling *pred* on an element of *value_type* must be implicitly convertible to bool.
+*take_while* keeps elements from the sequence until *pred* returns true for an element, it then removes the remaining elements. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::iterator*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.erase()*.
+* The result of calling *pred* on an element of *SequenceType::value_type* must be implicitly convertible to bool.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto take_while_obj = take_while([](const int &i){return i < 3;});
+bool result = (take_while_obj(int_vec) == std::vector<int>({1, 2})); //result = true
+```
 
 **where**
-```
+```c++
 template <typename Predicate>
 detail::where_type<Predicate> where(const Predicate &pred)
 ```
-*where* removes all elements from the sequence for which *pred* does not return true. The sequence must define *value_type*, *begin()* and *end()*. The result of calling *pred* on an element of *value_type* must be implicitly convertible to bool.
+*where* removes all elements from the sequence for which *pred* does not return true. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
+* The result of calling *pred* on an element of *SequenceType::value_type* must be implicitly convertible to bool.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto where_obj = where([](const int &i){return i % 2 == 0;});
+bool result = (where_obj(int_vec) == std::vector<int>({2, 4})); //result = true
+```
 
 Miscellaneous
 ---
 
 **map**
-```
+```c++
 template <typename UnaryOperation>
 detail::map_type<UnaryOperation> map(const UnaryOperation &unop)
 ```
-*map* calls *unop* on each element of the sequence, and returns a new sequence composed of the resulting values. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector&lt;OpType&gt;* where optype is the type returned by calling *unop* with *value_type* as parameter.
+*map* calls *unop* on each element of the sequence, and returns a new sequence composed of the resulting values. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
+
+The resulting sequence will be of type *std::vector&lt;OpType&gt;* where *OpType* is the type returned by calling *unop* with *SequenceType::value_type* as parameter.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto map_obj = map([](const int &i){return std::string(" ", i);});
+std::vector<std::string> result = map_obj(int_vec); //result = {" ", "  ", "   ", "    "}
+```
 
 **to_list**
-```
+```c++
 detail::to_list_type to_list()
 ```
-*to_list* returns a std::list containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::list&lt;value_type&gt;*.
+*to_list* returns a *std::list* containing the elements of the sequence. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
+
+The resulting sequence will be of type *std::list&lt;SequenceType::value_type&gt;*.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto to_list_obj = to_list();
+std::list<int> result = to_list_obj(int_vec); //result = {1, 2, 3, 4}
+```
 
 **to_map**
-```
+```c++
 detail::to_map_type to_map()
 ```
-*to_map* returns a std::map containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. *value_type* must define *first_type* and *second_type* (such as std::pair does), and the resulting sequence will be of type *std::map&lt;first_type, second_type&gt;*.
+*to_map* returns a *std::map* containing the elements of the sequence. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
+* *SequenceType::value_type* must define *value_type::first_type* and *value_type::second_type* (such as *std::pair* does).
+
+The resulting sequence will be of type *std::map&lt;SequenceType::value_type::first_type, SequenceType::value_type::second_type&gt;*.
+
+```c++
+std::vector<std::pair<std::string, int>> pair_vec({std::pair<std::string, int>("one", 1), std::pair<std::string, int>("two", 2), std::pair<std::string, int>("three", 3)});
+auto to_map_obj = to_map();
+std::map<std::string, int> result = to_map_obj(pair_vec); //result = {"one" : 1, "two" : 2, "three" : 3}
+```
 
 **to_vector**
-```
+```c++
 detail::to_vector_type to_vector()
 ```
-*to_vector* returns a std::vector containing the elements of the sequence. The sequence must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector&lt;value_type&gt;*.
+*to_vector* returns a *std::vector* containing the elements of the sequence. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
+
+The resulting sequence will be of type *std::vector&lt;SequenceType::value_type&gt;*.
+
+```c++
+std::list<int> int_list({1, 2, 3, 4});
+auto to_vector_obj = to_vector();
+std::vector<int> result = to_vector_obj(int_list); //result = {1, 2, 3, 4}
+```
 
 **unique**
-```
+```c++
 detail::unique_type unique()
 ```
-*unique* removes all duplicate elements from the sequence. The sequence must define *value_type*, *begin()*, *end()* and *push_back()*. *value_type* must define operator ==.
+*unique* removes all duplicate elements from the sequence. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.push_back()*.
+* *SequenceType::value_type* must define operator ==.
+
+```c++
+std::vector<int> int_vec({1, 2, 2, 1});
+auto unique_obj = unique();
+std::vector<int> result = unique_obj(int_vec); //result = {1, 2}
+```
 
 **zip**
-```
+```c++
 template <typename SequenceType>
 detail::zip_type<SequenceType> zip(const SequenceType &sequence)
 ```
-*zip* combines the two sequences into a single sequence of std::pair. Both sequences must define *value_type*, *begin()* and *end()*. The resulting sequence will be of type *std::vector&lt;std::pair&lt;value_type1, value_type2&gt;&gt;*. As *zip* uses std::pair, it is compatible with *to_map*.
+*zip* combines the two sequences into a single sequence of type *std::pair*. The parameters must satisfy the following requirements:
+* Both sequences must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
+
+The resulting sequence will be of type *std::vector&lt;std::pair&lt;value_type1, value_type2&gt;&gt;*. As *zip* uses *std::pair*, it is compatible with *to_map*.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+std::vector<std::string> string_vec({"one", "two", "three", "four"});
+
+auto zip_obj = zip(int_vec);
+std::vector<std::pair<>> result = zip_obj(string_vec); //result = {"one" : 1, "two" : 2, "three" : 3, "four" : 4}
+```
 
 Numerical Reductions
 ---
