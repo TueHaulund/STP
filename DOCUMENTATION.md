@@ -9,32 +9,66 @@ Boolean Reductions
 ---
 
 **all**
-```
+```c++
 template <typename Predicate>
 detail::all_type<Predicate> all(const Predicate &pred)
 ```
-*all* returns true if *pred* holds for all elements in the sequence. The sequence must define *value_type*, *begin()* and *end()*. The result of calling *pred* on an element of *value_type* must be implicitly convertible to bool.
+*all* returns true if *pred* holds for all elements in the sequence. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*. 
+* The result of calling *pred* on an element of *SequenceType::value_type* must be implicitly convertible to bool.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto all_obj = all([](const int &i){return i % 2 == 0;});
+bool result = all_obj(int_vec); //result = false
+```
 
 **any**
-```
+```c++
 template <typename Predicate>
 detail::any_type<Predicate> any(const Predicate &pred)
 ```
-*any* returns true if *pred* holds for any element in the sequence. The sequence must define *value_type*, *begin()* and *end()*. The result of calling *pred* on an element of *value_type* must be implicitly convertible to bool.
+*any* returns true if *pred* holds for any element in the sequence. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*. 
+* The result of calling *pred* on an element of *SequenceType::value_type* must be implicitly convertible to bool.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto any_obj = any([](const int &i){return i % 2 == 0;});
+bool result = any_obj(int_vec); //result = true
+```
 
 **contains**
-```
+```c++
 template <typename ElementType>
 detail::contains_type<ElementType> contains(const ElementType &val)
 ```
-*contains* returns true if any element in the sequence is identical to *val*. The sequence must define *value_type*, *begin()* and *end()*. *ElementType* must be implicitly convertible to *value_type*. *value_type* must define operator ==.
+*contains* returns true if any element in the sequence is identical to *val*. The parameters must satisfy the following requirements:
+* The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*. 
+* *ElementType* must be implicitly convertible to *SequenceType::value_type*.
+* *SequenceType::value_type* must define operator ==.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto contains_obj = contains(3);
+bool result = contains_obj(int_vec); //result = true
+```
 
 **equal**
-```
+```c++
 template <typename SequenceType>
 detail::equal_type<SequenceType> equal(const SequenceType &sequence)
 ```
-*equal* returns true if both sequences are identical. Both sequences must define *value_type*, *begin()* and *end()*. The *value_type* of both sequences must be identical. *value_type* must define operator ==.
+*equal* returns true if both sequences are identical. The parameters must satisfy the following requirements:
+* Both sequences must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*. 
+* The *SequenceType::value_type* of both sequences must be identical.
+* *SequenceType::value_type* must define operator ==.
+
+```c++
+std::vector<int> int_vec({1, 2, 3, 4});
+auto equal_obj = equal(int_vec);
+bool result = equal_obj(int_vec); //result = true
+```
 
 Filters
 ---
