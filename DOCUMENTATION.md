@@ -46,7 +46,7 @@ detail::contains_type<ElementType> contains(const ElementType &val)
 *contains* returns true if any element in the sequence is identical to *val*. The parameters must satisfy the following requirements:
 * The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
 * *ElementType* must be implicitly convertible to *SequenceType::value_type*.
-* *SequenceType::value_type* must define operator ==.
+* *SequenceType::value_type* must define the equality operator.
 
 ```c++
 std::vector<int> int_vec({1, 2, 3, 4});
@@ -62,7 +62,7 @@ detail::equal_type<SequenceType> equal(const SequenceType &sequence)
 *equal* returns true if both sequences are identical. The parameters must satisfy the following requirements:
 * Both sequences must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
 * The *SequenceType::value_type* of both sequences must be identical.
-* *SequenceType::value_type* must define operator ==.
+* *SequenceType::value_type* must define the equality operator.
 
 ```c++
 std::vector<int> int_vec({1, 2, 3, 4});
@@ -83,7 +83,7 @@ detail::drop_type drop(const size_t &n)
 ```c++
 std::vector<int> int_vec({1, 2, 3, 4});
 auto drop_obj = drop(2);
-bool result = (drop_obj(int_vec) == std::vector<int>({3, 4})); //result = true
+bool result = drop_obj(int_vec); //result = {3, 4}
 ```
 
 **drop_while**
@@ -98,7 +98,7 @@ detail::drop_while_type<Predicate> drop_while(const Predicate &pred)
 ```c++
 std::vector<int> int_vec({1, 2, 3, 4});
 auto drop_while_obj = drop([](const int &i){return i < 3;});
-bool result = (drop_while_obj(int_vec) == std::vector<int>({3, 4})); //result = true
+bool result = drop_while_obj(int_vec); //result = {3, 4}
 ```
 
 **take**
@@ -111,7 +111,7 @@ detail::take_type take(const size_t &n)
 ```c++
 std::vector<int> int_vec({1, 2, 3, 4});
 auto take_obj = take(2);
-bool result = (take_obj(int_vec) == std::vector<int>({1, 2})); //result = true
+bool result = take_obj(int_vec); //result = {1, 2}
 ```
 
 **take_while**
@@ -126,7 +126,7 @@ detail::take_while_type<Predicate> take_while(const Predicate &pred)
 ```c++
 std::vector<int> int_vec({1, 2, 3, 4});
 auto take_while_obj = take_while([](const int &i){return i < 3;});
-bool result = (take_while_obj(int_vec) == std::vector<int>({1, 2})); //result = true
+bool result = take_while_obj(int_vec); //result = {1, 2}
 ```
 
 **where**
@@ -141,7 +141,7 @@ detail::where_type<Predicate> where(const Predicate &pred)
 ```c++
 std::vector<int> int_vec({1, 2, 3, 4});
 auto where_obj = where([](const int &i){return i % 2 == 0;});
-bool result = (where_obj(int_vec) == std::vector<int>({2, 4})); //result = true
+bool result = where_obj(int_vec); //result = {2, 4}
 ```
 
 Miscellaneous
@@ -215,7 +215,7 @@ detail::unique_type unique()
 ```
 *unique* removes all duplicate elements from the sequence. The parameters must satisfy the following requirements:
 * The sequence must define *SequenceType::value_type*, *SequenceType.begin()*, *SequenceType.end()* and *SequenceType.push_back()*.
-* *SequenceType::value_type* must define operator ==.
+* *SequenceType::value_type* must define the equality operator.
 
 ```c++
 std::vector<int> int_vec({1, 2, 2, 1});
@@ -251,7 +251,7 @@ detail::avg_type avg()
 *avg* returns the average of the elements of the sequence as a double. The parameters must satisfy the following requirements:
 * The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
 * *SequenceType::value_type* must be default-constructible.
-* *SequenceType::value_type* must define operator +.
+* *SequenceType::value_type* must define the addition operator.
 
 If the sequence is empty, *avg* will throw *std::range_error*.
 
@@ -299,9 +299,9 @@ int result = fold_obj(int_vec); //result = 15
 ```c++
 detail::max_type max()
 ```
-*max* returns the maximum element of the sequence, as defined by operator &lt;. The parameters must satisfy the following requirements:
+*max* returns the maximum element of the sequence, as defined by the less-than operator. The parameters must satisfy the following requirements:
 * The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
-* *SequenceType::value_type* must define operator &lt;.
+* *SequenceType::value_type* must define the less-than operator.
 
 If the sequence is empty, *max* will throw *std::range_error*.
 
@@ -315,9 +315,9 @@ int result = max_obj(int_vec); //result = 4
 ```c++
 detail::min_type min()
 ```
-*min* returns the minimum element of the sequence, as defined by operator &lt;. The parameters must satisfy the following requirements:
+*min* returns the minimum element of the sequence, as defined by the less-than operator. The parameters must satisfy the following requirements:
 * The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
-* *SequenceType::value_type* must define operator &lt;.
+* *SequenceType::value_type* must define the less-than operator.
 
 If the sequence is empty, *min* will throw *std::range_error*.
 
@@ -344,7 +344,7 @@ int result = size_obj(int_vec); //result = 4
 ```c++
 detail::sum_type sum()
 ```
-*sum* returns the sum of the elements in the sequence as defined by operator +. The parameters must satisfy the following requirements:
+*sum* returns the sum of the elements in the sequence as defined by the addition operator. The parameters must satisfy the following requirements:
 * The sequence must define *SequenceType::value_type*, *SequenceType.begin()* and *SequenceType.end()*.
 * *SequenceType::value_type* must be default-constructible.
 
@@ -374,7 +374,7 @@ std::vector<int> result = reverse_obj(int_vec); //result = {4, 3, 2, 1}
 ```c++
 detail::sort_type sort()
 ```
-*sort* sorts the sequence according to operator &lt;. The parameters must satisfy the following requirements:
+*sort* sorts the sequence according to the less-than operator. The parameters must satisfy the following requirements:
 * The sequence must define *SequenceType.begin()* and *SequenceType.end()*.
 
 ```c++
