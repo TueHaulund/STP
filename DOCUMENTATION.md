@@ -189,9 +189,14 @@ detail::to_map_type to_map()
 The resulting sequence will be of type *std::map&lt;SequenceType::value_type::first_type, SequenceType::value_type::second_type&gt;*.
 
 ```c++
-std::vector<std::pair<std::string, int>> pair_vec({std::pair<std::string, int>("one", 1), std::pair<std::string, int>("two", 2), std::pair<std::string, int>("three", 3)});
+std::vector<std::pair<std::string, int>> pair_vec({
+    std::pair<std::string, int>("one", 1),
+    std::pair<std::string, int>("two", 2),
+    std::pair<std::string, int>("three", 3)});
+
 auto to_map_obj = to_map();
-std::map<std::string, int> result = to_map_obj(pair_vec); //result = {"one" : 1, "two" : 2, "three" : 3}
+std::map<std::string, int> result = to_map_obj(pair_vec);
+//result = {"one" : 1, "two" : 2, "three" : 3}
 ```
 
 **to_vector**
@@ -238,7 +243,8 @@ std::vector<int> int_vec({1, 2, 3, 4});
 std::vector<std::string> string_vec({"one", "two", "three", "four"});
 
 auto zip_obj = zip(int_vec);
-std::vector<std::pair<>> result = zip_obj(string_vec); //result = {"one" : 1, "two" : 2, "three" : 3, "four" : 4}
+std::vector<std::pair<>> result = zip_obj(string_vec);
+//result = {"one" : 1, "two" : 2, "three" : 3, "four" : 4}
 ```
 
 Numerical Reductions
